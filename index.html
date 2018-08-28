@@ -13,46 +13,19 @@
       padding: 10px;
       white-space: nowrap;
     }
-    .col {
-      margin: 0;
-    }
-    .col:first-child {
-      padding-left: 0;
-    }
-    .col:last-child {
-      padding-right: 0;
-    }
-    .col:first-child label {
-      left: 0;
-    }
     .person:hover {
       background: #e5e5e5;
       cursor: pointer;
     }
-    .row {
-      margin-bottom: 0;
-    }
-    .tab {
-      background: #fafafa;
-    }
-    #actions {
-      text-align: end;
-    }
     #container {
       margin: auto;
       width: 90%;
-    }
-    #form {
-      width: 60%;
     }
     #header {
       font-size: 2.92rem;
     }
     #table-wrapper {
       overflow: auto;
-    }
-    #tabs {
-      margin-bottom: 1.2rem;
     }
   </style>
 </head>
@@ -130,106 +103,11 @@
     </div>
   </div>
   <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red modal-trigger" href="#form">
+    <a class="btn-floating btn-large red modal-trigger" href="create-entry.html">
       <i class="large material-icons">add</i>
     </a>
   </div>
-  <div id="form" class="modal">
-    <div class="modal-content">
-      <h4>New Entry</h4>
-      <div class="row">
-        <div class="col s12">
-          <ul id="tabs" class="tabs">
-            <li class="tab col s2"><a class="active" href="#personal-info">Personal Info</a></li>
-            <li class="tab col s2"><a href="#baptism">Baptism</a></li>
-            <li class="tab col s2"><a href="#communion">Communion</a></li>
-            <li class="tab col s2"><a href="#confirmation">Confirmation</a></li>
-            <li class="tab col s2"><a href="#marriage">Marriage</a></li>
-            <li class="tab col s2"><a href="#profession-of-faith">Profession of Faith</a></li>
-            <li class="tab col s2"><a href="#death">Death</a></li>
-          </ul>
-        </div>
-      </div>
-      <div id="personal-info">
-        <div class="row">
-          <div class="input-field col s6">
-            <input type="text" name="first-name" id="first-name" class="validate">
-            <label for="first-name">First Name</label>
-          </div>
-          <div class="input-field col s6">
-            <input type="text" name="last-name" id="last-name" class="validate">
-            <label for="last-name">Last Name</label>
-          </div>
-        </div>
-        <div class="input-field">
-          <select name="sex" id="sex">
-            <option value="" selected disabled>Select</option>
-            <option value="female">Female</option>
-            <option value="male">Male</option>
-          </select>
-          <label for="sex">Sex</label>
-        </div>
-        <div class="input-field">
-          <input type="text" name="birthdate" id="birthdate" class="datepicker">
-          <label for="birthdate">Birthdate</label>
-        </div>
-        <div class="input-field">
-          <input type="text" name="birth-city" id="birth-city" class="validate">
-          <label for="birth-city">Birth City</label>
-        </div>
-        <div class="input-field">
-          <input type="text" name="address-line-1" id="address-line-1" class="validate">
-          <label for="address-line-1">Home Address Line 1</label>
-        </div>
-        <div class="input-field">
-          <input type="text" name="address-line-2" id="address-line-2" class="validate">
-          <label for="address-line-2">Home Address Line 2</label>
-        </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input type="text" name="city" id="city" class="validate">
-            <label for="city">City</label>
-          </div>
-          <div class="input-field col s3">
-            <select name="state" id="state">
-              <option value="" selected disabled>Select</option>
-            </select>
-            <label for="state">State</label>
-          </div>
-          <div class="input-field col s3">
-            <input type="text" name="zip-code" id="zip-code" class="validate">
-            <label for="zip-code">ZIP Code</label>
-          </div>
-        </div>
-        <div class="input-field">
-          <input type="text" name="father" id="father" class="validate">
-          <label for="father">Father</label>
-        </div>
-        <div class="input-field">
-          <input type="text" name="mother" id="mother" class="validate">
-          <label for="mother">Mother</label>
-        </div>
-        <div class="input-field">
-          <textarea name="comments" id="comments" class="materialize-textarea"></textarea>
-          <label for="comments">Comments</label>
-        </div>
-      </div>
-      <div id="baptism">Baptism</div>
-      <div id="communion">Communion</div>
-      <div id="confirmation">Confirmation</div>
-      <div id="marriage">Marriage</div>
-      <div id="profession-of-faith">Profession of Faith</div>
-      <div id="death">Death</div>
-      <div id="actions">
-        <a href="#!" class="modal-close waves-effect waves-green btn">Submit</a>
-        <button class="modal-close waves-effect waves-grey btn grey lighten-3 black-text">Cancel</button>
-      </div>
-    </div>
-  </div>
   <script>
-    M.AutoInit();
-    M.Datepicker.init(document.querySelectorAll('.datepicker'), { yearRange: 100 });
-
     for (const entry of document.getElementsByClassName('person')) {
       entry.onclick = function () {
         console.log(this.id);
