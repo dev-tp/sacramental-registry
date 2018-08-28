@@ -1,0 +1,22 @@
+{
+  "name": "sacramental-registry",
+  "version": "1.0.0",
+  "description": "Keeps track of baptisms, communions, confirmations, weddings, etc.",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git.olacathedral.org"
+  },
+  "keywords": [
+    "registry",
+    "sacraments"
+  ],
+  "author": "Erik Sorto",
+  "license": "MIT"
+}
