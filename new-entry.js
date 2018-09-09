@@ -1,3 +1,5 @@
+const { database } = require('./database');
+
 M.AutoInit();
 M.Datepicker.init(document.querySelectorAll('.datepicker'), {
   format: 'yyyy-mm-dd',
@@ -16,7 +18,7 @@ function submit() {
         required = true;
       }
 
-      values[input.id] = input.value;
+      values[input.id] = input.value ? input.value : null;
     }
   }
 
@@ -26,19 +28,26 @@ function submit() {
         required = true;
       }
 
-      values[option.id] = option.value;
+      values[option.id] = option.value ? option.value : null;
     }
   }
+
+  const comments = document.getElementById('comments');
+  values[comments.id] = comments.innerText ? comments.innerText : null;
 
   if (required) {
     return;
   }
 
-  const columns = Object.keys(values).join(', ');
-  const query = 'INSERT INTO registry (' + columns + ') VALUES ?';
+  const query = 'INSERT INTO registry (' + Object.keys(values).join(', ') + ') VALUES ?';
 
-  console.log(query);
-  console.log(Object.values(values));
+  database.query(query, [[Object.values(values)]], function (error, _) {
+    if (error) {
+      throw error;
+    }
+
+    window.location.href = 'index.html';
+  });
 }
 
 document.getElementById('birthdate').onchange = function () {
