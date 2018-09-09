@@ -14,6 +14,9 @@ function populateTable(results) {
     row.classList.add('person');
     row.id = result.id;
     row.innerHTML = values.join('');
+    row.onclick = function () {
+      window.location.href = 'form.html?id=' + this.id;
+    };
 
     tableBody.appendChild(row);
   }

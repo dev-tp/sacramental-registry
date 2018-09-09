@@ -1,11 +1,5 @@
 const { database } = require('./database');
 
-M.AutoInit();
-M.Datepicker.init(document.querySelectorAll('.datepicker'), {
-  format: 'yyyy-mm-dd',
-  yearRange: 100
-});
-
 function submit() {
   let required = false;
 
@@ -50,8 +44,16 @@ function submit() {
   });
 }
 
+M.AutoInit();
+M.Datepicker.init(document.querySelectorAll('.datepicker'), {
+  format: 'yyyy-mm-dd',
+  yearRange: 100
+});
+
 document.getElementById('birthdate').onchange = function () {
   if (this.value) {
     this.classList.remove('invalid');
   }
 };
+
+console.log(window.location);
