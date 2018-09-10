@@ -56,4 +56,63 @@ document.getElementById('birthdate').onchange = function () {
   }
 };
 
-console.log(window.location);
+if (window.location.search) {
+  const columns = [
+    'baptism',
+    'baptism_church',
+    'birth_city',
+    'DATE_FORMAT(birthdate, "%Y-%m-%d") AS "birthdate"',
+    'city',
+    'comments',
+    'communion',
+    'confirmation',
+    'date_entered',
+    'death',
+    'father',
+    'first_name',
+    'home_address_line_1',
+    'home_address_line_2',
+    'last_name',
+    'mother',
+    'profession_of_faith',
+    'region',
+    'sex',
+    'wedding',
+    'zip_code',
+  ].join(', ');
+
+  const query = 'SELECT ' + columns + ' FROM registry WHERE id = ' + window.location.search.substring(4);
+
+  database.query(query, function (error, results) {
+    if (error) {
+      throw error;
+    }
+
+    const result = results[0];
+
+    Object.keys(result).forEach(function (key) {
+      const domElement = document.getElementById(key);
+
+      if (domElement) {
+        domElement.value = result[key] ? result[key] : '';
+
+        const labelDom = domElement.parentElement.getElementsByTagName('label')[0];
+
+        if (labelDom && domElement.value) {
+          labelDom.classList.add('active');
+        } else if (domElement.nodeName == 'SELECT') {
+          const option = domElement.options[domElement.selectedIndex];
+          domElement.M_FormSelect.input.value = option.innerText;
+        }
+
+        if (key == 'birthdate') {
+          const date = result[key].split('-').map(function (value) {
+            return parseInt(value);
+          });
+
+          domElement.M_Datepicker.setDate(new Date(date[0], date[1] - 1, date[2]));
+        }
+      }
+    });
+  });
+}
