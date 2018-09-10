@@ -49,7 +49,19 @@ function submit(callback, id) {
 }
 
 function update(values, id) {
-  console.log(id, values);
+  const fields = Object.keys(values).map(function (key) {
+    return key + ' = ' + JSON.stringify(values[key]);
+  }).join(', ');
+
+  const query = 'UPDATE registry SET ' + fields + ' WHERE id = ' + id;
+
+  database.query(query, function (error, _) {
+    if (error) {
+      throw error;
+    }
+
+    window.location.href = 'index.html';
+  });
 }
 
 M.AutoInit();
