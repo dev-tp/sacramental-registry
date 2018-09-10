@@ -1,6 +1,18 @@
 const { database } = require('./database');
 
-function submit() {
+function insert(values) {
+  const query = 'INSERT INTO registry (' + Object.keys(values).join(', ') + ') VALUES ?';
+
+  database.query(query, [[Object.values(values)]], function (error, _) {
+    if (error) {
+      throw error;
+    }
+
+    window.location.href = 'index.html';
+  });
+}
+
+function submit(callback, id) {
   let required = false;
 
   const values = {};
@@ -33,15 +45,11 @@ function submit() {
     return;
   }
 
-  const query = 'INSERT INTO registry (' + Object.keys(values).join(', ') + ') VALUES ?';
+  callback(values, id);
+}
 
-  database.query(query, [[Object.values(values)]], function (error, _) {
-    if (error) {
-      throw error;
-    }
-
-    window.location.href = 'index.html';
-  });
+function update(values, id) {
+  console.log(id, values);
 }
 
 M.AutoInit();
@@ -54,6 +62,11 @@ document.getElementById('birthdate').onchange = function () {
   if (this.value) {
     this.classList.remove('invalid');
   }
+};
+
+const submitButton = document.getElementById('submit-button');
+submitButton.onclick = function () {
+  submit(insert);
 };
 
 if (window.location.search) {
@@ -81,7 +94,8 @@ if (window.location.search) {
     'zip_code',
   ].join(', ');
 
-  const query = 'SELECT ' + columns + ' FROM registry WHERE id = ' + window.location.search.substring(4);
+  const id = window.location.search.substring(4);
+  const query = 'SELECT ' + columns + ' FROM registry WHERE id = ' + id;
 
   database.query(query, function (error, results) {
     if (error) {
@@ -115,4 +129,9 @@ if (window.location.search) {
       }
     });
   });
+
+  submitButton.innerText = 'Update';
+  submitButton.onclick = function () {
+    submit(update, id);
+  };
 }
