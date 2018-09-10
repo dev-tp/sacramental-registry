@@ -126,6 +126,10 @@ if (window.location.search) {
 
           domElement.M_Datepicker.setDate(new Date(date[0], date[1] - 1, date[2]));
         }
+
+        if (key == 'first_name') {
+          document.getElementById('modal-message').innerText = 'Are you sure you want to delete the entry for ' + result[key] + '?';
+        }
       }
     });
   });
@@ -134,4 +138,15 @@ if (window.location.search) {
   submitButton.onclick = function () {
     submit(update, id);
   };
+
+  document.getElementById('confirm-deletion-button').onclick = function () {
+    database.query('DELETE FROM registry WHERE id = ' + id, function (error, _) {
+      if (error) {
+        throw error;
+      }
+
+      window.location.href = 'index.html';
+    });
+  };
+  document.getElementById('delete-button').style.display = 'inline';
 }
