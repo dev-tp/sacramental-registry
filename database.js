@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 const database = mysql.createConnection({
   host: 'localhost',
-  database: 'sacramental_registry',
+  database: 'sacraments',
   user: '',
   password: ''
 });
