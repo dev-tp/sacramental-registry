@@ -3,7 +3,9 @@ const electron = require('electron');
 let browserWindow;
 
 function createWindow() {
-  browserWindow = new electron.BrowserWindow({width: 1280, height: 720});
+  const screen = electron.screen.getPrimaryDisplay().size;
+
+  browserWindow = new electron.BrowserWindow({width: screen.width * 0.8, height: screen.height * 0.8});
   browserWindow.loadFile('index.html');
 
   browserWindow.on('closed', function () {
