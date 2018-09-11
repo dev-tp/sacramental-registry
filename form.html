@@ -90,7 +90,7 @@
           <label for="sex">Sex</label>
         </div>
         <div class="input-field">
-          <input type="text" name="birthdate" id="birthdate" class="datepicker" required>
+          <input type="date" name="birthdate" id="birthdate" class="validate" required>
           <label for="birthdate">Birthdate</label>
         </div>
         <div class="input-field">
@@ -167,7 +167,7 @@
             <label for="region">State</label>
           </div>
           <div class="input-field col s3">
-            <input type="text" name="zip_code" id="zip_code" class="validate" required>
+            <input type="text" name="zip_code" id="zip_code" class="validate" pattern="^[0-9]{5}(?:-[0-9]{4})?$" required>
             <label for="zip_code">ZIP Code</label>
           </div>
         </div>

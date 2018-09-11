@@ -65,10 +65,6 @@ function update(values, id) {
 }
 
 M.AutoInit();
-M.Datepicker.init(document.querySelectorAll('.datepicker'), {
-  format: 'yyyy-mm-dd',
-  yearRange: 100
-});
 
 document.getElementById('birthdate').onchange = function () {
   if (this.value) {
@@ -129,14 +125,6 @@ if (window.location.search) {
         } else if (domElement.nodeName == 'SELECT') {
           const option = domElement.options[domElement.selectedIndex];
           domElement.M_FormSelect.input.value = option.innerText;
-        }
-
-        if (key == 'birthdate') {
-          const date = result[key].split('-').map(function (value) {
-            return parseInt(value);
-          });
-
-          domElement.M_Datepicker.setDate(new Date(date[0], date[1] - 1, date[2]));
         }
 
         if (key == 'first_name') {
