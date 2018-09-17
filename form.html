@@ -35,6 +35,9 @@
     .tabs {
       margin-bottom: 1.2rem;
     }
+    .volume-info {
+      margin-bottom: 20px;
+    }
     #actions {
       text-align: end;
     }
@@ -184,7 +187,50 @@
           <label for="comments">Comments</label>
         </div>
       </div>
-      <div id="baptism">Baptism</div>
+      <div id="baptism">
+        <div class="input-field">
+          <input type="date" name="baptism-date" id="baptism-date" class="validate">
+          <label for="baptism-date">Baptism Date</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="baptism-church" id="baptism-church" class="validate" value="Cathedral of Our Lady of the Angels">
+          <label for="baptism-church">Baptism Church</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="godfather" id="godfather" class="validate">
+          <label for="godfather">Godfather</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="proxy-godfather" id="proxy-godfather" class="validate">
+          <label for="proxy-godfather">Proxy Godfather</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="godmother" id="godmother" class="validate">
+          <label for="godmother">Godmother</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="proxy-godmother" id="proxy-godmother" class="validate">
+          <label for="proxy-godmother">Proxy Godmother</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="presider" id="presider" class="validate">
+          <label for="presider">Presider</label>
+        </div>
+        <div class="row volume-info">
+          <div class="input-field col s4">
+            <input type="text" name="baptism-volume" id="baptism-volume" class="validate">
+            <label for="baptism-volume">Volume</label>
+          </div>
+          <div class="input-field col s4">
+            <input type="text" name="baptism-section" id="baptism-section" class="validate">
+            <label for="baptism-section">Section</label>
+          </div>
+          <div class="input-field col s4">
+            <input type="text" name="baptism-line" id="baptism-line" class="validate">
+            <label for="baptism-line">Line</label>
+          </div>
+        </div>
+      </div>
       <div id="communion">Communion</div>
       <div id="confirmation">Confirmation</div>
       <div id="marriage">Marriage</div>
