@@ -12,69 +12,78 @@
     body, html {
       height: 100%;
     }
-    td, th {
-      padding: 10px;
-      white-space: nowrap;
+    .btn-floating {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
     }
-    .person:hover {
-      background: #e5e5e5;
+    .result {
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+    }
+    .result p {
+      margin: 0;
+    }
+    .result:hover {
+      background: #f6685e;
+      color: #fff;
       cursor: pointer;
     }
+    .result-name {
+      font-size: 1.2rem;
+    }
+    .result-address {
+      font-size: 1rem;
+    }
+    .result-father, .result-mother {
+      font-size: 0.8rem;
+    }
     #container {
+      align-items: center;
       display: flex;
-      flex-direction: column;
       height: 100%;
-      margin: auto;
-      width: 90%;
+      justify-content: center;
+      width: 100%;
     }
-    #header {
-      font-size: 2.92rem;
+    #results {
+      height: 0;
+      opacity: 0;
+      overflow: auto hidden;
+      transition: all 0.4s ease-in;
     }
-    #table-wrapper {
-      flex: 1;
-      overflow: auto;
+    #results.show-results {
+      height: 300px;
+      opacity: 1;
+    }
+    #search-box {
+      min-height: 300px;
+      min-width: 560px;
+      width: 50%;
     }
   </style>
 </head>
 <body>
   <div id="container">
-    <h1 id="header">Sacramental Registry</h1>
-    <div class="input-field">
-      <input type="text" name="query" id="query" class="validate">
-      <label for="query">Search</label>
-    </div>
-    <div id="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Sex</th>
-            <th>Birthdate</th>
-            <th>Birth City</th>
-            <th>Father</th>
-            <th>Mother</th>
-            <th>Home Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>ZIP Code</th>
-            <th>Baptism</th>
-            <th>Communion</th>
-            <th>Confirmation</th>
-            <th>Wedding</th>
-            <th>Profession</th>
-            <th>Death</th>
-          </tr>
-        </thead>
-        <tbody id="people"></tbody>
-      </table>
+    <div id="search-box">
+      <h1>Sacramental Registry</h1>
+      <div class="input-field">
+        <input type="text" name="search" id="search">
+        <label for="search">Search</label>
+      </div>
+      <div id="results">
+        <div class="result">
+          <p class="result-name">First and last names</p>
+          <p class="result-address">123 Example St. City, Region 98765</p>
+          <p class="result-father">Father: -</p>
+          <p class="result-mother">Mother: -</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red modal-trigger" href="form.html">
-      <i class="large material-icons">add</i>
-    </a>
-  </div>
+  <a class="btn-floating btn-large waves-effect waves-light red" href="form.html">
+    <i class="material-icons">add</i>
+  </a>
   <script src="index.js"></script>
 </body>
 </html>
