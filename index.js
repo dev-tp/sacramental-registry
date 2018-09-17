@@ -52,7 +52,7 @@ document.getElementById('search').onkeyup = function () {
       resultsContainer.classList.add('show-results');
     }
 
-    let query = 'SELECT ' + columns + ' FROM registry WHERE first_name LIKE ';
+    let query = 'SELECT ' + columns + ' FROM registry WHERE CONCAT(first_name, " ", last_name) LIKE ';
     query += JSON.stringify('%' + this.value + '%');
     query += ' ORDER BY first_name LIMIT 20';
 
