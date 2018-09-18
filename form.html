@@ -293,7 +293,42 @@
       </div>
       <div id="marriage">Marriage</div>
       <div id="profession-of-faith">Profession of Faith</div>
-      <div id="death">Death</div>
+      <div id="death">
+        <div class="input-field">
+          <input type="date" name="death-date" id="death-date" class="validate">
+          <label for="death-date">Date of Death</label>
+        </div>
+        <div class="input-field">
+          <input type="date" name="death-burial-date" id="death-burial-date" class="validate">
+          <label for="death-burial-date">Burial Date</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="death-burial" id="death-burial" class="validate">
+          <label for="death-burial">Burial</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="death-presider" id="death-presider" class="validate">
+          <label for="death-presider">Presider</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="death-anointing" id="death-anointing" class="validate">
+          <label for="death-anointing">Anointing of the Sick</label>
+        </div>
+        <div class="row volume-info">
+          <div class="input-field col s4">
+            <input type="text" name="death-volume" id="death-volume" class="validate">
+            <label for="death-volume">Volume</label>
+          </div>
+          <div class="input-field col s4">
+            <input type="text" name="death-section" id="death-section" class="validate">
+            <label for="death-section">Section</label>
+          </div>
+          <div class="input-field col s4">
+            <input type="text" name="death-line" id="death-line" class="validate">
+            <label for="death-line">Line</label>
+          </div>
+        </div>
+      </div>
       <div id="actions">
         <button id="submit-button" class="waves-effect waves-light btn">Submit</button>
         <button id="delete-button" href="#warning" class="waves-effect waves-light btn red modal-trigger">Delete</button>
