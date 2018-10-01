@@ -3,13 +3,14 @@
 
 SELECT
 
+cathedral0.id,
 cathedral0.firstname AS first_name,
 cathedral0.surname AS last_name,
-IF(male, 'Male', 'Female') AS sex,
+IF(cathedral0.male, 'M', 'F') AS sex,
 cathedral0.birthdate,
 cathedral0.birthcity AS birth_city,
-cathedral0.address1 AS home_address_1,
-cathedral0.address2 AS home_address_2,
+cathedral0.address1 AS home_address_line_1,
+cathedral0.address2 AS home_address_line_2,
 cathedral0.city,
 cathedral0.state AS region,
 cathedral0.zip AS zip_code,
@@ -37,7 +38,7 @@ cathedral2.number AS communion_number,
 cathedral0.confdate AS confirmation_date,
 cathedral3.confchurch AS confirmation_church,
 cathedral3.presider AS confirmation_presider,
-cathedral3.confname AS confirmation_confname,
+cathedral3.confname AS confirmation_name,
 cathedral3.sponsor AS confirmation_sponsor,
 cathedral3.volume AS confirmation_volume,
 cathedral3.page AS confirmation_page,
@@ -48,12 +49,12 @@ IF(cathedral0.male, cathedral4.firstnameb, cathedral4.firstnameg) AS marriage_pa
 IF(cathedral0.male, cathedral4.surnameb, cathedral4.surnameg) AS marriage_partner_last_name,
 IF(cathedral0.male, cathedral4.fatherb, cathedral4.fatherg) AS marriage_partner_father,
 IF(cathedral0.male, cathedral4.motherb, cathedral4.motherg) AS marriage_partner_mother,
-IF(cathedral0.male, cathedral4.address1b, cathedral4.address1g) AS marriage_partner_address_1,
-IF(cathedral0.male, cathedral4.address2b, cathedral4.address2g) AS marriage_partner_address_2,
+IF(cathedral0.male, cathedral4.address1b, cathedral4.address1g) AS marriage_partner_home_address_line_1,
+IF(cathedral0.male, cathedral4.address2b, cathedral4.address2g) AS marriage_partner_home_address_line_2,
 IF(cathedral0.male, cathedral4.cityb, cathedral4.cityg) AS marriage_partner_city,
 IF(cathedral0.male, cathedral4.baptdateb, cathedral4.baptdateg) AS marriage_partner_baptism_date,
 IF(cathedral0.male, cathedral4.baptchrchb, cathedral4.baptchrchg) AS marriage_partner_baptism_church,
-cathedral4.wedplace AS marriage_wedplace,
+cathedral4.wedplace AS marriage_wedding_place,
 cathedral4.presider AS marriage_presider,
 cathedral4.witness1 AS marriage_witness_1,
 cathedral4.witness2 AS marriage_witness_2,
@@ -68,7 +69,9 @@ cathedral7.sac_anoint AS death_anointing,
 cathedral7.presider AS death_presider,
 cathedral7.volume AS death_volume,
 cathedral7.page AS death_page,
-cathedral7.number AS death_number
+cathedral7.number AS death_number,
+
+cathedral0.remarks AS comments
 
 FROM cathedral0
 LEFT JOIN cathedral1 ON cathedral0.baptkey = cathedral1.keyfield1
