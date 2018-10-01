@@ -31,6 +31,7 @@ function adtToCsv(filename) {
     const tableName = filename.toLowerCase();
 
     fs.writeFileSync(sqlFilename, `CREATE TABLE ${tableName} (\n`);
+    fs.appendFileSync(sqlFilename, '  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,\n');
 
     fs.appendFileSync(sqlFilename, table.columns.map(function (column) {
       if (column.type != 4) {
@@ -44,6 +45,8 @@ function adtToCsv(filename) {
     fs.appendFileSync(sqlFilename, '\n);\n\n');
 
     const columnNames = table.columns.map(column => column.name);
+
+    let count = 0;
 
     table.eachRecord(function (error, record) {
       if (error) {
@@ -67,7 +70,7 @@ function adtToCsv(filename) {
         return JSON.stringify(record[columnName]);
       }).join(', ');
 
-      fs.appendFileSync(sqlFilename, `INSERT INTO ${tableName} VALUES (${values});\n`);
+      fs.appendFileSync(sqlFilename, `INSERT INTO ${tableName} VALUES (${++count}, ${values});\n`);
     });
   });
 }
