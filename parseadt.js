@@ -2,7 +2,8 @@ const adt = require('node_adt');
 const fs = require('fs');
 
 const types = {
-  1: 'LOGICAL',
+  // 1: 'LOGICAL',
+  1: 'TINYINT',
   // 4: 'CHARACTER',
   4: 'VARCHAR',
   5: 'TEXT',
@@ -19,6 +20,7 @@ const types = {
 };
 
 function adtToCsv(filename) {
+  const sqlFilename = `${filename}.sql`;
   const parser = new adt();
 
   parser.open(`${filename}.ADT`, 'ISO-8859-1', function (error, table) {
@@ -26,20 +28,22 @@ function adtToCsv(filename) {
       throw error;
     }
 
-    console.log(`${filename} Columns:`);
+    const tableName = filename.toLowerCase();
 
-    table.columns.forEach(function (column) {
+    fs.writeFileSync(sqlFilename, `CREATE TABLE ${tableName} (\n`);
+
+    fs.appendFileSync(sqlFilename, table.columns.map(function (column) {
       if (column.type != 4) {
-        console.log(column.name.toLowerCase() + ' ' + types[column.type]);
+        return `  ${column.name.toLowerCase()} ${types[column.type]}`;
       } else {
         const length = column.length % 2 == 1 ? column.length + 1 : column.length;
-        console.log(column.name.toLowerCase() + ' ' + types[column.type] + ' ' + length);
+        return `  ${column.name.toLowerCase()} ${types[column.type]}(${length})`;
       }
-    });
+    }).join(',\n'));
+
+    fs.appendFileSync(sqlFilename, '\n);\n\n');
 
     const columnNames = table.columns.map(column => column.name);
-
-    fs.writeFileSync(`${filename}.csv`, columnNames.join(', ') + '\n');
 
     table.eachRecord(function (error, record) {
       if (error) {
@@ -63,7 +67,7 @@ function adtToCsv(filename) {
         return JSON.stringify(record[columnName]);
       }).join(', ');
 
-      fs.appendFileSync(`${filename}.csv`, `${values}\n`);
+      fs.appendFileSync(sqlFilename, `INSERT INTO ${tableName} VALUES (${values});\n`);
     });
   });
 }
