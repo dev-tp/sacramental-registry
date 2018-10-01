@@ -1,3 +1,6 @@
+-- UPDATE cathedral0 SET male = FALSE WHERE id = 1;
+-- DELETE FROM cathedral0 WHERE id IN (1025, 3663, 5442, 5752, 7548, 7549, 7550, 7551, 7552);
+
 SELECT
 
 cathedral0.firstname AS first_name,
