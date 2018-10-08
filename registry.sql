@@ -15,7 +15,7 @@ CREATE TABLE registry (
   baptism_date DATE,
   baptism_church VARCHAR(64),
   baptism_godfather VARCHAR(64),
-  baptims_proxy_godfather VARCHAR(64),
+  baptism_proxy_godfather VARCHAR(64),
   baptism_godmother VARCHAR(64),
   baptism_proxy_godmother VARCHAR(64),
   baptism_presider VARCHAR(64),
