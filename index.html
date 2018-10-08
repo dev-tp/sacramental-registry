@@ -9,7 +9,12 @@
   <script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
   <title>Sacramental Registry</title>
   <style>
+    @font-face {
+      font-family: 'Google Sans';
+      src: url('Google Sans.ttf') format('truetype');
+    }
     body, html {
+      font-family: 'Google Sans';
       height: 100%;
     }
     .btn-floating {
@@ -53,6 +58,10 @@
       justify-content: center;
       width: 100%;
     }
+    #header {
+      cursor: default;
+      user-select: none;
+    }
     #results {
       height: 0;
       opacity: 0;
@@ -73,7 +82,7 @@
 <body>
   <div id="container">
     <div id="search-box">
-      <h1>Sacramental Registry</h1>
+      <h1 id="header">Sacramental Registry</h1>
       <div class="input-field">
         <input type="text" name="search" id="search">
         <label for="search">Search</label>
