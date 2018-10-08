@@ -65,6 +65,11 @@ function update(values, id) {
 }
 
 M.AutoInit();
+M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
+  data: {
+    'Cathedral of Our Lady of the Angels': null,
+  }
+});
 
 document.getElementById('birthdate').onchange = function () {
   if (this.value) {
