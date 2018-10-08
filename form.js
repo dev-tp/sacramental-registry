@@ -152,6 +152,7 @@ if (window.location.search) {
       throw error;
     }
 
+    const names = [];
     const result = results[0];
 
     Object.keys(result).forEach(function (key) {
@@ -169,8 +170,13 @@ if (window.location.search) {
           domElement.M_FormSelect.input.value = option.innerText;
         }
 
-        if (key == 'first_name') {
-          document.getElementById('modal-message').innerText = 'Are you sure you want to delete the entry for ' + result[key] + '?';
+        if (key == 'first_name' || key == 'last_name') {
+          names.push(result[key]);
+
+          if (names.length == 2) {
+            const message = 'Are you sure you want to permanently delete the entry for ' + names.join(' ') + '?';
+            document.getElementById('modal-message').innerText = message;
+          }
         }
       }
     });
