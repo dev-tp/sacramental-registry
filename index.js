@@ -54,14 +54,30 @@ document.getElementById('search').onkeyup = function () {
 
     let query = 'SELECT ' + columns + ' FROM registry WHERE CONCAT(first_name, " ", last_name) LIKE ';
     query += JSON.stringify('%' + this.value + '%');
-    query += ' ORDER BY first_name LIMIT 20';
+    query += ' ORDER BY first_name';
+
+    if (this.value.length < 4) {
+      query += ' LIMIT 10';
+    }
 
     database.query(query, function (error, results) {
       if (error) {
         throw error;
       }
 
-      displayResults(results);
+      if (results.length != 0) {
+        displayResults(results);
+      } else {
+        const resultsDom = document.getElementById('results');
+
+        resultsDom.innerHTML = '';
+
+        const noEntriesDom = document.createElement('div');
+        noEntriesDom.classList.add('no-entries');
+        noEntriesDom.innerHTML = '<span>No entries were found.</span>'
+
+        resultsDom.appendChild(noEntriesDom);
+      }
     });
 
   } else {
