@@ -62,6 +62,15 @@ cathedral4.volume AS marriage_volume,
 cathedral4.page AS marriage_page,
 cathedral4.number AS marriage_number,
 
+cathedral0.profdate AS profession_of_faith_date,
+cathedral5.profchurch AS profession_of_faith_church,
+cathedral5.presider AS profession_of_faith_presider,
+cathedral5.godfather AS profession_of_faith_sponsor_1,
+cathedral5.godmother AS profession_of_faith_sponsor_2,
+cathedral5.volume AS profession_of_faith_volume,
+cathedral5.page AS profession_of_faith_page,
+cathedral5.number AS profession_of_faith_number,
+
 cathedral7.deathdate AS death_date,
 cathedral0.burydate AS death_burial_date,
 cathedral7.buryplace AS death_burial,
@@ -78,5 +87,6 @@ LEFT JOIN cathedral1 ON cathedral0.baptkey = cathedral1.keyfield1
 LEFT JOIN cathedral2 ON cathedral0.commkey = cathedral2.keyfield2
 LEFT JOIN cathedral3 ON cathedral0.confkey = cathedral3.keyfield3
 LEFT JOIN cathedral4 ON cathedral0.weddingkey = cathedral4.keyfield4
+LEFT JOIN cathedral5 ON cathedral0.profkey = cathedral5.keyfield5
 LEFT JOIN cathedral7 ON cathedral0.deathkey = cathedral7.keyfield7
 ORDER BY cathedral0.id;
