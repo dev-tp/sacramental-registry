@@ -70,16 +70,14 @@ M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
     'Cathedral of Our Lady of the Angels': null,
   }
 });
+M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
+  direction: 'left'
+});
 
 document.getElementById('birthdate').onchange = function () {
   if (this.value) {
     this.classList.remove('invalid');
   }
-};
-
-const submitButton = document.getElementById('submit-button');
-submitButton.onclick = function () {
-  submit(insert);
 };
 
 if (window.location.search) {
@@ -182,8 +180,7 @@ if (window.location.search) {
     });
   });
 
-  submitButton.innerText = 'Update';
-  submitButton.onclick = function () {
+  document.getElementById('update-button').onclick = function () {
     submit(update, id);
   };
 
@@ -196,5 +193,11 @@ if (window.location.search) {
       window.location.href = 'index.html';
     });
   };
-  document.getElementById('delete-button').style.display = 'inline';
+
+  document.getElementById('create-mode').style.display = 'none';
+  document.getElementById('edit-mode').style.display = 'inherit';
+} else {
+  document.getElementById('submit-button').onclick = function () {
+    submit(insert);
+  };
 }

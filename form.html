@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="material-icons.css">
   <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -53,9 +54,10 @@
       padding: 40px 0;
       width: 90%;
     }
-    #delete-button {
+    #edit-mode {
+      bottom: 2rem;
       display: none;
-      margin-right: 10px;
+      right: 2rem;
     }
     #modal-message {
       font-size: 1.5rem;
@@ -449,9 +451,35 @@
         </div>
       </div>
       <div id="actions">
-        <button id="submit-button" class="waves-effect waves-light btn">Submit</button>
-        <button id="delete-button" href="#warning" class="waves-effect waves-light btn red modal-trigger">Delete</button>
-        <a href="index.html" class="waves-effect waves-grey btn grey lighten-3 black-text">Cancel</a>
+        <div id="create-mode">
+          <button id="submit-button" class="waves-effect waves-light btn">Submit</button>
+          <a href="index.html" class="waves-effect waves-grey btn grey lighten-3 black-text">Cancel</a>
+        </div>
+        <div id="edit-mode" class="fixed-action-btn">
+          <a class="btn-floating btn-large red"><i class="large material-icons">mode_edit</i></a>
+          <ul>
+            <li>
+              <button id="update-button" class="btn-floating tooltipped blue" data-position="top" data-tooltip="Update">
+                <i class="material-icons">update</i>
+              </button>
+            </li>
+            <li>
+              <a class="btn-floating tooltipped green" data-position="top" data-tooltip="Print">
+                <i class="material-icons">print</i>
+              </a>
+            </li>
+            <li>
+              <a id="delete-button" href="#warning" class="btn-floating tooltipped red modal-trigger" data-position="top" data-tooltip="Permanently delete">
+                <i class="material-icons">delete_forever</i>
+              </a>
+            </li>
+            <li>
+              <a href="index.html" class="btn-floating tooltipped" data-position="top" data-tooltip="Cancel">
+                <i class="material-icons">cancel</i>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
