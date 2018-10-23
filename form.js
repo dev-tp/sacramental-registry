@@ -12,6 +12,65 @@ function insert(values) {
   });
 }
 
+function loadPrintOptions() {
+  const dateInputs = document.querySelectorAll('[id$="date"]');
+  const printOptions = [];
+
+  for (let i = 1; i < dateInputs.length; i++) {
+    const prefix = dateInputs[i].id.substr(0, dateInputs[i].id.indexOf('date') - 1);
+
+    if (prefix == 'marriage_partner_baptism' || prefix == 'death_burial') {
+      continue;
+    }
+
+    let addOption = false;
+
+    if (dateInputs[i].value) {
+      addOption = true;
+    }
+
+    if (!addOption) {
+      let placeDom = document.getElementById(`${prefix}_church`);
+
+      if (!placeDom) {
+        if (prefix == 'marriage') {
+          placeDom = document.getElementById('marriage_wedding_place');
+        } else if (prefix == 'death') {
+          placeDom = document.getElementById('death_burial');
+        }
+      }
+
+      if (placeDom.value) {
+        addOption = true;
+      }
+    }
+
+    if (addOption) {
+      printOptions.push(prefix);
+    }
+  }
+
+  if (printOptions.length == 0) {
+    document.getElementById('print-message').innerText = 'No certificates are available for preview.';
+    document.getElementById('preview-certificate').disabled = true;
+  }
+
+  const printOptionsDom = document.getElementById('print-options');
+
+  printOptionsDom.innerHTML = '';
+
+  // FIXME Selected radio button doesn't highlight for whatever reason
+  for (const printOption of printOptions) {
+    const optionDom = document.createElement('p');
+    optionDom.innerHTML = `<label for="${printOption}">` +
+                          `  <input type="radio" name="print-option" id="${printOption}" value="${printOption}">` +
+                          `  <span class="capitalize">${printOption}</span>` +
+                          `</label>`;
+
+    printOptionsDom.appendChild(optionDom);
+  }
+}
+
 function submit(callback, id) {
   let required = false;
 
@@ -71,7 +130,10 @@ M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
   }
 });
 M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
-  direction: 'left'
+  direction: 'left',
+});
+M.Modal.init(document.getElementById('choose-certificate'), {
+  onOpenStart: loadPrintOptions,
 });
 
 document.getElementById('birthdate').onchange = function () {
