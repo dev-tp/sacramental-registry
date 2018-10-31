@@ -59,11 +59,11 @@ function loadPrintOptions() {
 
   printOptionsDom.innerHTML = '';
 
-  // FIXME Selected radio button doesn't highlight for whatever reason
   for (const printOption of printOptions) {
     const optionDom = document.createElement('p');
-    optionDom.innerHTML = `<label for="${printOption}">` +
-                          `  <input type="radio" name="print-option" id="${printOption}" value="${printOption}">` +
+
+    optionDom.innerHTML = `<label for="${printOption}-certificate">` +
+                          `  <input type="radio" name="print-option" id="${printOption}-certificate" value="${printOption}">` +
                           `  <span class="capitalize">${printOption}</span>` +
                           `</label>`;
 
