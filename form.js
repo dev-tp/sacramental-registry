@@ -54,7 +54,7 @@ function loadPrintOptions() {
 
   previewButton.disabled = true;
 
-  let selectedCertificate;
+  // let selectedCertificate;
 
   if (printOptions.length == 0) {
     document.getElementById('print-message').innerText = 'No certificates are available for preview.';
@@ -81,7 +81,11 @@ function loadPrintOptions() {
   }
 
   previewButton.onclick = function () {
-    console.log(selectedCertificate);
+    document.getElementById('certificate').style.display = 'flex';
+  };
+
+  document.getElementById('close-preview-button').onclick = function () {
+    document.getElementById('certificate').style.display = 'none';
   };
 }
 
