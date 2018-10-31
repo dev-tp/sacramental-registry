@@ -50,25 +50,39 @@ function loadPrintOptions() {
     }
   }
 
+  const previewButton = document.getElementById('preview-certificate');
+
+  previewButton.disabled = true;
+
+  let selectedCertificate;
+
   if (printOptions.length == 0) {
     document.getElementById('print-message').innerText = 'No certificates are available for preview.';
-    document.getElementById('preview-certificate').disabled = true;
+  } else {
+    const printOptionsDom = document.getElementById('print-options');
+
+    printOptionsDom.innerHTML = '';
+
+    for (const printOption of printOptions) {
+      const optionDom = document.createElement('p');
+
+      optionDom.innerHTML = `<label for="${printOption}-certificate">` +
+                            `  <input type="radio" name="print-option" id="${printOption}-certificate" value="${printOption}">` +
+                            `  <span class="capitalize">${printOption}</span>` +
+                            `</label>`;
+
+      optionDom.querySelector('input').onchange = function () {
+        selectedCertificate = this.value;
+        previewButton.disabled = false;
+      };
+
+      printOptionsDom.appendChild(optionDom);
+    }
   }
 
-  const printOptionsDom = document.getElementById('print-options');
-
-  printOptionsDom.innerHTML = '';
-
-  for (const printOption of printOptions) {
-    const optionDom = document.createElement('p');
-
-    optionDom.innerHTML = `<label for="${printOption}-certificate">` +
-                          `  <input type="radio" name="print-option" id="${printOption}-certificate" value="${printOption}">` +
-                          `  <span class="capitalize">${printOption}</span>` +
-                          `</label>`;
-
-    printOptionsDom.appendChild(optionDom);
-  }
+  previewButton.onclick = function () {
+    console.log(selectedCertificate);
+  };
 }
 
 function submit(callback, id) {
