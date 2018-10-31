@@ -60,6 +60,7 @@
       font-family: serif;
       justify-content: center;
       left: 0;
+      margin: 0;
       position: absolute;
       right: 0;
       text-align: center;
@@ -74,7 +75,7 @@
     #certificate-content {
       width: 1000px;
     }
-    #certificate-content h1, h2, p {
+    #certificate-content h1, h2, div {
       margin: 0 0 10px 0;
     }
     #certificate-content h1 {
@@ -83,7 +84,7 @@
     #certificate-content h2 {
       font-size: 2rem;
     }
-    #certificate-content p {
+    #certificate-content div {
       font-size: 1.5rem;
     }
     #container {
@@ -543,13 +544,11 @@
     <div id="certificate-content">
       <h1>Certificate of ${sacrament}</h1>
       <h2>Cathedral of Our Lady of the Angels<br>555 W. Temple Street<br>Los Angeles, CA 90012-2707</h2>
-      <p>This is to certify that ${person}, child of ${parents}, was ${sacrament} on ${date} at ${sacrament_location} by ${presider}.</p>
-      <p>The sponsors being ${sponsors}.</p>
-      <p>As appears in the ${registry} of this church.</p>
+      <div contenteditable="true">This is to certify that ${person}, child of ${parents}, was ${sacrament} on ${date} at ${sacrament_location} by ${presider}.</div>
       <table>
         <tbody>
           <tr style="border: none;">
-            <td style="padding: 0;white-space: nowrap;">Dated ${current_date}</td>
+            <td style="padding: 0;white-space: nowrap;"><div contenteditable="true">Date: ${current_date}</div></td>
             <td style="border-bottom: 1px solid;padding: 0;width: 100%;"></td>
           </tr>
         </tbody>

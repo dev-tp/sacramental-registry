@@ -82,10 +82,12 @@ function loadPrintOptions() {
 
   previewButton.onclick = function () {
     document.getElementById('certificate').style.display = 'flex';
+    document.getElementById('choose-certificate').style.display = 'none';
   };
 
   document.getElementById('close-preview-button').onclick = function () {
     document.getElementById('certificate').style.display = 'none';
+    document.getElementById('choose-certificate').style.display = 'block';
   };
 }
 
