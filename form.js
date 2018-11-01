@@ -1,3 +1,5 @@
+const { remote } = require('electron');
+
 const { database } = require('./database');
 
 function insert(values) {
@@ -83,6 +85,14 @@ function loadPrintOptions() {
   previewButton.onclick = function () {
     document.getElementById('certificate').style.display = 'flex';
     document.getElementById('choose-certificate').style.display = 'none';
+  };
+
+  document.getElementById('print-certificate-button').onclick = function () {
+    const window = remote.getCurrentWindow();
+
+    if (window) {
+      window.webContents.print();
+    }
   };
 
   document.getElementById('close-preview-button').onclick = function () {
