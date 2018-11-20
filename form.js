@@ -74,7 +74,7 @@ function loadPrintOptions() {
                             `</label>`;
 
       optionDom.querySelector('input').onchange = function () {
-        selectedCertificate = this.value;
+        // selectedCertificate = this.value;
         previewButton.disabled = false;
       };
 
@@ -161,6 +161,7 @@ M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
 });
 M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
   direction: 'left',
+  hoverEnabled: false,
 });
 M.Modal.init(document.getElementById('choose-certificate'), {
   onOpenStart: loadPrintOptions,
