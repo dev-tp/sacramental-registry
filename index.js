@@ -31,6 +31,30 @@ function displayResults(results) {
   }
 }
 
+function editMode(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.getElementById('form-view').style.display = 'block';
+
+  if (id) {
+    document.getElementById('edit-mode').style.display = 'block';
+    document.getElementById('create-mode').style.display = 'none';
+  } else {
+    document.getElementById('edit-mode').style.display = 'none';
+    document.getElementById('create-mode').style.display = 'block';
+  }
+}
+
+for (const button of document.getElementsByClassName('cancel-button')) {
+  button.onclick = function () {
+    document.getElementById('form-view').style.display = 'none';
+    document.getElementById('main-view').style.display = 'flex';
+  };
+}
+
+document.getElementById('add-entry-button').onclick = function () {
+  editMode();
+};
+
 document.getElementById('search').onkeyup = function () {
   if (!this.value) {
     resultsDom.classList.remove('show-results');
@@ -67,3 +91,5 @@ document.getElementById('search').onkeyup = function () {
     });
   }
 };
+
+M.AutoInit();
