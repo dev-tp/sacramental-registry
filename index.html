@@ -3,7 +3,8 @@
 <head>
   <link rel="stylesheet" href="material-icons.css">
   <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css">
-  <link rel="stylesheet" href="main-page.css">
+  <link rel="stylesheet" href="main-view.css">
+  <link rel="stylesheet" href="form-view.css">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,40 +18,17 @@
       font-family: 'Google Sans';
       height: 100%;
     }
-    .col {
-      margin: 0;
-    }
-    .col:first-child {
-      padding-left: 0;
-    }
-    .col:last-child {
-      padding-right: 0;
-    }
-    .col:first-child label {
-      left: 0;
-    }
     #add-entry-button, #edit-mode {
       bottom: 20px;
       position: fixed;
       right: 20px;
     }
-    #edit-mode {
-      display: none;
-    }
-    #create-mode {
-      display: none;
-      text-align: right;
-    }
-    #form-page {
-      display: none;
-      padding: 20px 40px;
-    }
   </style>
   <title>Sacramental Registry</title>
 </head>
 <body>
-  <div id="main-page">
-    <div id="main-page-container">
+  <div id="main-view">
+    <div id="main-view-container">
       <div id="search-box">
         <h1 id="logo">Sacramental Registry</h1>
         <div class="input-field">
@@ -62,7 +40,7 @@
     </div>
     <button id="add-entry-button" class="btn-floating btn-large red"><i class="material-icons">add</i></button>
   </div>
-  <div id="form-page">
+  <div id="form-view">
     <div class="row">
       <ul class="tabs tabs-fixed-width">
         <li class="tab col s2"><a class="active" href="#personal-info">Personal Info</a></li>
@@ -496,8 +474,8 @@
   </div>
   <script>
     function editMode(id) {
-      document.getElementById('main-page').style.display = 'none';
-      document.getElementById('form-page').style.display = 'block';
+      document.getElementById('main-view').style.display = 'none';
+      document.getElementById('form-view').style.display = 'block';
 
       if (id) {
         document.getElementById('edit-mode').style.display = 'block';
@@ -510,8 +488,8 @@
 
     for (const button of document.getElementsByClassName('cancel-button')) {
       button.onclick = function () {
-        document.getElementById('form-page').style.display = 'none';
-        document.getElementById('main-page').style.display = 'flex';
+        document.getElementById('form-view').style.display = 'none';
+        document.getElementById('main-view').style.display = 'flex';
       };
     }
 

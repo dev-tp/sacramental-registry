@@ -1,0 +1,29 @@
+.col {
+  margin: 0;
+}
+
+.col:first-child {
+  padding-left: 0;
+}
+
+.col:last-child {
+  padding-right: 0;
+}
+
+.col:first-child label {
+  left: 0;
+}
+
+#edit-mode {
+  display: none;
+}
+
+#create-mode {
+  display: none;
+  text-align: right;
+}
+
+#form-view {
+  display: none;
+  padding: 20px 40px;
+}
