@@ -3,11 +3,11 @@
 <head>
   <link rel="stylesheet" href="material-icons.css">
   <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css">
+  <link rel="stylesheet" href="main-page.css">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
-  <title>Sacramental Registry</title>
   <style>
     @font-face {
       font-family: 'Google Sans';
@@ -17,82 +17,122 @@
       font-family: 'Google Sans';
       height: 100%;
     }
-    .btn-floating {
+    #add-entry-button, #edit-mode {
+      bottom: 20px;
       position: absolute;
-      bottom: 2rem;
-      right: 2rem;
+      right: 20px;
     }
-    .no-entries {
-      align-items: center;
-      border: 1px solid #9e9e9e;
-      display: flex;
-      height: 100%;
-      justify-content: center;
-    }
-    .result {
-      margin-bottom: 10px;
-      width: 100%;
-      padding: 10px;
-    }
-    .result p {
-      margin: 0;
-    }
-    .result:hover {
-      background: #f6685e;
-      color: #fff;
-      cursor: pointer;
-    }
-    .result-name {
-      font-size: 1.2rem;
-    }
-    .result-address {
-      font-size: 1rem;
-    }
-    .result-father, .result-mother {
-      font-size: 0.8rem;
-    }
-    #container {
-      align-items: center;
-      display: flex;
-      height: 100%;
-      justify-content: center;
-      width: 100%;
-    }
-    #header {
-      cursor: default;
-      user-select: none;
-    }
-    #results {
-      height: 0;
-      opacity: 0;
-      overflow: auto;
-      transition: all 0.4s ease-in;
-    }
-    #results.show-results {
-      height: 300px;
-      opacity: 1;
-    }
-    #search-box {
-      min-height: 300px;
-      min-width: 560px;
-      width: 50%;
+    #form-page {
+      display: none;
     }
   </style>
+  <title>Sacramental Registry</title>
 </head>
 <body>
-  <div id="container">
-    <div id="search-box">
-      <h1 id="header">Sacramental Registry</h1>
-      <div class="input-field">
-        <input type="text" name="search" id="search">
-        <label for="search">Search</label>
+  <div id="main-page">
+    <div id="main-page-container">
+      <div id="search-box">
+        <h1 id="logo">Sacramental Registry</h1>
+        <div class="input-field">
+          <input type="text" name="search" id="search">
+          <label for="search">Search</label>
+        </div>
+        <div id="results"></div>
       </div>
-      <div id="results"></div>
+    </div>
+    <button id="add-entry-button" class="btn-floating btn-large red"><i class="material-icons">add</i></button>
+  </div>
+  <div id="form-page">
+    <div class="row">
+      <ul class="tabs tabs-fixed-width">
+        <li class="tab col s2"><a class="active" href="#personal-info">Personal Info</a></li>
+        <li class="tab col s2"><a href="#baptism">Baptism</a></li>
+        <li class="tab col s2"><a href="#communion">Communion</a></li>
+        <li class="tab col s2"><a href="#confirmation">Confirmation</a></li>
+        <li class="tab col s2"><a href="#marriage">Marriage</a></li>
+        <li class="tab col s2"><a href="#profession-of-faith">Profession of Faith</a></li>
+        <li class="tab col s2"><a href="#death">Death</a></li>
+      </ul>
+    </div>
+    <div id="personal-info">Personal Info</div>
+    <div id="baptism">Baptism</div>
+    <div id="communion">Communion</div>
+    <div id="confirmation">Confirmation</div>
+    <div id="marriage">Marriage</div>
+    <div id="profession-of-faith">Profession-of-faith</div>
+    <div id="death">Death</div>
+    <div id="actions">
+      <div id="create-mode"></div>
+      <div id="edit-mode" class="fixed-action-btn">
+        <button class="btn-floating btn-large red"><i class="material-icons">mode_edit</i></button>
+        <ul>
+          <li>
+            <button id="update-button" class="btn-floating tooltipped blue" data-position="top" data-tooltip="Update">
+              <i class="material-icons">update</i>
+            </button>
+          </li>
+          <li>
+            <a href="#choose-certificate" class="btn-floating tooltipped green modal-trigger" data-position="top" data-tooltip="Print">
+              <i class="material-icons">print</i>
+            </a>
+          </li>
+          <li>
+            <a id="delete-button" href="#warning" class="btn-floating tooltipped red modal-trigger" data-position="top" data-tooltip="Permanently delete">
+              <i class="material-icons">delete_forever</i>
+            </a>
+          </li>
+          <li>
+            <button class="btn-floating tooltipped grey cancel-button" data-position="top" data-tooltip="Cancel">
+              <i class="material-icons">cancel</i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="choose-certificate" class="modal">
+      <div class="modal-content">
+        <p id="print-message">The following certificates are available for preview:</p>
+        <div id="print-options"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="preview-certificate" class="waves-effect waves-light btn-flat blue-text">Preview</button>
+        <button class="modal-close waves-effect waves-light btn-flat">Cancel</button>
+      </div>
+    </div>
+    <div id="warning" class="modal">
+      <div class="modal-content">
+        <p id="modal-message"></p>
+      </div>
+      <div class="modal-footer">
+        <button id="confirm-deletion-button" class="waves-effect waves-light btn-flat red-text">Delete</button>
+        <button class="modal-close waves-effect waves-ligth btn-flat">Cancel</button>
+      </div>
     </div>
   </div>
-  <a class="btn-floating btn-large waves-effect waves-light red" href="form.html">
-    <i class="material-icons">add</i>
-  </a>
-  <script src="index.js"></script>
+  <script>
+    function editMode(id) {
+      if (id) {
+        console.log(`Edit mode on ${id}`);
+      } else {
+        console.log('Create mode');
+      }
+    }
+
+    for (const button of document.getElementsByClassName('cancel-button')) {
+      button.onclick = function () {
+        document.getElementById('form-page').style.display = 'none';
+        document.getElementById('main-page').style.display = 'flex';
+      };
+    }
+
+    document.getElementById('add-entry-button').onclick = function () {
+      document.getElementById('main-page').style.display = 'none';
+      document.getElementById('form-page').style.display = 'block';
+      editMode();
+    };
+
+    M.AutoInit();
+  </script>
+  <script src="search.js"></script>
 </body>
 </html>

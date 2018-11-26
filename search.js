@@ -13,9 +13,9 @@ const columns = [
   'zip_code',
 ].join(', ');
 
-function displayResults(results) {
-  const resultsDom = document.getElementById('results');
+const resultsDom = document.getElementById('results');
 
+function displayResults(results) {
   resultsDom.innerHTML = '';
 
   for (const result of results) {
@@ -32,12 +32,12 @@ function displayResults(results) {
     resultDom.id = result['id'];
     resultDom.className = 'result';
     resultDom.innerHTML =
-        '<p class="result-name">' + name + '</p>' +
-        '<p class="result-address">' + address + '</p>' +
-        '<p class="result-father">Father: ' + result['father'] + '</p>' +
-        '<p class="result-mother">Mother: ' + result['mother'] + '</p>';
+        `<p class="result-name">${name}</p>` +
+        `<p class="result-address">${address}</p>` +
+        `<p class="result-father">Father: ${result['father']}</p>` +
+        `<p class="result-mother">Mother: ${result['mother']}</p>`;
     resultDom.onclick = function () {
-      window.location.href = 'form.html?id=' + this.id;
+      editMode(this.id);
     };
 
     resultsDom.appendChild(resultDom);
@@ -45,12 +45,10 @@ function displayResults(results) {
 }
 
 document.getElementById('search').onkeyup = function () {
-  const resultsContainer = document.getElementById('results');
-
-  if (this.value) {
-    if (!resultsContainer.classList.contains('show-results')) {
-      resultsContainer.classList.add('show-results');
-    }
+  if (!this.value) {
+    resultsDom.classList.remove('show-results');
+  } else {
+    resultsDom.classList.add('show-results');
 
     let query = 'SELECT ' + columns + ' FROM registry WHERE CONCAT(first_name, " ", last_name) LIKE ';
     query += JSON.stringify('%' + this.value + '%');
@@ -79,10 +77,5 @@ document.getElementById('search').onkeyup = function () {
         resultsDom.appendChild(noEntriesDom);
       }
     });
-
-  } else {
-    if (resultsContainer.classList.contains('show-results')) {
-      resultsContainer.classList.remove('show-results');
-    }
   }
 };
