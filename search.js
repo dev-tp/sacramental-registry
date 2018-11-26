@@ -1,18 +1,5 @@
 const { database } = require('./database');
 
-const columns = [
-  'id',
-  'first_name',
-  'last_name',
-  'father',
-  'mother',
-  'home_address_line_1',
-  'home_address_line_2',
-  'city',
-  'region',
-  'zip_code',
-].join(', ');
-
 const resultsDom = document.getElementById('results');
 
 function displayResults(results) {
@@ -50,9 +37,10 @@ document.getElementById('search').onkeyup = function () {
   } else {
     resultsDom.classList.add('show-results');
 
-    let query = 'SELECT ' + columns + ' FROM registry WHERE CONCAT(first_name, " ", last_name) LIKE ';
-    query += JSON.stringify('%' + this.value + '%');
-    query += ' ORDER BY first_name';
+    let query =
+        `SELECT id, first_name, last_name, father, mother, home_address_line_1, home_address_line_2, city, region, zip_code ` +
+        `FROM registry WHERE CONCAT(first_name, " ", last_name) LIKE ${JSON.stringify('%' + this.value + '%')} ` +
+        `ORDER BY first_name`;
 
     if (this.value.length < 4) {
       query += ' LIMIT 10';
