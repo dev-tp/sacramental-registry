@@ -1,6 +1,94 @@
 const { database } = require('./database');
 
+const editModeColumns = [
+  'first_name',
+  'last_name',
+  'sex',
+  'DATE_FORMAT(birthdate, "%Y-%m-%d") AS birthdate',
+  'birth_city',
+  'home_address_line_1',
+  'home_address_line_2',
+  'city',
+  'region',
+  'zip_code',
+  'father',
+  'mother',
+  'DATE_FORMAT(baptism_date, "%Y-%m-%d") AS baptism_date',
+  'baptism_church',
+  'baptism_godfather',
+  'baptism_godmother',
+  'baptism_proxy_godmother',
+  'baptism_presider',
+  'baptism_volume',
+  'DATE_FORMAT(communion_date, "%Y-%m-%d") AS communion_date',
+  'communion_church',
+  'communion_presider',
+  'communion_volume',
+  'DATE_FORMAT(confirmation_date, "%Y-%m-%d") AS confirmation_date',
+  'confirmation_church',
+  'confirmation_presider',
+  'confirmation_sponsor',
+  'confirmation_volume',
+  'DATE_FORMAT(marriage_date, "%Y-%m-%d") AS marriage_date',
+  'marriage_partner_first_name',
+  'marriage_partner_last_name',
+  'marriage_partner_father',
+  'marriage_partner_mother',
+  'marriage_partner_home_address_line_1',
+  'marriage_partner_home_address_line_2',
+  'marriage_partner_city',
+  'DATE_FORMAT(marriage_partner_baptism_date, "%Y-%m-%d") AS marriage_partner_baptism_date',
+  'marriage_partner_baptism_church',
+  'marriage_wedding_place',
+  'marriage_presider',
+  'marriage_witness_1',
+  'marriage_witness_2',
+  'marriage_volume',
+  'DATE_FORMAT(profession_of_faith_date, "%Y-%m-%d") AS profession_of_faith_date',
+  'profession_of_faith_church',
+  'profession_of_faith_presider',
+  'profession_of_faith_sponsor_1',
+  'profession_of_faith_sponsor_2',
+  'profession_of_faith_volume',
+  'profession_of_faith_page',
+  'profession_of_faith_number',
+  'DATE_FORMAT(death_date, "%Y-%m-%d") AS death_date',
+  'DATE_FORMAT(death_burial_date, "%Y-%m-%d") AS death_burial_date',
+  'death_burial',
+  'death_anointing',
+  'death_presider',
+  'death_volume',
+  'comments',
+].join(', ');
+const formView = document.getElementById('form-view');
 const resultsDom = document.getElementById('results');
+
+function clearForm() {
+  const inputs = formView.getElementsByTagName('input');
+
+  for (const input of inputs) {
+    const sibling = input.nextElementSibling;
+
+    if (sibling.tagName == 'LABEL') {
+      input.value = null;
+      sibling.classList.remove('active');
+    }
+  }
+
+  const selectBoxes = formView.getElementsByTagName('select');
+
+  for (const selectBox of selectBoxes) {
+    if (selectBox.id != 'region') {
+      const option = selectBox.options[0];
+      selectBox.option = option;
+      selectBox.M_FormSelect.input.value = option.innerText;
+    } else {
+      const option = selectBox.options[4]; // California is default
+      selectBox.option = option;
+      selectBox.M_FormSelect.input.value = option.innerText;
+    }
+  }
+}
 
 function displayResults(results) {
   resultsDom.innerHTML = '';
@@ -21,8 +109,8 @@ function displayResults(results) {
     resultDom.innerHTML =
         `<p class="result-name">${name}</p>` +
         `<p class="result-address">${address}</p>` +
-        `<p class="result-father">Father: ${result['father']}</p>` +
-        `<p class="result-mother">Mother: ${result['mother']}</p>`;
+        `<p class="result-father">Father: ${result['father'] ? result['father'] : '-'}</p>` +
+        `<p class="result-mother">Mother: ${result['mother'] ? result['mother'] : '-'}</p>`;
     resultDom.onclick = function () {
       editMode(this.id);
     };
@@ -35,20 +123,144 @@ function editMode(id) {
   document.getElementById('main-view').style.display = 'none';
   document.getElementById('form-view').style.display = 'block';
 
+  clearForm();
+
   if (id) {
     document.getElementById('edit-mode').style.display = 'block';
     document.getElementById('create-mode').style.display = 'none';
+
+    const query = `SELECT ${editModeColumns} FROM registry WHERE id = ${id}`;
+
+    database.query(query, function (error, results) {
+      if (error) {
+        throw error;
+      }
+
+      const names = [];
+      const result = results[0];
+
+      Object.keys(result).forEach(function (key) {
+        const domElement = document.getElementById(key);
+
+        if (domElement) {
+          domElement.value = result[key] ? result[key] : '';
+
+          const labelDom = domElement.nextElementSibling;
+
+          if (labelDom && domElement.value) {
+            labelDom.classList.add('active');
+          } else if (domElement.tagName == 'SELECT') {
+            const option = domElement.options[domElement.selectedIndex];
+            domElement.M_FormSelect.input.value = option.innerText;
+          }
+
+          if (key == 'first_name' || key == 'last_name') {
+            names.push(result[key]);
+
+            if (names.length == 2) {
+              const message = `Are you sure you want to permanently delete the entry for ${names.join(' ')}?`;
+              document.getElementById('modal-message').innerText = message;
+            }
+          }
+        }
+      });
+    });
+
+    document.getElementById('update-button').onclick = function () {
+      submit(update, id);
+    };
+
+    document.getElementById('confirm-deletion-button').onclick = function () {
+      database.query(`DELETE FROM registry WHERE id = ${id}`, function (error, _) {
+        if (error) {
+          throw error;
+        }
+
+        // TODO Clear search box and results
+        switchToMainView();
+      });
+    };
+
   } else {
     document.getElementById('edit-mode').style.display = 'none';
     document.getElementById('create-mode').style.display = 'block';
+    document.getElementById('submit-button').onclick = function () {
+      submit(insert);
+    };
   }
 }
 
+function insert(values) {
+  const query = `INSERT INTO registry (${Object.keys(values).join(', ')}) VALUES ?`;
+
+  database.query(query, [[Object.values(values)]], function (error, _) {
+    if (error) {
+      throw error;
+    }
+
+    switchToMainView();
+  });
+}
+
+function submit(callback, id) {
+  let required = false;
+
+  const values = {};
+
+  for (const input of formView.getElementsByTagName('input')) {
+    if (input.id != '') {
+      if (input.value == '' && input.required) {
+        input.classList.add('invalid');
+        required = true;
+      }
+
+      values[input.id] = input.value ? input.value : null;
+    }
+  }
+
+  for (const option of formView.getElementsByTagName('select')) {
+    if (option.id != '') {
+      if (option.value == '') {
+        required = true;
+      }
+
+      values[option.id] = option.value ? option.value : null;
+    }
+  }
+
+  const comments = document.getElementById('comments');
+  values[comments.id] = comments.innerText ? comments.innerText : null;
+
+  if (required) {
+    return;
+  }
+
+  callback(values, id);
+}
+
+function switchToMainView() {
+  document.getElementById('form-view').style.display = 'none';
+  document.getElementById('main-view').style.display = 'flex';
+}
+
+function update(values, id) {
+  const fields = Object.keys(values).map(function (key) {
+    return `${key} = ${JSON.stringify(values[key])}`;
+  }).join(', ');
+
+  const query = `UPDATE registry SET ${fields} WHERE id = ${id}`;
+
+  database.query(query, function (error, _) {
+    if (error) {
+      throw error;
+    }
+
+    switchToMainView();
+  });
+}
+
 for (const button of document.getElementsByClassName('cancel-button')) {
-  button.onclick = function () {
-    document.getElementById('form-view').style.display = 'none';
-    document.getElementById('main-view').style.display = 'flex';
-  };
+  button.onclick = switchToMainView;
 }
 
 document.getElementById('add-entry-button').onclick = function () {
