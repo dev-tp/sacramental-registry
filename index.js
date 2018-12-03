@@ -64,9 +64,7 @@ const formView = document.getElementById('form-view');
 const resultsDom = document.getElementById('results');
 
 function clearForm() {
-  const inputs = formView.getElementsByTagName('input');
-
-  for (const input of inputs) {
+  for (const input of formView.getElementsByTagName('input')) {
     const sibling = input.nextElementSibling;
 
     input.classList.remove('invalid');
@@ -81,18 +79,11 @@ function clearForm() {
     }
   }
 
-  const selectBoxes = formView.getElementsByTagName('select');
-
-  for (const selectBox of selectBoxes) {
-    if (selectBox.id != 'region') {
-      const option = selectBox.options[0];
-      selectBox.option = option;
-      selectBox.M_FormSelect.input.value = option.innerText;
-    } else {
-      const option = selectBox.options[4]; // California is default
-      selectBox.option = option;
-      selectBox.M_FormSelect.input.value = option.innerText;
-    }
+  for (const selectBox of formView.getElementsByTagName('select')) {
+    // When selectBox.id is region, California's index is 4
+    const option = selectBox.options[selectBox.id != 'region' ? 0 : 4];
+    selectBox.option = option;
+    selectBox.M_FormSelect.input.value = option.innerText;
   }
 }
 
