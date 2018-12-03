@@ -69,9 +69,15 @@ function clearForm() {
   for (const input of inputs) {
     const sibling = input.nextElementSibling;
 
+    input.classList.remove('invalid');
+    input.classList.remove('valid');
+
+    input.value = null;
+
     if (sibling.tagName == 'LABEL') {
-      input.value = null;
       sibling.classList.remove('active');
+    } else if (sibling.classList.contains('autocomplete-content')) {
+      sibling.nextElementSibling.classList.remove('active');
     }
   }
 
@@ -305,3 +311,9 @@ document.getElementById('search').onkeyup = function () {
 };
 
 M.AutoInit();
+
+M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
+  data: {
+    'Cathedral of Our Lady of the Angels': null,
+  }
+});
