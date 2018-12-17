@@ -1,3 +1,7 @@
+.capitalize {
+  text-transform: capitalize;
+}
+
 .col {
   margin: 0;
 }
@@ -16,6 +20,47 @@
 
 #edit-mode {
   display: none;
+}
+
+#certificate {
+  align-items: center;
+  background: #fff;
+  bottom: 0;
+  display: none;
+  font-family: serif;
+  justify-content: center;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  z-index: 1005;
+}
+
+#certificate-actions {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+#certificate-content {
+  width: 1000px;
+}
+
+#certificate-content h1 {
+  font-size: 4rem;
+  margin: 0 0 10px 0;
+}
+
+#certificate-content h2 {
+  font-size: 2rem;
+  margin: 0 0 10px 0;
+}
+
+#certificate-content div {
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
 }
 
 #create-mode {

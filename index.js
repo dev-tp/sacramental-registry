@@ -204,6 +204,94 @@ function insert(values) {
   });
 }
 
+function loadPrintOptions() {
+  const dateInputs = document.querySelectorAll('[id$="date"]');
+  const printOptions = [];
+
+  for (let i = 1; i < dateInputs.length; i++) {
+    const prefix = dateInputs[i].id.substr(0, dateInputs[i].id.indexOf('date') - 1);
+
+    if (prefix == 'marriage_partner_baptism' || prefix == 'death_burial') {
+      continue;
+    }
+
+    let addOption = false;
+
+    if (dateInputs[i].value) {
+      addOption = true;
+    }
+
+    if (!addOption) {
+      let placeDom = document.getElementById(`${prefix}_church`);
+
+      if (!placeDom) {
+        if (prefix == 'marriage') {
+          placeDom = document.getElementById('marriage_wedding_place');
+        } else if (prefix == 'death') {
+          placeDom = document.getElementById('death_burial');
+        }
+      }
+
+      if (placeDom.value) {
+        addOption = true;
+      }
+    }
+
+    if (addOption) {
+      printOptions.push(prefix);
+    }
+  }
+
+  const previewButton = document.getElementById('preview-certificate');
+
+  previewButton.disabled = true;
+
+  // let selectedCertificate;
+
+  if (printOptions.length == 0) {
+    document.getElementById('print-message').innerText = 'No certificates are available for preview.';
+  } else {
+    const printOptionsDom = document.getElementById('print-options');
+
+    printOptionsDom.innerHTML = '';
+
+    for (const printOption of printOptions) {
+      const optionDom = document.createElement('p');
+
+      optionDom.innerHTML =
+          `<label for="${printOption}-certificate">` +
+          `  <input type="radio" name="print-option" id="${printOption}-certificate" value="${printOption}">` +
+          `  <span class="capitalize">${printOption}</span>` +
+          `</label>`;
+
+      optionDom.querySelector('input').onchange = function () {
+        // selectedCertificate = this.value;
+        previewButton.disabled = false;
+      };
+
+      printOptionsDom.appendChild(optionDom);
+    }
+  }
+
+  previewButton.onclick = function () {
+    document.getElementById('certificate').style.display = 'flex';
+    document.getElementById('choose-certificate').style.display = 'none';
+  };
+
+  document.getElementById('print-certificate-button').onclick = function () {
+    const window = remote.getCurrentWindow();
+
+    if (window) {
+      window.webContents.print();
+    }
+  };
+
+  document.getElementById('close-preview-button').onclick = function () {
+    document.getElementById('certificate').style.display = 'none';
+    document.getElementById('choose-certificate').style.display = 'block';
+  };
+}
+
 function submit(callback, id) {
   let required = false;
 
@@ -317,4 +405,8 @@ M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
 M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
   direction: 'left',
   hoverEnabled: false,
+});
+
+M.Modal.init(document.getElementById('choose-certificate'), {
+  onOpenStart: loadPrintOptions,
 });

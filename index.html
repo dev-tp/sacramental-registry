@@ -467,6 +467,25 @@
           <button class="modal-close waves-effect waves-light btn-flat">Cancel</button>
         </div>
       </div>
+      <div id="certificate">
+        <div id="certificate-content">
+          <h1>Certificate of ${sacrament}</h1>
+          <h2>Cathedral of Our Lady of the Angels<br>555 W. Temple Street<br>Los Angeles, CA 90012-2707</h2>
+          <div contenteditable="true">This is to certify that ${person}, child of ${parents}, was ${sacrament} on ${date} at ${sacrament_location} by ${presider}.</div>
+          <table>
+            <tbody>
+              <tr style="border: none;">
+                <td style="padding: 0;white-space: nowrap;"><div contenteditable="true">Date: ${current_date}</div></td>
+                <td style="border-bottom: 1px solid;padding: 0;width: 100%;"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="certificate-actions">
+          <button id="print-certificate-button" class="btn-flat blue-text">Print</button>
+          <button id="close-preview-button" class="btn-flat">Go Back</button>
+        </div>
+      </div>
       <div id="warning" class="modal">
         <div class="modal-content">
           <p id="modal-message"></p>
