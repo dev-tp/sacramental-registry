@@ -313,3 +313,8 @@ M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
     'Cathedral of Our Lady of the Angels': null,
   }
 });
+
+M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
+  direction: 'left',
+  hoverEnabled: false,
+});
