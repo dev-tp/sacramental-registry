@@ -323,8 +323,8 @@
             <label for="marriage_date">Wedding Date</label>
           </div>
           <div class="input-field">
-            <input type="text" name="marriage_wedding_place" id="marriage_wedding_place" class="validate">
-            <label for="marriage_wedding_place">Wedding Place</label>
+            <input type="text" name="marriage_church" id="marriage_church" class="validate">
+            <label for="marriage_church">Wedding Church</label>
           </div>
           <div class="input-field">
             <input type="text" name="marriage_presider" id="marriage_presider" class="validate">
@@ -469,14 +469,14 @@
       </div>
       <div id="certificate">
         <div id="certificate-content">
-          <h1>Certificate of ${sacrament}</h1>
+          <h1 id="certificate-title"></h1>
           <h2>Cathedral of Our Lady of the Angels<br>555 W. Temple Street<br>Los Angeles, CA 90012-2707</h2>
-          <div contenteditable="true">This is to certify that ${person}, child of ${parents}, was ${sacrament} on ${date} at ${sacrament_location} by ${presider}.</div>
+          <div id="certificate-text" contenteditable="true"></div>
           <table>
             <tbody>
               <tr style="border: none;">
-                <td style="padding: 0;white-space: nowrap;"><div contenteditable="true">Date: ${current_date}</div></td>
                 <td style="border-bottom: 1px solid;padding: 0;width: 100%;"></td>
+                <td style="padding: 0;white-space: nowrap;"><div id="certificate-datum" contenteditable="true"></div></td>
               </tr>
             </tbody>
           </table>

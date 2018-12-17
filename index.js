@@ -39,7 +39,7 @@ const editModeColumns = [
   'marriage_partner_city',
   'DATE_FORMAT(marriage_partner_baptism_date, "%Y-%m-%d") AS marriage_partner_baptism_date',
   'marriage_partner_baptism_church',
-  'marriage_wedding_place',
+  'marriage_church',
   'marriage_presider',
   'marriage_witness_1',
   'marriage_witness_2',
@@ -61,6 +61,11 @@ const editModeColumns = [
   'comments',
 ].join(', ');
 const formView = document.getElementById('form-view');
+const months = [
+  'January', 'February', 'March', 'April',
+  'May', 'June', 'July', 'August',
+  'September', 'October', 'November', 'December'
+];
 const resultsDom = document.getElementById('results');
 
 function clearForm() {
@@ -224,12 +229,8 @@ function loadPrintOptions() {
     if (!addOption) {
       let placeDom = document.getElementById(`${prefix}_church`);
 
-      if (!placeDom) {
-        if (prefix == 'marriage') {
-          placeDom = document.getElementById('marriage_wedding_place');
-        } else if (prefix == 'death') {
-          placeDom = document.getElementById('death_burial');
-        }
+      if (!placeDom && prefix == 'death') {
+        placeDom = document.getElementById('death_burial');
       }
 
       if (placeDom.value) {
@@ -245,8 +246,6 @@ function loadPrintOptions() {
   const previewButton = document.getElementById('preview-certificate');
 
   previewButton.disabled = true;
-
-  // let selectedCertificate;
 
   if (printOptions.length == 0) {
     document.getElementById('print-message').innerText = 'No certificates are available for preview.';
@@ -265,7 +264,7 @@ function loadPrintOptions() {
           `</label>`;
 
       optionDom.querySelector('input').onchange = function () {
-        // selectedCertificate = this.value;
+        loadSelectedCertificate(this.value);
         previewButton.disabled = false;
       };
 
@@ -290,6 +289,56 @@ function loadPrintOptions() {
     document.getElementById('certificate').style.display = 'none';
     document.getElementById('choose-certificate').style.display = 'block';
   };
+}
+
+function loadSelectedCertificate(sacrament) {
+  const verbs = {
+    'baptism': 'was baptized',
+    'communion': 'did his/her first communion',
+    'confirmation': 'was confirmed',
+  };
+
+  const mother = document.getElementById('mother').value;
+  const father = document.getElementById('father').value;
+
+  const fullName = `${document.getElementById('first_name').value} ${document.getElementById('last_name').value}`;
+  const parents = mother && father ? `${father} & ${mother}` : mother ? mother : father ? father : null;
+  const presider = document.getElementById(`${sacrament}_presider`).value;
+
+  let sacramentDate = new Date(document.getElementById(`${sacrament}_date`).value);
+  sacramentDate = `${months[sacramentDate.getMonth()]} ${sacramentDate.getDate()}, ${sacramentDate.getFullYear()}`;
+
+  // TODO Death location does not end with _church
+  const sacramentChurch = document.getElementById(`${sacrament}_church`).value;
+
+  let certificateText = `This is to certify that ${fullName}`;
+
+  if (parents) {
+    certificateText += `, child of ${parents},`;
+  }
+
+  certificateText += ` ${verbs[sacrament]} on ${sacramentDate}`;
+
+  if (sacramentChurch) {
+    certificateText += ` at ${sacramentChurch}`;
+  }
+
+  if (presider) {
+    certificateText += ` by ${presider}`;
+  }
+
+  certificateText += '.';
+
+  document.getElementById('certificate-title').innerText = `Certificate of ${sacrament.replace(/^\w/, function (letter) {
+    return letter.toUpperCase();
+  })}`;
+
+  document.getElementById('certificate-text').innerText = certificateText;
+
+  const date = new Date();
+  const today = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+
+  document.getElementById('certificate-datum').innerText = today;
 }
 
 function submit(callback, id) {
