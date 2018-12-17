@@ -1,3 +1,5 @@
+const { remote } = require('electron');
+
 const { database } = require('./database');
 
 const editModeColumns = [
