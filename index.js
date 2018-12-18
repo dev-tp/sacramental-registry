@@ -149,18 +149,24 @@ function editMode(id) {
       const result = results[0];
 
       Object.keys(result).forEach(function (key) {
-        const domElement = document.getElementById(key);
+        const input = document.getElementById(key);
 
-        if (domElement) {
-          domElement.value = result[key] ? result[key] : '';
+        if (input) {
+          input.value = result[key] ? result[key] : '';
 
-          const labelDom = domElement.nextElementSibling;
+          const labelDom = input.nextElementSibling;
 
-          if (labelDom && domElement.value) {
-            labelDom.classList.add('active');
-          } else if (domElement.tagName == 'SELECT') {
-            const option = domElement.options[domElement.selectedIndex];
-            domElement.M_FormSelect.input.value = option.innerText;
+          if (labelDom && input.value) {
+            if (labelDom.tagName == 'LABEL') {
+              labelDom.classList.add('active');
+            } else if (labelDom.tagName == 'UL') {
+              labelDom.nextElementSibling.classList.add('active');
+            }
+          }
+
+          if (input.tagName == 'SELECT') {
+            const option = input.options[input.selectedIndex];
+            input.M_FormSelect.input.value = option.innerText;
           }
 
           if (key == 'first_name' || key == 'last_name') {
