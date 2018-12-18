@@ -48,6 +48,7 @@
     <div id="form-view">
       <div class="row">
         <ul class="tabs tabs-fixed-width">
+          <li class="tab col s1"><a class="cancel-button" href="#go-back" style="line-height: 60px;"><i class="material-icons">arrow_back</i></a></li>
           <li class="tab col s2"><a id="personal-info-tab" class="active" href="#personal-info">Personal Info</a></li>
           <li class="tab col s2"><a href="#baptism">Baptism</a></li>
           <li class="tab col s2"><a href="#communion">Communion</a></li>
@@ -57,6 +58,7 @@
           <li class="tab col s2"><a href="#death">Death</a></li>
         </ul>
       </div>
+      <div id="go-back"></div>
       <div id="personal-info">
         <div class="row">
           <div class="input-field col s6">
@@ -429,7 +431,6 @@
       <div id="actions">
         <div id="create-mode">
           <button id="submit-button" class="btn">Submit</button>
-          <button class="btn grey lighten-3 black-text cancel-button">Cancel</button>
         </div>
         <div id="edit-mode" class="fixed-action-btn">
           <button class="btn-floating btn-large red"><i class="material-icons">mode_edit</i></button>
@@ -448,11 +449,6 @@
               <a id="delete-button" href="#warning" class="btn-floating tooltipped red modal-trigger" data-position="top" data-tooltip="Permanently delete">
                 <i class="material-icons">delete_forever</i>
               </a>
-            </li>
-            <li>
-              <button class="btn-floating tooltipped grey cancel-button" data-position="top" data-tooltip="Cancel">
-                <i class="material-icons">cancel</i>
-              </button>
             </li>
           </ul>
         </div>
