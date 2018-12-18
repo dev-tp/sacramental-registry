@@ -191,7 +191,12 @@ function editMode(id) {
           throw error;
         }
 
-        // TODO Clear search box and results
+        const searchBox = document.getElementById('search');
+        searchBox.nextElementSibling.classList.remove('active');
+        searchBox.value = '';
+
+        resultsDom.classList.remove('show-results');
+
         switchToMainView();
       });
     };
