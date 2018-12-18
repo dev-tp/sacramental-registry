@@ -116,10 +116,10 @@ function displayResults(results) {
     resultDom.id = result['id'];
     resultDom.className = 'result';
     resultDom.innerHTML =
-        `<p class="result-name">${name}</p>` +
-        `<p class="result-address">${address}</p>` +
-        `<p class="result-father">Father: ${result['father'] ? result['father'] : '-'}</p>` +
-        `<p class="result-mother">Mother: ${result['mother'] ? result['mother'] : '-'}</p>`;
+      `<p class="result-name">${name}</p>` +
+      `<p class="result-address">${address}</p>` +
+      `<p class="result-father">Father: ${result['father'] ? result['father'] : '-'}</p>` +
+      `<p class="result-mother">Mother: ${result['mother'] ? result['mother'] : '-'}</p>`;
     resultDom.onclick = function () {
       editMode(this.id);
     };
@@ -186,7 +186,7 @@ function editMode(id) {
     };
 
     document.getElementById('confirm-deletion-button').onclick = function () {
-      database.query(`DELETE FROM registry WHERE id = ${id}`, function (error, _) {
+      database.query(`UPDATE registry SET deleted = 1 WHERE id = ${id}`, function (error, _) {
         if (error) {
           throw error;
         }
@@ -266,10 +266,10 @@ function loadPrintOptions() {
       const optionDom = document.createElement('p');
 
       optionDom.innerHTML =
-          `<label for="${printOption}-certificate">` +
-          `  <input type="radio" name="print-option" id="${printOption}-certificate" value="${printOption}">` +
-          `  <span class="capitalize">${printOption}</span>` +
-          `</label>`;
+        `<label for="${printOption}-certificate">` +
+        `  <input type="radio" name="print-option" id="${printOption}-certificate" value="${printOption}">` +
+        `  <span class="capitalize">${printOption}</span>` +
+        `</label>`;
 
       optionDom.querySelector('input').onchange = function () {
         loadSelectedCertificate(this.value);
@@ -421,9 +421,9 @@ document.getElementById('search').onkeyup = function () {
     resultsDom.classList.add('show-results');
 
     let query =
-        `SELECT id, first_name, last_name, father, mother, home_address_line_1, home_address_line_2, city, region, zip_code ` +
-        `FROM registry WHERE CONCAT(first_name, " ", last_name) LIKE ${JSON.stringify('%' + this.value + '%')} ` +
-        `ORDER BY first_name`;
+      `SELECT id, first_name, last_name, father, mother, home_address_line_1, home_address_line_2, city, region, zip_code ` +
+      `FROM registry WHERE (CONCAT(first_name, " ", last_name) LIKE ${JSON.stringify('%' + this.value + '%')}) AND deleted = 0 ` +
+      `ORDER BY first_name`;
 
     if (this.value.length < 4) {
       query += ' LIMIT 10';
