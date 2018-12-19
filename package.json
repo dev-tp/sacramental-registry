@@ -4,7 +4,7 @@
   "description": "Keeps track of baptisms, communions, confirmations, weddings, etc.",
   "main": "main.js",
   "dependencies": {
-    "electron": "^2.0.12",
+    "electron": "^2.0.16",
     "materialize-css": "^1.0.0",
     "mysql": "^2.16.0"
   },
