@@ -1,0 +1,8 @@
+body, html {
+  all: unset;
+}
+
+#certificate-actions {
+  display: none;
+  visibility: hidden;
+}
