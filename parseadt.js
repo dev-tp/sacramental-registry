@@ -55,10 +55,12 @@ function adtToCsv(filename) {
 
       const values = columnNames.map(function (columnName) {
         if (columnName.toLowerCase().includes('date') && record[columnName] != null) {
+          record[columnName].setDate(record[columnName].getDate() + 1);
+
           const date = [
             record[columnName].getFullYear(),
             record[columnName].getMonth() + 1,
-            record[columnName].getDate() + 1,
+            record[columnName].getDate(),
           ];
 
           date[1] = date[1] < 10 ? '0' + date[1] : date[1];
