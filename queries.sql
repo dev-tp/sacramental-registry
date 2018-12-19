@@ -54,7 +54,7 @@ IF(cathedral0.male, cathedral4.address2b, cathedral4.address2g) AS marriage_part
 IF(cathedral0.male, cathedral4.cityb, cathedral4.cityg) AS marriage_partner_city,
 IF(cathedral0.male, cathedral4.baptdateb, cathedral4.baptdateg) AS marriage_partner_baptism_date,
 IF(cathedral0.male, cathedral4.baptchrchb, cathedral4.baptchrchg) AS marriage_partner_baptism_church,
-cathedral4.wedplace AS marriage_wedding_place,
+cathedral4.wedplace AS marriage_church,
 cathedral4.presider AS marriage_presider,
 cathedral4.witness1 AS marriage_witness_1,
 cathedral4.witness2 AS marriage_witness_2,

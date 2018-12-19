@@ -46,7 +46,7 @@ CREATE TABLE registry (
   marriage_partner_city VARCHAR(64),
   marriage_partner_baptism_date DATE,
   marriage_partner_baptism_church VARCHAR(64),
-  marriage_wedding_place VARCHAR(64),
+  marriage_church VARCHAR(64),
   marriage_presider VARCHAR(64),
   marriage_witness_1 VARCHAR(64),
   marriage_witness_2 VARCHAR(64),
@@ -70,5 +70,6 @@ CREATE TABLE registry (
   death_page VARCHAR(4),
   death_number VARCHAR(8),
   comments TEXT,
-  date_entered DATETIME DEFAULT current_timestamp()
+  date_entered DATETIME DEFAULT current_timestamp(),
+  deleted TINYINT NOT NULL DEFAULT 0
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
