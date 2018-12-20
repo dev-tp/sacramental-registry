@@ -84,12 +84,12 @@ function clearForm() {
     } else if (sibling.classList.contains('autocomplete-content')) {
       sibling.nextElementSibling.classList.remove('active');
     }
-
-    // Simulate clicking on personal-info tab
-    const eventTrigger = document.createEvent('Event');
-    eventTrigger.initEvent('click', true, false);
-    document.getElementById('personal-info-tab').dispatchEvent(eventTrigger);
   }
+
+  // Simulate clicking on personal-info tab
+  const eventTrigger = document.createEvent('Event');
+  eventTrigger.initEvent('click', true, false);
+  document.getElementById('personal-info-tab').dispatchEvent(eventTrigger);
 
   for (const selectBox of formView.getElementsByTagName('select')) {
     // When selectBox.id is region, California's index is 4
