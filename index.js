@@ -77,7 +77,9 @@ function clearForm() {
     input.classList.remove('invalid');
     input.classList.remove('valid');
 
-    input.value = null;
+    if (input.type != 'radio') {
+      input.value = null;
+    }
 
     if (sibling.tagName == 'LABEL') {
       sibling.classList.remove('active');
@@ -91,12 +93,12 @@ function clearForm() {
   eventTrigger.initEvent('click', true, false);
   document.getElementById('personal-info-tab').dispatchEvent(eventTrigger);
 
-  for (const selectBox of formView.getElementsByTagName('select')) {
-    // When selectBox.id is region, California's index is 4
-    const option = selectBox.options[selectBox.id != 'region' ? 0 : 4];
-    selectBox.option = option;
-    selectBox.M_FormSelect.input.value = option.innerText;
-  }
+  const regionSelectBox = formView.getElementsByTagName('select')[0];
+  const option = regionSelectBox.options[4]; // California's index is 4
+  regionSelectBox.option = option;
+  regionSelectBox.M_FormSelect.input.value = option.innerText;
+
+  document.getElementsByName('sex')[0].checked = true;
 }
 
 function displayResults(results) {
@@ -176,6 +178,11 @@ function editMode(id) {
               const message = `Are you sure you want to permanently delete the entry for ${names.join(' ')}?`;
               document.getElementById('modal-message').innerText = message;
             }
+          }
+        } else {
+          // Radio buttons
+          for (const option of document.getElementsByName(key)) {
+            option.checked = option.value == result[key];
           }
         }
       });
@@ -367,6 +374,8 @@ function submit(callback, id) {
       }
 
       values[input.id] = input.value ? input.value : null;
+    } else if (input.type == 'radio' && input.checked) {
+      values[input.name] = input.value;
     }
   }
 

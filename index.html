@@ -72,13 +72,19 @@
             <label for="last_name">Last Name</label>
           </div>
         </div>
-        <div class="input-field">
-          <select name="sex" id="sex" required>
-            <option value="" selected disabled>Select</option>
-            <option value="F">Female</option>
-            <option value="M">Male</option>
-          </select>
-          <label for="sex">Sex</label>
+        <div class="radio-buttons">
+          <p style="display: inline-block; margin-top: 0; min-width: 100px;">
+            <label>
+              <input name="sex" type="radio" value="F" checked>
+              <span>Female</span>
+            </label>
+          </p>
+          <p style="display: inline-block; margin-top: 0; min-width: 100px;">
+            <label>
+              <input name="sex" type="radio" value="M">
+              <span>Male</span>
+            </label>
+          </p>
         </div>
         <div class="input-field">
           <input type="date" name="birthdate" id="birthdate" class="validate" required>
@@ -155,7 +161,6 @@
               <option value="WV">West Virginia</option>
               <option value="WY">Wyoming</option>
             </select>
-            <label for="region">State</label>
           </div>
           <div class="input-field col s3">
             <input type="text" name="zip_code" id="zip_code" class="validate" pattern="^[0-9]{5}(?:-[0-9]{4})?$" required>
