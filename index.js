@@ -139,6 +139,7 @@ function editMode(id) {
   if (id) {
     document.getElementById('edit-mode').style.display = 'block';
     document.getElementById('create-mode').style.display = 'none';
+    document.getElementById('certificate-id').innerText = id;
 
     const query = `SELECT ${editModeColumns} FROM registry WHERE id = ${id}`;
 
