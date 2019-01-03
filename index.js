@@ -19,6 +19,7 @@ const editModeColumns = [
   'baptism_church',
   'baptism_godfather',
   'baptism_godmother',
+  'baptism_christian_witness',
   'baptism_proxy_godmother',
   'baptism_presider',
   'baptism_volume',
