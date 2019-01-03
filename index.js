@@ -213,7 +213,10 @@ function editMode(id) {
   } else {
     document.getElementById('edit-mode').style.display = 'none';
     document.getElementById('create-mode').style.display = 'block';
-    document.getElementById('submit-button').onclick = function () {
+
+    const submitButton = document.getElementById('submit-button');
+    submitButton.disabled = true;
+    submitButton.onclick = function () {
       submit(insert);
     };
   }
@@ -466,6 +469,20 @@ document.getElementById('search').onkeyup = function () {
     });
   }
 };
+
+[ // Request: Disable submit button until a sacrament is filled
+  'baptism_date',
+  'communion_date',
+  'confirmation_date',
+  'marriage_date',
+  'profession_of_faith_date',
+].forEach(function (id) {
+  document.getElementById(id).onchange = function () {
+    if (this.value) {
+      document.getElementById('submit-button').disabled = false;
+    }
+  };
+});
 
 M.AutoInit();
 
