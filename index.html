@@ -28,6 +28,12 @@
       height: 100%;
       overflow-x: hidden;
     }
+    #help-message {
+      cursor: default;
+      display: block;
+      margin-bottom: 20px;
+      user-select: none;
+    }
   </style>
   <title>Sacramental Registry</title>
 </head>
@@ -41,6 +47,11 @@
             <input type="text" name="search" id="search">
             <label for="search">Search</label>
           </div>
+          <span id="help-message">
+            Search dates by typing:
+            <span style="color: #f00">@</span><span style="color: #f33;text-decoration: underline" title="birth, baptism, confirmation, ...">field</span>
+            mm/dd/yyyy
+          </span>
           <div id="results"></div>
         </div>
       </div>

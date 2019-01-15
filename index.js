@@ -447,36 +447,70 @@ document.getElementById('search').onkeyup = function () {
   if (!this.value) {
     resultsDom.classList.remove('show-results');
   } else {
-    resultsDom.classList.add('show-results');
+    let query = `SELECT * FROM registry `;
+    let doQuery = false;
 
-    let query =
-      `SELECT id, first_name, last_name, father, mother, home_address_line_1, home_address_line_2, city, region, zip_code ` +
-      `FROM registry WHERE (CONCAT(first_name, " ", last_name) LIKE ${JSON.stringify('%' + this.value + '%')}) AND deleted = 0 ` +
-      `ORDER BY first_name`;
+    if (!this.value.startsWith('@')) {
+      query += `WHERE (CONCAT(first_name, " ", last_name) LIKE ${JSON.stringify('%' + this.value + '%')}) AND deleted = 0 `;
+      doQuery = true;
+    } else {
+      if (this.value.includes(' ')) {
+        const tokens = this.value.split(' ');
+
+        if (/^\d{2}\/\d{2}\/\d{4}$/.test(tokens[1])) { // Search by date
+          let date = tokens[1].split('/');
+
+          date = `${date[2]}-${date[0]}-${date[1]}`;
+
+          if ('@birthday'.includes(tokens[0])) {
+            query += `WHERE birthdate = "${date}" `;
+          } else if ('@baptism'.includes(tokens[0])) {
+            query += `WHERE baptism_date = "${date}" `;
+          } else if ('@birthday'.includes(tokens[0])) {
+            query += `WHERE birthday_date = "${date}" `;
+          } else if ('@communion'.includes(tokens[0])) {
+            query += `WHERE communion_date = "${date}" `;
+          } else if ('@confirmation'.includes(tokens[0])) {
+            query += `WHERE confirmation_date = "${date}" `;
+          } else if ('@marriage'.includes(tokens[0])) {
+            query += `WHERE marriage_date = "${date}" `;
+          } else if ('@profession'.includes(tokens[0])) {
+            query += `WHERE profession_of_faith_date = "${date}" `;
+          }
+
+          doQuery = true;
+        }
+      }
+    }
+
+    query += `ORDER BY first_name`;
 
     if (this.value.length < 4) {
       query += ' LIMIT 10';
     }
 
-    database.query(query, function (error, results) {
-      if (error) {
-        throw error;
-      }
+    if (doQuery) {
+      database.query(query, function (error, results) {
+        if (error) {
+          throw error;
+        }
 
-      if (results.length != 0) {
-        displayResults(results);
-      } else {
-        const resultsDom = document.getElementById('results');
+        if (results.length != 0) {
+          resultsDom.classList.add('show-results');
+          displayResults(results);
+        } else {
+          const resultsDom = document.getElementById('results');
 
-        resultsDom.innerHTML = '';
+          resultsDom.innerHTML = '';
 
-        const noEntriesDom = document.createElement('div');
-        noEntriesDom.classList.add('no-entries');
-        noEntriesDom.innerHTML = '<span>No entries were found.</span>'
+          const noEntriesDom = document.createElement('div');
+          noEntriesDom.classList.add('no-entries');
+          noEntriesDom.innerHTML = '<span>No entries were found.</span>'
 
-        resultsDom.appendChild(noEntriesDom);
-      }
-    });
+          resultsDom.appendChild(noEntriesDom);
+        }
+      });
+    }
   }
 };
 
