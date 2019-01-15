@@ -472,7 +472,7 @@ M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
 M.Modal.init(document.getElementById('choose-certificate'), {
   onOpenStart: loadPrintOptions,
   onCloseEnd: function () {
-    // Clear -certificate IDs to prevent concating them to update query
+    // Clear -certificate IDs to prevent concatenating them to update query
     document.getElementById('print-options').innerHTML = '';
   },
 });
