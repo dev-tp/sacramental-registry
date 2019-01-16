@@ -530,9 +530,17 @@ document.getElementById('search').onkeyup = function () {
 
 M.AutoInit();
 
-M.Autocomplete.init(document.querySelectorAll('.autocomplete'), {
+M.Autocomplete.init(document.querySelectorAll('.church'), {
   data: {
     'Cathedral of Our Lady of the Angels': null,
+  }
+});
+
+M.Autocomplete.init(document.querySelectorAll('.presider'), {
+  data: {
+    'Abp. José Gomez': null,
+    'Fr. David Gallardo': null,
+    'Fr. Juan Ochoa': null,
   }
 });
 
