@@ -358,11 +358,24 @@ function loadSelectedCertificate(sacrament) {
     certificateText += ` at ${sacramentChurch}`;
   }
 
+  certificateText += `\nAccording to the Rite of the Roman Catholic Church`;
+
   if (presider) {
     certificateText += ` by ${presider}`;
   }
 
-  certificateText += '.';
+  if (sacrament == 'baptism') {
+    const godfather = document.getElementById('baptism_godfather').value;
+    const godmother = document.getElementById('baptism_godmother').value;
+
+    const sponsors = godfather && godmother ? `${godfather} & ${godmother}` : godmother ? godmother : godfather ? godfather : null;
+
+    if (sponsors) {
+      certificateText += `\nThe sponsor${godfather && godmother ? 's' : ''} being ${sponsors}`;
+    }
+
+    certificateText += `\nas appears on the Baptismal Registry of this church`;
+  }
 
   document.getElementById('certificate-title').innerText = `Certificate of ${sacrament.replace(/^\w/, function (letter) {
     return letter.toUpperCase();
@@ -371,7 +384,7 @@ function loadSelectedCertificate(sacrament) {
   document.getElementById('certificate-text').innerText = certificateText;
 
   const date = new Date();
-  const today = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  const today = `Dated ${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 
   document.getElementById('certificate-datum').innerText = today;
 }
