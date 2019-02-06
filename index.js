@@ -337,8 +337,13 @@ function loadSelectedCertificate(sacrament) {
   const father = document.getElementById('father').value;
 
   const fullName = `${document.getElementById('first_name').value} ${document.getElementById('last_name').value}`;
-  const parents = mother && father ? `${father} & ${mother}` : mother ? mother : father ? father : null;
+  const parents = mother && father ? `${father} and ${mother}` : mother ? mother : father ? father : null;
   const presider = document.getElementById(`${sacrament}_presider`).value;
+
+  const birthCity = document.getElementById('birth_city').value;
+  let birthdate = new Date(document.getElementById('birthdate').value);
+  birthdate = `${months[birthdate.getMonth()]} ${birthdate.getDate()}, ${birthdate.getFullYear()}`;
+  const birthInfo = `born in ${birthCity} on ${birthdate}`;
 
   let sacramentDate = new Date(document.getElementById(`${sacrament}_date`).value);
   sacramentDate = `${months[sacramentDate.getMonth()]} ${sacramentDate.getDate()}, ${sacramentDate.getFullYear()}`;
@@ -346,16 +351,16 @@ function loadSelectedCertificate(sacrament) {
   // TODO Death location does not end with _church
   const sacramentChurch = document.getElementById(`${sacrament}_church`).value;
 
-  let certificateText = `This is to certify that ${fullName}`;
+  let certificateText = `This is to certify that ${fullName},\n${birthInfo},\n`;
 
   if (parents) {
-    certificateText += `, child of ${parents},`;
+    certificateText += `child of ${parents},\n`;
   }
 
   certificateText += ` ${verbs[sacrament]} on ${sacramentDate}`;
 
   if (sacramentChurch) {
-    certificateText += ` at ${sacramentChurch}`;
+    certificateText += ` at [the] ${sacramentChurch}`;
   }
 
   certificateText += `\nAccording to the Rite of the Roman Catholic Church`;
@@ -368,7 +373,7 @@ function loadSelectedCertificate(sacrament) {
     const godfather = document.getElementById('baptism_godfather').value;
     const godmother = document.getElementById('baptism_godmother').value;
 
-    const sponsors = godfather && godmother ? `${godfather} & ${godmother}` : godmother ? godmother : godfather ? godfather : null;
+    const sponsors = godfather && godmother ? `${godfather} and ${godmother}` : godmother ? godmother : godfather ? godfather : null;
 
     if (sponsors) {
       certificateText += `\nThe sponsor${godfather && godmother ? 's' : ''} being ${sponsors}`;
