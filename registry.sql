@@ -18,6 +18,7 @@ CREATE TABLE registry (
   baptism_proxy_godfather VARCHAR(64),
   baptism_godmother VARCHAR(64),
   baptism_proxy_godmother VARCHAR(64),
+  baptism_christian_witness VARCHAR(64),
   baptism_presider VARCHAR(64),
   baptism_volume VARCHAR(4),
   baptism_page VARCHAR(4),
