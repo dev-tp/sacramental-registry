@@ -342,20 +342,22 @@ function loadSelectedCertificate(sacrament) {
 
   const birthCity = document.getElementById('birth_city').value;
   let birthdate = new Date(document.getElementById('birthdate').value);
-  birthdate = `${months[birthdate.getMonth()]} ${birthdate.getDate()}, ${birthdate.getFullYear()}`;
+  birthdate = `${months[birthdate.getUTCMonth()]} ${birthdate.getUTCDate()}, ${birthdate.getUTCFullYear()}`;
   const birthInfo = `born in ${birthCity} on ${birthdate}`;
 
   let sacramentDate = new Date(document.getElementById(`${sacrament}_date`).value);
-  sacramentDate = `${months[sacramentDate.getMonth()]} ${sacramentDate.getDate()}, ${sacramentDate.getFullYear()}`;
+  sacramentDate = `${months[sacramentDate.getUTCMonth()]} ${sacramentDate.getUTCDate()}, ${sacramentDate.getUTCFullYear()}`;
 
   // TODO Death location does not end with _church
   const sacramentChurch = document.getElementById(`${sacrament}_church`).value;
 
-  let certificateText = `This is to certify that ${fullName},\n${birthInfo},\n`;
+  let certificateText = `This is to certify that\n${fullName}\n`;
 
   if (parents) {
-    certificateText += `child of ${parents},\n`;
+    certificateText += `child of ${parents}\n`;
   }
+
+  certificateText += `${birthInfo}\n`;
 
   certificateText += ` ${verbs[sacrament]} on ${sacramentDate}`;
 
@@ -366,7 +368,7 @@ function loadSelectedCertificate(sacrament) {
   certificateText += `\nAccording to the Rite of the Roman Catholic Church`;
 
   if (presider) {
-    certificateText += ` by ${presider}`;
+    certificateText += `\nby ${presider}`;
   }
 
   if (sacrament == 'baptism') {
@@ -376,10 +378,10 @@ function loadSelectedCertificate(sacrament) {
     const sponsors = godfather && godmother ? `${godfather} and ${godmother}` : godmother ? godmother : godfather ? godfather : null;
 
     if (sponsors) {
-      certificateText += `\nThe sponsor${godfather && godmother ? 's' : ''} being ${sponsors}`;
+      certificateText += `\nThe sponsor${godfather && godmother ? 's' : ''} being\n${sponsors}`;
     }
 
-    certificateText += `\nas appears on the Baptismal Registry of this church`;
+    certificateText += `\nas it appears on the Baptismal Registry of this church`;
   }
 
   document.getElementById('certificate-title').innerText = `Certificate of ${sacrament.replace(/^\w/, function (letter) {
