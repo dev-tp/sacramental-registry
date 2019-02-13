@@ -425,7 +425,7 @@ function submit(callback, id) {
   }
 
   const comments = document.getElementById('comments');
-  values[comments.id] = comments.innerText ? comments.innerText : null;
+  values[comments.id] = comments.value ? comments.value : null;
 
   if (required) {
     return;
