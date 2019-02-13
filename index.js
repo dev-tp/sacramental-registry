@@ -354,7 +354,7 @@ function loadSelectedCertificate(sacrament) {
   let certificateText = `This is to certify that\n${fullName}\n`;
 
   if (parents) {
-    certificateText += `child of ${parents}\n`;
+    certificateText += `child of\n${parents}\n`;
   }
 
   certificateText += `${birthInfo}\n`;
