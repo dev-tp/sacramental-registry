@@ -362,7 +362,7 @@ function loadSelectedCertificate(sacrament) {
   certificateText += ` ${verbs[sacrament]} on ${sacramentDate}`;
 
   if (sacramentChurch) {
-    certificateText += ` at [the] ${sacramentChurch}`;
+    certificateText += ` at the ${sacramentChurch}`;
   }
 
   certificateText += `\nAccording to the Rite of the Roman Catholic Church`;
