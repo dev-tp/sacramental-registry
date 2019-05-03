@@ -287,7 +287,10 @@ function loadPrintOptions() {
 
   if (printOptions.length == 0) {
     document.getElementById('print-message').innerText = 'No certificates are available for preview.';
-  } else {
+  } else if (printOptions.length == 1) {
+    loadSelectedCertificate(printOptions[0]);
+    document.getElementById('certificate').style.display = 'flex';
+  }else {
     const printOptionsDom = document.getElementById('print-options');
 
     printOptionsDom.innerHTML = '';
@@ -325,7 +328,10 @@ function loadPrintOptions() {
 
   document.getElementById('close-preview-button').onclick = function () {
     document.getElementById('certificate').style.display = 'none';
-    document.getElementById('choose-certificate').style.display = 'block';
+
+    if (printOptions.length == 1) {
+      M.Modal.getInstance(document.getElementById('choose-certificate')).close();
+    }
   };
 }
 
