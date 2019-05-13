@@ -463,6 +463,29 @@ document.getElementById('add-entry-button').onclick = function () {
   editMode();
 };
 
+document.getElementById('certificate-pastor').onkeyup = function () {
+  const certificateContent = document.getElementById('certificate-content');
+
+  if (this.originalOffsetWidth === undefined) {
+    this.originalOffsetWidth = this.offsetWidth;
+  }
+
+  if (this.originalCertificateOffsetWidth === undefined) {
+    this.originalCertificateOffsetWidth = certificateContent.offsetWidth;
+  }
+
+  let offsetWidth = this.offsetWidth - this.originalOffsetWidth;
+
+  if (offsetWidth < 0) {
+    offsetWidth = 0;
+  }
+
+  // 42px is set to be the default font size for #certificate-content
+  const width = (this.originalCertificateOffsetWidth + offsetWidth) / 42;
+
+  certificateContent.style.width = `${width}em`;
+};
+
 document.getElementById('search').onkeyup = function () {
   if (!this.value) {
     resultsDom.classList.remove('show-results');
