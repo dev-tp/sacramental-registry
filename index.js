@@ -389,11 +389,7 @@ function loadSelectedCertificate(sacrament) {
   })}`;
 
   document.getElementById('certificate-text').innerText = certificateText;
-
-  const date = new Date();
-  const today = `Dated ${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-
-  document.getElementById('certificate-datum').innerText = today;
+  document.getElementById('certificate-datum').innerText = `Dated ${sacramentDate}`;
 }
 
 function submit(callback, id) {
