@@ -60,6 +60,10 @@
   margin: 0 0 0.444em 0;
 }
 
+#certificate-content span {
+  font-size: 1em !important;
+}
+
 #certificate-id {
   bottom: 20px;
   font-size: 10px;
