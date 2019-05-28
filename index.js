@@ -330,7 +330,7 @@ function loadSelectedCertificate(sacrament) {
   const verbs = {
     'baptism': 'was baptized',
     'communion': 'celebrated the Sacrament of the Holy Eucharist and received First Communion\n',
-    'confirmation': 'was confirmed',
+    'confirmation': 'was sealed with the Gift of the Holy Spirit\n',
   };
 
   const mother = document.getElementById('mother').value;
