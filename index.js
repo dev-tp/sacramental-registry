@@ -512,6 +512,7 @@ document.getElementById('search').onkeyup = function () {
         query += `WHERE profession_of_faith_date = "${date}" `;
       }
 
+      query += `AND deleted = 0 `;
       doQuery = true;
 
     } else if (!this.value.startsWith('@')) {
