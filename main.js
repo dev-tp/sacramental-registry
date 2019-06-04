@@ -3,7 +3,13 @@ const electron = require('electron');
 let browserWindow;
 
 function createWindow() {
-  browserWindow = new electron.BrowserWindow({width: 1280, height: 720});
+  browserWindow = new electron.BrowserWindow({
+    width: 1280,
+    height: 720,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
   browserWindow.loadFile('index.html');
 
   browserWindow.on('closed', function () {
