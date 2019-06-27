@@ -412,6 +412,11 @@ function submit(callback, id) {
       }
 
       values[input.id] = input.value ? input.value : null;
+
+      if (values[input.id]) {
+        values[input.id] = values[input.id].trim();
+      }
+
     } else if (input.type == 'radio' && input.checked) {
       values[input.name] = input.value;
     }
