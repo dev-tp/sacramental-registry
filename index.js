@@ -290,7 +290,8 @@ function loadPrintOptions() {
   } else if (printOptions.length == 1) {
     loadSelectedCertificate(printOptions[0]);
     document.getElementById('certificate').style.display = 'flex';
-  }else {
+    document.getElementById('choose-certificate').style.display = 'none';
+  } else {
     const printOptionsDom = document.getElementById('print-options');
 
     printOptionsDom.innerHTML = '';
@@ -313,10 +314,14 @@ function loadPrintOptions() {
     }
   }
 
-  previewButton.onclick = function () {
-    document.getElementById('certificate').style.display = 'flex';
-    document.getElementById('choose-certificate').style.display = 'none';
-  };
+  document.getElementById('certificate').certificateCount = printOptions.length;
+
+  if (printOptions.length != 1) {
+    previewButton.onclick = function () {
+      document.getElementById('certificate').style.display = 'flex';
+      document.getElementById('choose-certificate').style.display = 'none';
+    };
+  }
 
   document.getElementById('print-certificate-button').onclick = function () {
     const window = remote.getCurrentWindow();
@@ -328,10 +333,7 @@ function loadPrintOptions() {
 
   document.getElementById('close-preview-button').onclick = function () {
     document.getElementById('certificate').style.display = 'none';
-
-    if (printOptions.length == 1) {
-      M.Modal.getInstance(document.getElementById('choose-certificate')).close();
-    }
+    document.getElementById('choose-certificate').style.display = 'block';
   };
 }
 
@@ -616,6 +618,11 @@ M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
 
 M.Modal.init(document.getElementById('choose-certificate'), {
   onOpenStart: loadPrintOptions,
+  onOpenEnd: function () {
+    if (document.getElementById('certificate').certificateCount == 1) {
+      document.querySelector('.modal-overlay').click();
+    }
+  },
   onCloseEnd: function () {
     // Clear -certificate IDs to prevent concatenating them to update query
     document.getElementById('print-options').innerHTML = '';
