@@ -180,7 +180,10 @@ function editMode(id) {
 
           if (input.tagName == 'SELECT') {
             const option = input.options[input.selectedIndex];
-            input.M_FormSelect.input.value = option.innerText;
+
+            if (option) { // For those cases where an option is mispelled or does not exist
+              input.M_FormSelect.input.value = option.innerText;
+            }
           }
 
           if (key == 'first_name' || key == 'last_name') {
