@@ -295,7 +295,7 @@ function loadPrintOptions() {
       optionDom.innerHTML =
         `<label for="${printOption}-certificate">` +
         `  <input type="radio" name="print-option" id="${printOption}-certificate" value="${printOption}">` +
-        `  <span class="capitalize">${printOption}</span>` +
+        `  <span class="capitalize">${printOption.replace(/_/g, ' ')}</span>` +
         `</label>`;
 
       optionDom.querySelector('input').onchange = function () {
@@ -331,6 +331,7 @@ function loadSelectedCertificate(sacrament) {
     'baptism': 'was baptized',
     'communion': 'celebrated the Sacrament of the Holy Eucharist and received First Communion\n',
     'confirmation': 'was sealed with the Gift of the Holy Spirit\n',
+    'profession_of_faith': 'was received into Full Communion with the Roman Catholic Church\n',
   };
 
   const mother = document.getElementById('mother').value;
@@ -365,28 +366,34 @@ function loadSelectedCertificate(sacrament) {
     certificateText += ` at the ${sacramentChurch}`;
   }
 
-  certificateText += `\nAccording to the Rite of the Roman Catholic Church`;
+  if (sacrament != 'profession_of_faith') {
+    certificateText += `\nAccording to the Rite of the Roman Catholic Church`;
+  }
 
   if (presider) {
     certificateText += `\nby ${presider}`;
   }
 
-  if (sacrament == 'baptism') {
-    const godfather = document.getElementById('baptism_godfather').value;
-    const godmother = document.getElementById('baptism_godmother').value;
+  function listSponsors(sponsor1, sponsor2) {
+    const sponsorA = document.getElementById(sponsor1).value;
+    const sponsorB = document.getElementById(sponsor2).value;
 
-    const sponsors = godfather && godmother ? `${godfather} and ${godmother}` : godmother ? godmother : godfather ? godfather : null;
+    const sponsors = sponsorA && sponsorB ? `${sponsorA} and ${sponsorB}` : sponsorB ? sponsorB : sponsorA ? sponsorA : null;
 
     if (sponsors) {
-      certificateText += `\nThe sponsor${godfather && godmother ? 's' : ''} being\n${sponsors}`;
+      certificateText += `\nThe sponsor${sponsorA && sponsorB ? 's' : ''} being\n${sponsors}`;
     }
-
-    certificateText += `\nas it appears on the Baptismal Registry of this church`;
   }
 
-  document.getElementById('certificate-title').innerText = `Certificate of ${sacrament.replace(/^\w/, function (letter) {
-    return letter.toUpperCase();
-  })}`;
+  if (sacrament == 'baptism') {
+    listSponsors('baptism_godfather', 'baptism_godmother');
+    certificateText += `\nas it appears on the Baptismal Registry of this church`;
+  } else if (sacrament == 'profession_of_faith') {
+    listSponsors('profession_of_faith_sponsor_1', 'profession_of_faith_sponsor_2');
+    certificateText += '\nas it appears on the Profession of Faith Register of this church';
+  }
+
+  document.getElementById('certificate-title').innerText = `Certificate of ${sacrament.replace(/_/g, ' ').replace(/^\w|\s\w/g, letter => letter.toUpperCase())}`;
 
   document.getElementById('certificate-text').innerText = certificateText;
   document.getElementById('certificate-datum').innerText = `Dated ${sacramentDate}`;
