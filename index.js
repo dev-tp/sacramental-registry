@@ -393,8 +393,15 @@ function loadSelectedCertificate(sacrament) {
     certificateText += '\nas it appears on the Profession of Faith Register of this church';
   }
 
-  document.getElementById('certificate-title').innerText = `Certificate of ${sacrament.replace(/_/g, ' ').replace(/^\w|\s\w/g, letter => letter.toUpperCase())}`;
+  let certificateTitle = 'Certificate of ';
 
+  if (sacrament == 'profession_of_faith') {
+    certificateTitle += 'Profession of Faith';
+  } else {
+    certificateTitle += sacrament.replace(/^\w/, letter => letter.toUpperCase());
+  }
+
+  document.getElementById('certificate-title').innerText = certificateTitle;
   document.getElementById('certificate-text').innerText = certificateText;
   document.getElementById('certificate-datum').innerText = `Dated ${sacramentDate}`;
 }
