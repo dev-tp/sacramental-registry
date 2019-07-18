@@ -385,9 +385,13 @@ function loadSelectedCertificate(sacrament) {
     certificateText += `\nby ${presider}`;
   }
 
-  function listSponsors(sponsor1, sponsor2) {
+  function listSponsors(sponsor1, sponsor2 = null) {
     const sponsorA = document.getElementById(sponsor1).value;
-    const sponsorB = document.getElementById(sponsor2).value;
+    let sponsorB = null;
+
+    if (sponsor2) {
+      sponsorB = document.getElementById(sponsor2).value;
+    }
 
     const sponsors = sponsorA && sponsorB ? `${sponsorA} and ${sponsorB}` : sponsorB ? sponsorB : sponsorA ? sponsorA : null;
 
@@ -399,6 +403,8 @@ function loadSelectedCertificate(sacrament) {
   if (sacrament == 'baptism') {
     listSponsors('baptism_godfather', 'baptism_godmother');
     certificateText += `\nas it appears on the Baptismal Registry of this church`;
+  } else if (sacrament == 'confirmation') {
+    listSponsors('confirmation_sponsor');
   } else if (sacrament == 'profession_of_faith') {
     listSponsors('profession_of_faith_sponsor_1', 'profession_of_faith_sponsor_2');
     certificateText += '\nas it appears on the Profession of Faith Register of this church';
