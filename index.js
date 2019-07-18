@@ -251,7 +251,7 @@ function loadPrintOptions() {
   const dateInputs = document.querySelectorAll('[id$="date"]');
   const printOptions = [];
 
-  for (let i = 1; i < dateInputs.length; i++) {
+  for (let i = 1, baptism = false; i < dateInputs.length; i++) {
     const prefix = dateInputs[i].id.substr(0, dateInputs[i].id.indexOf('date') - 1);
 
     if (prefix == 'marriage_partner_baptism' || prefix == 'death_burial') {
@@ -276,7 +276,15 @@ function loadPrintOptions() {
       }
     }
 
+    if (prefix == 'baptism') {
+      baptism = true;
+    }
+
     if (addOption) {
+      if (baptism && prefix == 'profession_of_faith') {
+        printOptions.shift();
+      }
+
       printOptions.push(prefix);
     }
   }
