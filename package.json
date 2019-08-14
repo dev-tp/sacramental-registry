@@ -1,11 +1,10 @@
 {
   "name": "sacramental-registry",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Keeps track of baptisms, communions, confirmations, weddings, etc.",
   "main": "main.js",
   "dependencies": {
     "electron": "^2.0.16",
-    "materialize-css": "^1.0.0",
     "mysql": "^2.16.0"
   },
   "devDependencies": {},
