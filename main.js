@@ -4,7 +4,7 @@ let browserWindow;
 
 function createWindow() {
   browserWindow = new electron.BrowserWindow({
-    width: 1280,
+    width: 1080,
     height: 720,
     webPreferences: {
       nodeIntegration: true
