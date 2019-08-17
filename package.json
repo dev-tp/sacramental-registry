@@ -5,6 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "electron": "^2.0.16",
+    "font-awesome": "^4.7.0",
     "mysql": "^2.16.0"
   },
   "devDependencies": {},

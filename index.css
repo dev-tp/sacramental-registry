@@ -24,10 +24,9 @@ nav {
 .nav-item {
   padding: 1rem;
 }
-.nav-item .octicon {
-  fill: #707070;
-  height: 1.2rem;
-  width: 1.2rem;
+.nav-item .fa {
+  color: #707070;
+  font-size: 1.2rem;
 }
 .nav-item:hover {
   background: rgba(0, 0, 0, 0.1);
