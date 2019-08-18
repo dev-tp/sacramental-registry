@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="node_modules/bootswatch/dist/cosmo/bootstrap.min.css">
   <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="index.css">
   <meta charset="UTF-8">
@@ -24,8 +25,24 @@
       </div>
     </div>
   </nav>
-  <main>
-    <h1>Sacramental Registry</h1>
-  </main>
+  <main></main>
+  <script>
+    const components = {};
+
+    async function loadComponent(url) {
+      const response = await fetch(url);
+      const text = await response.text();
+
+      return new DOMParser().parseFromString(text, 'text/html').head.querySelector('template');
+    }
+
+    function registerComponent(template) {
+      const component = document.importNode(template.content, true);
+      components[template.dataset.id] = component;
+      document.querySelector('main').append(component);
+    }
+
+    loadComponent('components/search-form.html').then(registerComponent);
+  </script>
 </body>
 </html>

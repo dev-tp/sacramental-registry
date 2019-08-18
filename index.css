@@ -21,6 +21,10 @@ nav {
   flex-direction: column;
   justify-content: space-between;
 }
+.btn:focus,
+.form-control:focus {
+  box-shadow: unset;
+}
 .nav-item {
   padding: 1rem;
 }
