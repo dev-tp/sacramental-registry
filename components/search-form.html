@@ -1,37 +1,37 @@
-<template data-id="search-form">
-  <style>
-    #search-form {
-      align-items: center;
-      display: flex;
-      height: 100%;
-      justify-content: center;
-    }
-    #search-form__container {
-      display: inline-block;
-    }
-    #search-form__container h1 {
-      font-size: 4rem;
-    }
-    #search-form__options .fa {
-      color: #495057;
-      font-size: 1rem;
-    }
-    #search-form__results {
-      border: 1px solid #ced4da;
-      height: 300px;
-      margin-top: 0.5rem;
-    }
-  </style>
-  <section id="search-form">
+<template>
+  <section id="search-form" class="active-section">
+    <style>
+      #search-form {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+      }
+      #search-form__container {
+        display: inline-block;
+      }
+      #search-form__container h1 {
+        font-size: 4rem;
+      }
+      #search-form__options .fa {
+        color: #495057;
+        font-size: 1rem;
+      }
+      #search-form__results {
+        border: 1px solid #ced4da;
+        height: 300px;
+        margin-top: 0.5rem;
+      }
+    </style>
     <div id="search-form__container">
       <h1>Sacramental Registry</h1>
       <input class="form-control" type="text" placeholder="Search">
       <div id="search-form__results"></div>
       <div id="search-form__options">
-        <button class="btn"><i class="fa fa-user-plus" title="Create new entry"></i></button>
+        <button id="search-form__create-button" class="btn"><i class="fa fa-user-plus" title="Create new entry"></i></button>
         <button class="btn"><i class="fa fa-filter" title="Filter by event date"></i></button>
         <button class="btn"><i class="fa fa-print" title="Print batch"></i></button>
       </div>
     </div>
+    <script src="scripts/search-form.js"></script>
   </section>
 </template>

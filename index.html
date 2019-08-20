@@ -27,22 +27,21 @@
   </nav>
   <main></main>
   <script>
-    const components = {};
-
     async function loadComponent(url) {
       const response = await fetch(url);
       const text = await response.text();
+      const template = new DOMParser().parseFromString(text, 'text/html').head.querySelector('template');
 
-      return new DOMParser().parseFromString(text, 'text/html').head.querySelector('template');
+      document.querySelector('main').append(document.importNode(template.content, true));
     }
 
-    function registerComponent(template) {
-      const component = document.importNode(template.content, true);
-      components[template.dataset.id] = component;
-      document.querySelector('main').append(component);
+    function switchSection(sectionId) {
+      document.querySelector('.active-section').classList.remove('active-section');
+      document.getElementById(sectionId).classList.add('active-section');
     }
 
-    loadComponent('components/search-form.html').then(registerComponent);
+    loadComponent('components/search-form.html');
+    loadComponent('components/form.html');
   </script>
 </body>
 </html>
