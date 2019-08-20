@@ -1,0 +1,25 @@
+<template>
+  <section id="form">
+    <style>
+      li.nav-item {
+        padding: 0;
+      }
+    </style>
+    <ul class="nav nav-pills" style="margin-bottom: 1rem">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#form__profile">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#form__baptism">Baptism</a>
+      </li>
+    </ul>
+    <form>
+      <div id="form__inputs" class="tab-content"></div>
+      <div class="form__options">
+        <button class="btn btn-primary">Create</button>
+        <button id="form__cancel-button" class="btn btn-secondary" type="button">Cancel</button>
+      </div>
+    </form>
+    <script src="scripts/form.js"></script>
+  </section>
+</template>

@@ -30,12 +30,12 @@
     window.$ = require('jquery');
     window.Bootstrap = require('bootstrap');
 
-    async function loadComponent(url) {
+    async function loadComponent(url, id) {
       const response = await fetch(url);
       const text = await response.text();
       const template = new DOMParser().parseFromString(text, 'text/html').head.querySelector('template');
 
-      document.querySelector('main').append(document.importNode(template.content, true));
+      document.querySelector(id ? `#${id}` : 'main').append(document.importNode(template.content, true));
     }
 
     function switchSection(sectionId) {
@@ -44,7 +44,7 @@
     }
 
     loadComponent('components/search-form.html');
-    loadComponent('components/form.html');
+    loadComponent('components/form/index.html');
   </script>
 </body>
 </html>
