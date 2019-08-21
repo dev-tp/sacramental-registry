@@ -1,6 +1,21 @@
 <template>
   <section id="search-form" class="active-section">
     <style>
+      .search-form__result {
+        border-bottom: 1px solid #ced4da;
+        cursor: pointer;
+        padding: 1rem 1.5rem;
+      }
+      .search-form__result:hover {
+        background: #2780e3;
+        color: #fff;
+      }
+      .search-form__result p {
+        margin: 0;
+      }
+      .search-form__result-name {
+        font-weight: bold;
+      }
       #search-form {
         align-items: center;
         display: flex;
@@ -20,6 +35,7 @@
         border: 1px solid #ced4da;
         height: 300px;
         margin-top: 0.5rem;
+        overflow: hidden auto;
       }
     </style>
     <div id="search-form__container">
