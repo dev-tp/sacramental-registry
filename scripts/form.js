@@ -2,5 +2,6 @@ document.getElementById('form__cancel-button').onclick = function () {
   switchSection('search-form');
 };
 
-loadComponent('components/form/profile.html', 'form__inputs');
-loadComponent('components/form/baptism.html', 'form__inputs');
+['profile', 'baptism', 'communion', 'confirmation', 'marriage', 'profession-of-faith'].forEach(component => {
+  loadComponent(`components/form/${component}.html`, 'form__inputs');
+});
