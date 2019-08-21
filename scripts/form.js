@@ -8,7 +8,13 @@ document.getElementById('form__cancel-button').onclick = function () {
     const message = 'There is some modified content. Are you sure you want to continue without saving?';
 
     confirmMessage(message, function () {
-      formInputs.forEach(input => input.value = '');
+      formInputs.forEach(input => {
+        if (input.type == 'radio') {
+          input.checked = false;
+        } else {
+          input.value = '';
+        }
+      });
       switchSection('search-form');
       formIsModified = false;
     });
