@@ -10,7 +10,7 @@ document.getElementById('form__cancel-button').onclick = function () {
     confirmMessage(message, function () {
       formInputs.forEach(input => {
         if (input.type == 'radio') {
-          input.checked = false;
+          input.checked = !!input.getAttribute('checked');
         } else {
           input.value = '';
         }
