@@ -41,6 +41,9 @@ section {
 .form-control:focus {
   box-shadow: unset;
 }
+.fade {
+  transition: opacity 0.2s ease-out;
+}
 .nav-item {
   padding: 1rem;
 }
