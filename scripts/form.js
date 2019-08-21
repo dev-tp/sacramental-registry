@@ -15,7 +15,11 @@ document.getElementById('form__cancel-button').onclick = function () {
           input.value = '';
         }
       });
+
+      // Move to first pill
+      document.querySelector('.nav-pills li a').click();
       switchSection('search-form');
+
       formIsModified = false;
     });
   }
