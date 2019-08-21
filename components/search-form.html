@@ -24,11 +24,26 @@
     </style>
     <div id="search-form__container">
       <h1>Sacramental Registry</h1>
-      <input class="form-control" type="text" placeholder="Search">
+      <input id="search-form__normal-search" class="form-control" type="text" placeholder="Search">
+      <div id="search-form__date-search" class="form-row" style="display: none">
+        <div class="col-4" style="padding-right: 0">
+          <select class="custom-select" style="background-color: #f5f5f5">
+            <option value="birthday">Birthday</option>
+            <option value="baptism">Baptism</option>
+            <option value="communion">Communion</option>
+            <option value="confirmation">Confirmation</option>
+            <option value="marriage">Marriage</option>
+            <option value="profession_of_faith">Profession of Faith</option>
+          </select>
+        </div>
+        <div class="col" style="padding-left: 0">
+          <input type="date" class="form-control" style="border-left: 0">
+        </div>
+      </div>
       <div id="search-form__results"></div>
       <div id="search-form__options">
         <button id="search-form__create-button" class="btn"><i class="fa fa-user-plus" title="Create new entry"></i></button>
-        <button class="btn"><i class="fa fa-filter" title="Filter by event date"></i></button>
+        <button id="search-form__date-search-button" class="btn"><i class="fa fa-calendar" title="Filter by event date"></i></button>
         <button class="btn"><i class="fa fa-print" title="Print batch"></i></button>
       </div>
     </div>
