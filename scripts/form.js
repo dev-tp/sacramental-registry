@@ -1,7 +1,31 @@
+let formInputs = null;
+let formIsModified = false;
+
 document.getElementById('form__cancel-button').onclick = function () {
-  switchSection('search-form');
+  if (!formIsModified) {
+    switchSection('search-form');
+  } else {
+    const message = 'There is some modified content. Are you sure you want to continue without saving?';
+
+    confirmMessage(message, function () {
+      formInputs.forEach(input => input.value = '');
+      switchSection('search-form');
+      formIsModified = false;
+    });
+  }
 };
 
-['profile', 'baptism', 'communion', 'confirmation', 'marriage', 'profession-of-faith'].forEach(component => {
-  loadComponent(`components/form/${component}.html`, 'form__inputs');
-});
+(async function () {
+  // Load components first before they can be usable
+  await Promise.all(['profile', 'baptism', 'communion', 'confirmation', 'marriage', 'profession-of-faith'].map(component => {
+    return loadComponent(`components/form/${component}.html`, 'form__inputs');
+  }));
+
+  formInputs = document.querySelectorAll('#form__inputs input');
+
+  formInputs.forEach(function (input) {
+    input.onchange = function () {
+      formIsModified = true;
+    };
+  });
+})();
