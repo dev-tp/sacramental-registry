@@ -31,6 +31,9 @@ section {
   top: 0;
   /* transform: translateX(-20px); */
 }
+textarea.form-control {
+  min-height: 5rem;
+}
 .active-section {
   opacity: 1;
   /* transform: translateX(0); */
