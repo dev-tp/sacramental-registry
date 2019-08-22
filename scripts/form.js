@@ -4,14 +4,11 @@ let formIsModified = false;
 function clearForm() {
   formInputs.forEach(function (input) {
     if (input.type == 'radio') {
-      input.checked = !!input.getAttribute('checked');
+      input.checked = false;
     } else {
       input.value = '';
     }
   });
-
-  // Move to first pill
-  document.querySelector('.nav-pills li a').click();
 
   formIsModified = false;
 }
@@ -44,6 +41,9 @@ function edit(result) {
 
 document.getElementById('form__cancel-button').onclick = function () {
   document.getElementById('form__options').classList.remove('edit');
+
+  // Move to first pill
+  document.querySelector('.nav-pills li a').click();
 
   if (!formIsModified) {
     switchSection('search-form');
