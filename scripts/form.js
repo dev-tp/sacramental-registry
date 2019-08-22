@@ -17,6 +17,7 @@ function clearForm() {
 }
 
 function edit(result) {
+  document.getElementById('form__options').classList.add('edit');
   clearForm();
 
   for (const name in result) {
@@ -42,6 +43,8 @@ function edit(result) {
 }
 
 document.getElementById('form__cancel-button').onclick = function () {
+  document.getElementById('form__options').classList.remove('edit');
+
   if (!formIsModified) {
     switchSection('search-form');
   } else {

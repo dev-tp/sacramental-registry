@@ -4,6 +4,20 @@
       li.nav-item {
         padding: 0;
       }
+      #form__options .material-icons {
+        font-size: 1.2rem;
+      }
+      #form__list-certificates-button,
+      #form__update-button {
+        display: none;
+      }
+      #form__options.edit #form__create-button {
+        display: none;
+      }
+      #form__options.edit #form__list-certificates-button,
+      #form__options.edit #form__update-button {
+        display: inline-block;
+      }
     </style>
     <ul class="nav nav-fill nav-pills" style="margin-bottom: 1rem">
       <li class="nav-item">
@@ -27,9 +41,19 @@
     </ul>
     <form>
       <div id="form__inputs" class="tab-content"></div>
-      <div class="form__options">
-        <button class="btn btn-primary">Create</button>
-        <button id="form__cancel-button" class="btn btn-secondary" type="button">Cancel</button>
+      <div id="form__options">
+        <button id="form__create-button" class="btn" title="Create">
+          <span class="material-icons">person_add</span>
+        </button>
+        <button id="form__update-button" class="btn" title="Update">
+          <span class="material-icons">sync</span>
+        </button>
+        <button id="form__list-certificates-button" class="btn" type="button" title="List Certificates">
+          <span class="material-icons">folder_open</span>
+        </button>
+        <button id="form__cancel-button" class="btn" type="button" title="Cancel">
+          <span class="material-icons">backspace</span>
+        </button>
       </div>
     </form>
     <script src="scripts/form.js"></script>
