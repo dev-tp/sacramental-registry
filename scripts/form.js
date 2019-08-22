@@ -1,6 +1,29 @@
 let formInputs = null;
 let formIsModified = false;
 
+function edit(result) {
+  for (const name in result) {
+    const inputs = document.getElementsByName(name);
+
+    if (inputs.length == 1) {
+      if (result[name] instanceof Date) {
+        inputs[0].value = result[name].toISOString().split('T')[0];
+      } else {
+        inputs[0].value = result[name];
+      }
+    } else if (inputs.length > 1) {
+      for (const input of inputs) { // Radio buttons
+        if (input.value == result[name]) {
+          input.checked = true;
+          break;
+        }
+      }
+    }
+  }
+
+  switchSection('form');
+}
+
 document.getElementById('form__cancel-button').onclick = function () {
   if (!formIsModified) {
     switchSection('search-form');

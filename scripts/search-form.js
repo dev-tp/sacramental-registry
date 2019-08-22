@@ -18,7 +18,7 @@ function displayResults(containerElem, results) {
       `<p class="search-form__result-mother">Mother: ${result['mother'] ? result['mother'] : '&ndash;'}</p>` +
       `<p class="search-form__result-father">Father: ${result['father'] ? result['father'] : '&ndash;'}</p>`;
     resultElem.onclick = function () {
-      // TODO Display result in form
+      edit(result);
     };
 
     containerElem.appendChild(resultElem);
