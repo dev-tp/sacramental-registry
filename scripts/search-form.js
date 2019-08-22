@@ -26,6 +26,7 @@ function displayResults(containerElem, results) {
 }
 
 document.getElementById('search-form__create-button').onclick = function () {
+  clearForm();
   switchSection('form');
 };
 
