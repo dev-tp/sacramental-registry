@@ -70,7 +70,7 @@ document.getElementById('search-form__normal-search').onkeyup = function () {
           containerElem.innerHTML = `<p>No results for "${this.value}"</p>`;
         }
       });
-    }, 500);
+    }, 300);
 
   } else if (this.value == '') {
     containerElem.innerHTML = '';
