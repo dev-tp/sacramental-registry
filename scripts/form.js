@@ -90,6 +90,19 @@ document.getElementById('form__create-button').onclick = function () {
   }
 };
 
+document.getElementById('form__delete-button').onclick = function () {
+  confirmMessage('Are you sure you want to delete this entry?', function () {
+    database.query(`UPDATE registry SET deleted = 1 WHERE id = ${formId}`, function (error, _) {
+      if (error) {
+        throw error;
+      }
+
+      document.querySelector('.nav-pills li a').click();
+      switchSection('search-form');
+    });
+  });
+};
+
 document.getElementById('form__update-button').onclick = function () {
   if (formIsModified) {
     const parameters = Object.keys(formModifiedInputs).map(function (name) {

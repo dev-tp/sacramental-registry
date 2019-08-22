@@ -7,6 +7,7 @@
       #form__options .material-icons {
         font-size: 1.2rem;
       }
+      #form__delete-button,
       #form__list-certificates-button,
       #form__update-button {
         display: none;
@@ -14,6 +15,7 @@
       #form__options.edit #form__create-button {
         display: none;
       }
+      #form__options.edit #form__delete-button,
       #form__options.edit #form__list-certificates-button,
       #form__options.edit #form__update-button {
         display: inline-block;
@@ -50,6 +52,9 @@
         </button>
         <button id="form__list-certificates-button" class="btn" type="button" title="List Certificates">
           <span class="material-icons">folder_open</span>
+        </button>
+        <button id="form__delete-button" class="btn" type="button" title="Delete Person">
+          <span class="material-icons">delete</span>
         </button>
         <button id="form__cancel-button" class="btn" type="button" title="Cancel">
           <span class="material-icons">backspace</span>
