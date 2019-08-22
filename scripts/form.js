@@ -11,11 +11,9 @@ function clearForm() {
     } else {
       input.value = '';
     }
-  });
 
-  for (const name in formModifiedInputs) {
-    delete formModifiedInputs[name];
-  }
+    delete formModifiedInputs[input.name];
+  });
 
   formIsModified = false;
 }
