@@ -1,5 +1,6 @@
 const formModifiedInputs = {};
 
+let formId = 0;
 let formInputs = null;
 let formIsModified = false;
 
@@ -22,6 +23,8 @@ function clearForm() {
 function edit(result) {
   document.getElementById('form__options').classList.add('edit');
   clearForm();
+
+  formId = result['id'];
 
   for (const name in result) {
     const inputs = document.getElementsByName(name);
@@ -82,12 +85,36 @@ document.getElementById('form__create-button').onclick = function () {
       if (error) {
         throw error;
       }
+
+      document.querySelector('.nav-pills li a').click();
       switchSection('search-form');
     });
   }
-
-  return false;
 };
+
+document.getElementById('form__update-button').onclick = function () {
+  if (formIsModified) {
+    const parameters = Object.keys(formModifiedInputs).map(function (name) {
+      if (formModifiedInputs[name].type == 'number') {
+        return `${name} = ${formModifiedInputs[name].value}`;
+      }
+      return `${name} = ${JSON.stringify(formModifiedInputs[name].value)}`;
+    });
+
+    const query = `UPDATE registry SET ${parameters.join(', ')} WHERE id = ${formId}`;
+
+    database.query(query, function (error, _) {
+      if (error) {
+        throw error;
+      }
+
+      document.querySelector('.nav-pills li a').click();
+      switchSection('search-form');
+    });
+  }
+};
+
+document.querySelector('#form form').onsubmit = event => event.preventDefault();
 
 (async function () {
   // Load components first before they can be usable
