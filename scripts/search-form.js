@@ -1,8 +1,4 @@
-function displayResults(results) {
-  const containerElem = document.querySelector('#search-form__results');
-
-  containerElem.innerHTML = '';
-
+function displayResults(containerElem, results) {
   for (const result of results) {
     const name = `${result['first_name']} ${result['last_name']}`;
     const address = [
@@ -51,19 +47,32 @@ document.getElementById('search-form__normal-search').onkeyup = function () {
     clearTimeout(this.timeout);
   }
 
+  const containerElem = document.querySelector('#search-form__results');
+
   if (this.value && this.value.length > 2) {
     // Delay 500ms before sending a request to the database
     this.timeout = setTimeout(() => {
       const value = JSON.stringify('%' + this.value + '%');
       const query = `SELECT * FROM registry WHERE CONCAT(first_name, " ", last_name) LIKE ${value} AND deleted = 0`;
 
-      database.query(query, function (error, results) {
+      database.query(query, (error, results) => {
         if (error) {
           throw error;
         }
 
-        displayResults(results);
+        containerElem.innerHTML = '';
+
+        if (results.length > 0) {
+          containerElem.classList.remove('search-form__no-results');
+          displayResults(containerElem, results);
+        } else {
+          containerElem.classList.add('search-form__no-results');
+          containerElem.innerHTML = `<p>No results for "${this.value}"</p>`;
+        }
       });
     }, 500);
+
+  } else if (this.value == '') {
+    containerElem.innerHTML = '';
   }
 };
