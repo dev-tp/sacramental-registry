@@ -1,3 +1,5 @@
+const formModifiedInputs = {};
+
 let formInputs = null;
 let formIsModified = false;
 
@@ -9,6 +11,10 @@ function clearForm() {
       input.value = '';
     }
   });
+
+  for (const name in formModifiedInputs) {
+    delete formModifiedInputs[name];
+  }
 
   formIsModified = false;
 }
@@ -42,18 +48,45 @@ function edit(result) {
 document.getElementById('form__cancel-button').onclick = function () {
   document.getElementById('form__options').classList.remove('edit');
 
-  // Move to first pill
-  document.querySelector('.nav-pills li a').click();
-
   if (!formIsModified) {
+    document.querySelector('.nav-pills li a').click();
     switchSection('search-form');
   } else {
     const message = 'There is some modified content. Are you sure you want to continue without saving?';
 
     confirmMessage(message, function () {
+      document.querySelector('.nav-pills li a').click();
       switchSection('search-form');
     });
   }
+};
+
+document.getElementById('form__create-button').onclick = function () {
+  if (formIsModified) {
+    const columns = [];
+    const values = [];
+
+    for (const name in formModifiedInputs) {
+      columns.push(name);
+
+      if (formModifiedInputs[name].type == 'number') {
+        values.push(formModifiedInputs[name].value);
+      } else {
+        values.push(JSON.stringify(formModifiedInputs[name].value));
+      }
+    }
+
+    const query = `INSERT INTO registry (${columns.join(', ')}) VALUES (${values.join(', ')})`;
+
+    database.query(query, function (error, _) {
+      if (error) {
+        throw error;
+      }
+      switchSection('search-form');
+    });
+  }
+
+  return false;
 };
 
 (async function () {
@@ -62,10 +95,11 @@ document.getElementById('form__cancel-button').onclick = function () {
     return loadComponent(`components/form/${component}.html`, 'form__inputs');
   }));
 
-  formInputs = document.querySelectorAll('#form__inputs input');
+  formInputs = document.getElementById('form__inputs').querySelectorAll('input, textarea');
 
   formInputs.forEach(function (input) {
     input.onchange = function () {
+      formModifiedInputs[this.name] = {type: this.type, value: this.value};
       formIsModified = true;
     };
   });
