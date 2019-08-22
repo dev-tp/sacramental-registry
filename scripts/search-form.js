@@ -37,11 +37,11 @@ document.getElementById('search-form__date-search-button').onclick = function ()
   this.checked = !this.checked;
 
   if (this.checked) {
-    this.querySelector('i').classList.add('text-primary');
+    this.querySelector('span').classList.add('text-primary');
   } else {
-    this.querySelector('i').classList.remove('text-primary');
+    this.querySelector('span').classList.remove('text-primary');
   }
-}
+};
 
 document.getElementById('search-form__normal-search').onkeyup = function () {
   if (this.timeout) {

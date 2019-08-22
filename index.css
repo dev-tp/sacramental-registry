@@ -51,9 +51,8 @@ textarea.form-control {
 .nav-item {
   padding: 1rem;
 }
-.nav-item .fa {
+.nav-item .material-icons {
   color: #707070;
-  font-size: 1.2rem;
 }
 .nav-item:hover {
   background: rgba(0, 0, 0, 0.1);

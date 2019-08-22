@@ -32,9 +32,9 @@
       #search-form__container h1 {
         font-size: 4rem;
       }
-      #search-form__options .fa {
+      #search-form__options .material-icons {
         color: #495057;
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
       #search-form__results {
         border: 1px solid #ced4da;
@@ -63,9 +63,15 @@
       </div>
       <div id="search-form__results"></div>
       <div id="search-form__options">
-        <button id="search-form__create-button" class="btn"><i class="fa fa-user-plus" title="Create new entry"></i></button>
-        <button id="search-form__date-search-button" class="btn"><i class="fa fa-calendar" title="Filter by event date"></i></button>
-        <button class="btn"><i class="fa fa-print" title="Print batch"></i></button>
+        <button id="search-form__create-button" class="btn">
+          <span class="material-icons" title="Create new entry">person_add</span>
+        </button>
+        <button id="search-form__date-search-button" class="btn">
+          <span class="material-icons" title="Filter by event date">perm_contact_calendar</span>
+        </button>
+        <button class="btn">
+          <span class="material-icons" title="Print batch">print</span>
+        </button>
       </div>
     </div>
     <script src="scripts/search-form.js"></script>
