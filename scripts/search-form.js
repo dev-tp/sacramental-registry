@@ -56,6 +56,14 @@ function search(input, query) {
   }
 }
 
+function updateSearchResults() {
+  if (document.getElementById('search-form__date-search-button').checked) {
+    document.getElementById('search-form__date-search').onchange();
+  } else {
+    document.getElementById('search-form__normal-search').onkeyup();
+  }
+}
+
 document.getElementById('search-form__create-button').onclick = function () {
   clearForm();
   switchSection('form');

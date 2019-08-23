@@ -86,6 +86,7 @@ document.getElementById('form__create-button').onclick = function () {
 
       document.querySelector('.nav-pills li a').click();
       switchSection('search-form');
+      updateSearchResults();
     });
   }
 };
@@ -99,6 +100,7 @@ document.getElementById('form__delete-button').onclick = function () {
 
       document.querySelector('.nav-pills li a').click();
       switchSection('search-form');
+      updateSearchResults();
     });
   });
 };
@@ -121,6 +123,7 @@ document.getElementById('form__update-button').onclick = function () {
 
       document.querySelector('.nav-pills li a').click();
       switchSection('search-form');
+      updateSearchResults();
     });
   }
 };
