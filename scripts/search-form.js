@@ -92,6 +92,8 @@ document.getElementById('search-form__date-search-button').onclick = function ()
   } else {
     this.querySelector('span').classList.remove('text-primary');
   }
+
+  updateSearchResults();
 };
 
 document.getElementById('search-form__normal-search').onkeyup = function () {
