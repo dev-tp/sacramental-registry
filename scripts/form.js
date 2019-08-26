@@ -47,15 +47,15 @@ function edit(result) {
 }
 
 document.getElementById('form__cancel-button').onclick = function () {
-  document.getElementById('form__options').classList.remove('edit');
-
   if (!formIsModified) {
+    document.getElementById('form__options').classList.remove('edit');
     document.querySelector('.nav-pills li a').click();
     switchSection('search-form');
   } else {
     const message = 'There is some modified content. Are you sure you want to continue without saving?';
 
     confirmMessage(message, function () {
+      document.getElementById('form__options').classList.remove('edit');
       document.querySelector('.nav-pills li a').click();
       switchSection('search-form');
     });
