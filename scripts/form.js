@@ -105,6 +105,22 @@ document.getElementById('form__delete-button').onclick = function () {
   });
 };
 
+document.getElementById('form__list-certificates-button').onclick = function () {
+  const validDateInputs = [];
+
+  document.querySelectorAll('.sacrament').forEach(function (dateInput) {
+    if (dateInput.value) {
+      validDateInputs.push(dateInput);
+    }
+  });
+
+  if (validDateInputs.length > 1) {
+    listCertificates(validDateInputs);
+  } else {
+    // TODO Switch to Certificate
+  }
+};
+
 document.getElementById('form__update-button').onclick = function () {
   if (formIsModified) {
     const parameters = Object.keys(formModifiedInputs).map(function (name) {
