@@ -1,5 +1,11 @@
+let hasMultipleCertificates = false;
+
+function hideListedCertificates() {
+  $('#list-certificates-modal').modal('hide');
+}
+
 function listCertificates(dateInputs) {
-  $('#list-certificates-modal').modal('show');
+  showListedCertificates();
 
   const modalBody = $('#list-certificates-modal .modal-body');
 
@@ -22,8 +28,13 @@ function listCertificates(dateInputs) {
 
     for (const input of inputs) {
       if (input.checked) {
+        loadCertificateData(null, input.value.split('_')[0]);
         break;
       }
     }
   });
+}
+
+function showListedCertificates() {
+  $('#list-certificates-modal').modal('show');
 }
