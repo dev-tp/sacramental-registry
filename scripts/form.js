@@ -1,6 +1,6 @@
 const formModifiedInputs = {};
 
-let formId = 0;
+let formData = null;
 let formInputs = null;
 let formIsModified = false;
 
@@ -22,7 +22,7 @@ function edit(result) {
   document.getElementById('form__options').classList.add('edit');
   clearForm();
 
-  formId = result['id'];
+  formData = result;
 
   for (const name in result) {
     const inputs = document.getElementsByName(name);
@@ -93,7 +93,7 @@ document.getElementById('form__create-button').onclick = function () {
 
 document.getElementById('form__delete-button').onclick = function () {
   confirmMessage('Are you sure you want to delete this entry?', function () {
-    database.query(`UPDATE registry SET deleted = 1 WHERE id = ${formId}`, function (error, _) {
+    database.query(`UPDATE registry SET deleted = 1 WHERE id = ${formData['id']}`, function (error, _) {
       if (error) {
         throw error;
       }
@@ -114,10 +114,12 @@ document.getElementById('form__list-certificates-button').onclick = function () 
     }
   });
 
-  if (validDateInputs.length > 1) {
+  hasMultipleCertificates = validDateInputs.length > 1;
+
+  if (hasMultipleCertificates) {
     listCertificates(validDateInputs);
   } else {
-    switchSection('certificate');
+    loadCertificateData(null, validDateInputs[0].name.split('_')[0]);
   }
 };
 
@@ -130,7 +132,7 @@ document.getElementById('form__update-button').onclick = function () {
       return `${name} = ${JSON.stringify(formModifiedInputs[name].value)}`;
     });
 
-    const query = `UPDATE registry SET ${parameters.join(', ')} WHERE id = ${formId}`;
+    const query = `UPDATE registry SET ${parameters.join(', ')} WHERE id = ${formData['id']}`;
 
     database.query(query, function (error, _) {
       if (error) {
