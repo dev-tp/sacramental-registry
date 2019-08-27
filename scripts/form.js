@@ -117,7 +117,7 @@ document.getElementById('form__list-certificates-button').onclick = function () 
   if (validDateInputs.length > 1) {
     listCertificates(validDateInputs);
   } else {
-    // TODO Switch to Certificate
+    switchSection('certificate');
   }
 };
 
