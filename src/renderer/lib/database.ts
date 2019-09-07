@@ -1,16 +1,16 @@
-const mysql = require('mysql');
+import mysql from 'mysql';
 
 const database = mysql.createConnection({
   host: 'localhost',
   database: 'sacraments',
   user: '',
-  password: ''
+  password: '',
 });
 
-database.connect(function (error) {
+database.connect((error: mysql.MysqlError) => {
   if (error) {
     throw error;
   }
 });
 
-module.exports.database = database;
+export default database;
