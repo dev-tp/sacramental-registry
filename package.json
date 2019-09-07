@@ -5,6 +5,7 @@
   "main": "src/main/main.ts",
   "dependencies": {
     "mysql": "^2.16.0",
+    "office-ui-fabric-react": "^7.31.1",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "source-map-support": "^0.5.13",

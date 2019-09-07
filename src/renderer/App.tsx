@@ -1,5 +1,14 @@
 import React from 'react';
 
-export default function App(): JSX.Element {
-  return <h1>Sacramental Registry</h1>;
+import SideBar from './components/SideBar';
+
+export default class App extends React.Component {
+
+  public render = (): JSX.Element => {
+    return (
+      <>
+        <SideBar />
+      </>
+    );
+  };
 }
