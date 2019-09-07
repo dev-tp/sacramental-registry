@@ -1,21 +1,28 @@
-import React from 'react';
 import { Nav, INavLink } from 'office-ui-fabric-react/lib/Nav';
+import { withRouter } from 'react-router-dom';
+import React from 'react';
 
 interface ISideBarState {
   selectedKey: string,
 }
 
-export default class SideBar extends React.Component<any, ISideBarState> {
+class _SideBar extends React.Component<any, ISideBarState> {
 
   constructor(props: any) {
     super(props);
     this.state = { selectedKey: 'search' };
   }
 
-  private _onLinkClick = (_?: React.MouseEvent<HTMLElement>, item?: INavLink) => {
+  // https://github.com/OfficeDev/office-ui-fabric-react/issues/915
+  private _onLinkClick = (mouseEvent?: React.MouseEvent<HTMLElement>, item?: INavLink) => {
+    mouseEvent!.preventDefault();
+
     if (item && item.key) {
       this.setState({ selectedKey: item.key });
+      this.props.history.push(item.url);
     }
+
+    return false;
   };
 
   public render = (): JSX.Element => {
@@ -28,19 +35,19 @@ export default class SideBar extends React.Component<any, ISideBarState> {
                 icon: 'Search',
                 key: 'search',
                 name: 'Search',
-                url: '',
+                url: '/search',
               },
               {
                 icon: 'AnalyticsView',
                 key: 'analytics',
                 name: 'Analytics',
-                url: '',
+                url: '/analytics',
               },
               {
                 icon: 'Settings',
                 key: 'settings',
                 name: 'Settings',
-                url: '',
+                url: '/settings',
               }
             ]
           }
@@ -51,3 +58,6 @@ export default class SideBar extends React.Component<any, ISideBarState> {
     );
   };
 };
+
+const SideBar = withRouter(_SideBar);
+export default SideBar;
