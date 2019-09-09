@@ -183,6 +183,8 @@ function editMode(id) {
 
             if (option) { // For those cases where an option is mispelled or does not exist
               input.M_FormSelect.input.value = option.innerText;
+            } else {
+              input.M_FormSelect.input.value = '';
             }
           }
 
