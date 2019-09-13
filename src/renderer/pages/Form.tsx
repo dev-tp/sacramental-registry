@@ -6,10 +6,12 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 
+import Profile from './Profile';
+
 interface TabPanelProps {
   children?: React.ReactNode;
-  index: any;
-  value: any;
+  index: number;
+  value: number;
 }
 
 const drawerWidth = 240;
@@ -23,7 +25,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    minHeight: 24
+  },
 }));
 
 function TabPanel(props: TabPanelProps): JSX.Element {
@@ -32,10 +36,8 @@ function TabPanel(props: TabPanelProps): JSX.Element {
   return (
     <Typography
       component="div"
-      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       <Box p={3}>{children}</Box>
@@ -48,6 +50,7 @@ export default function Form(): JSX.Element {
   const classes = useStyles();
 
   const categories = ['Profile', 'Baptism', 'Communion', 'Confirmation', 'Marriage', 'Profession of Faith'];
+  const sections = [<Profile />, <div />, <div />, <div />, <div />, <div />];
 
   function handleChange(_: React.ChangeEvent<{}>, newValue: number) {
     setValue(newValue);
@@ -62,7 +65,7 @@ export default function Form(): JSX.Element {
             {categories.map(label => <Tab label={label} />)}
           </Tabs>
         </AppBar>
-        {categories.map((category, i) => <TabPanel value={value} index={i}>{category}</TabPanel>)}
+        {sections.map((section, i) => <TabPanel value={value} index={i}>{section}</TabPanel>)}
       </div>
     </>
   );
