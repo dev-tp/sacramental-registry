@@ -46,7 +46,7 @@ function edit(result) {
   switchSection('form');
 }
 
-document.getElementById('form__cancel-button').onclick = function () {
+function warnIfModifiedContentExists() {
   if (!formIsModified) {
     document.getElementById('form__options').classList.remove('edit');
     document.querySelector('.nav-pills li a').click();
@@ -60,7 +60,9 @@ document.getElementById('form__cancel-button').onclick = function () {
       switchSection('search-form');
     });
   }
-};
+}
+
+document.getElementById('form__cancel-button').onclick = warnIfModifiedContentExists;
 
 document.getElementById('form__create-button').onclick = function () {
   if (formIsModified) {
