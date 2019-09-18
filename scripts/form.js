@@ -18,24 +18,24 @@ function clearForm() {
   formIsModified = false;
 }
 
-function edit(result) {
+function edit(data) {
   document.getElementById('form__options').classList.add('edit');
   clearForm();
 
-  formData = result;
+  formData = data;
 
-  for (const name in result) {
+  for (const name in data) {
     const inputs = document.getElementsByName(name);
 
     if (inputs.length == 1) {
-      if (result[name] instanceof Date) {
-        inputs[0].value = result[name].toISOString().split('T')[0];
+      if (data[name] instanceof Date) {
+        inputs[0].value = data[name].toISOString().split('T')[0];
       } else {
-        inputs[0].value = result[name];
+        inputs[0].value = data[name];
       }
     } else if (inputs.length > 1) {
       for (const input of inputs) { // Radio buttons
-        if (input.value == result[name]) {
+        if (input.value == data[name]) {
           input.checked = true;
           break;
         }
