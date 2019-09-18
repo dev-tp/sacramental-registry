@@ -12,15 +12,15 @@
 <body>
   <nav>
     <div id="nav-content">
-      <div class="nav-item" onclick="warnIfModifiedContentExists()">
+      <div class="nav-item" onclick="warnIfModifiedContentExists()" title="Search">
         <span class="material-icons">search</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" title="Analytics">
         <span class="material-icons">bar_chart</span>
       </div>
     </div>
     <div id="nav-footer">
-      <div class="nav-item">
+      <div class="nav-item" onclick="switchSection('settings')" title="Settings">
         <span class="material-icons">settings</span>
       </div>
     </div>
@@ -46,6 +46,7 @@
     loadComponent('components/search-form.html');
     loadComponent('components/form/index.html');
     loadComponent('components/certificate.html');
+    loadComponent('components/settings.html');
     loadComponent('components/confirmation-modal.html');
     loadComponent('components/list-certificates-modal.html');
   </script>
