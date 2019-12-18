@@ -1,13 +1,18 @@
 nav {
-  background: #2196f3;
-  display: inline-flex;
+  background: #2780e3;
+  display: inline-flex !important;
   flex-flow: column;
   height: 100%;
 }
 
-.nav-link {
+.nav-item,
+.nav-item:hover {
+  align-items: center;
   color: #fff;
-  padding: 0.6em;
+  display: flex;
+  height: 54px;
+  justify-content: center;
+  width: 54px;
 }
 
 .space {

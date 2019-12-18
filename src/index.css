@@ -1,9 +1,18 @@
 body {
-  display: flex;
   height: 100%;
   margin: 0;
 }
 
 html {
+  height: 100%;
+}
+
+.btn:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+#app {
+  display: flex;
   height: 100%;
 }

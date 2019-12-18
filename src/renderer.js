@@ -3,6 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Navbar from './components/Navbar';
+import SearchSection from './components/SearchSection';
+
+import 'bootswatch/dist/cosmo/bootstrap.min.css';
 import './index.css';
 
 class App extends React.Component {
@@ -11,6 +14,7 @@ class App extends React.Component {
     return (
       <Router>
         <Navbar />
+        <SearchSection />
       </Router>
     );
   }
