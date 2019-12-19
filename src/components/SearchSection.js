@@ -1,32 +1,52 @@
+import DeleteForeverOutlined from '@material-ui/icons/DeleteForeverOutlined';
+import FindInPageOutlined from '@material-ui/icons/FindInPageOutlined';
+import PrintOutlined from '@material-ui/icons/PrintOutlined';
 import React from 'react';
 
 import './SearchSection.css';
 import connection from '../api/database';
 
+function SearchResult(props) {
+  const { data } = props;
+
+  return (
+    <div className="SearchResult" id={data['id']}>
+      <div className="SearchResult__info">
+        <div style={{ fontWeight: 'bold' }}>
+          {data['first_name']} {data['last_name']}
+        </div>
+        <div>{data['home_address_line_1']} {data['home_address_line_2']}</div>
+        <div>{data['city']}, {data['region']} {data['zip_code']}</div>
+        <div>Father: {data['father'] ? data['father'] : '–'}</div>
+        <div>Mother: {data['mother'] ? data['mother'] : '–'}</div>
+      </div>
+      <div className="SearchResult__actions">
+        <button className="SearchResult__button">
+          <FindInPageOutlined />
+        </button>
+        <button className="SearchResult__button" disabled>
+          <PrintOutlined />
+        </button>
+        <button className="SearchResult__button">
+          <DeleteForeverOutlined />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function SearchResults(props) {
   const { values } = props;
-  const classNames = ['SearchSection__search-results'];
+  const classNames = ['SearchResults'];
   const isEmpty = values.length === 0;
 
   let results;
 
   if (isEmpty) {
-    classNames.push('SearchSection__search-results--empty');
+    classNames.push('SearchResults--empty');
   } else {
     results = values.map(value => (
-      <div
-        className="SearchSection__search-result"
-        id={value['id']}
-        key={value['id']}
-      >
-        <div style={{ fontWeight: 'bold' }}>
-          {value['first_name']} {value['last_name']}
-        </div>
-        <div>{value['home_address_line_1']} {value['home_address_line_2']}</div>
-        <div>{value['city']}, {value['region']} {value['zip_code']}</div>
-        <div>Father: {value['father'] ? value['father'] : '–'}</div>
-        <div>Mother: {value['mother'] ? value['mother'] : '–'}</div>
-      </div>
+      <SearchResult data={value} key={value['id']} />
     ));
   }
 
@@ -116,7 +136,7 @@ export function SearchSection() {
   return (
     <section className="SearchSection">
       <div className="SearchSection__search">
-        <div className="group">
+        <div className="SearchSection__input-group">
           {searchField}
         </div>
       </div>
