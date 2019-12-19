@@ -3,6 +3,40 @@ import React from 'react';
 import './SearchSection.css';
 import connection from '../api/database';
 
+function SearchResults(props) {
+  const { values } = props;
+  const classNames = ['SearchSection__search-results'];
+  const isEmpty = values.length === 0;
+
+  let results;
+
+  if (isEmpty) {
+    classNames.push('SearchSection__search-results--empty');
+  } else {
+    results = values.map(value => (
+      <div
+        className="SearchSection__search-result"
+        id={value['id']}
+        key={value['id']}
+      >
+        <div style={{ fontWeight: 'bold' }}>
+          {value['first_name']} {value['last_name']}
+        </div>
+        <div>{value['home_address_line_1']} {value['home_address_line_2']}</div>
+        <div>{value['city']}, {value['region']} {value['zip_code']}</div>
+        <div>Father: {value['father'] ? value['father'] : '–'}</div>
+        <div>Mother: {value['mother'] ? value['mother'] : '–'}</div>
+      </div>
+    ));
+  }
+
+  return (
+    <div className={classNames.join(' ')}>
+      {isEmpty ? <span>No results</span> : results}
+    </div>
+  );
+}
+
 export function SearchSection() {
   const [date, setDate] = React.useState('');
   const [dateFilter, setDateFilter] = React.useState('baptism_date');
@@ -104,40 +138,6 @@ export function SearchSection() {
         </button>
       </div>
     </section>
-  );
-}
-
-function SearchResults(props) {
-  const { values } = props;
-  const classNames = ['SearchSection__search-results'];
-  const isEmpty = values.length === 0;
-
-  let results;
-
-  if (isEmpty) {
-    classNames.push('SearchSection__search-results--empty');
-  } else {
-    results = values.map(value => (
-      <div
-        className="SearchSection__search-result"
-        id={value['id']}
-        key={value['id']}
-      >
-        <div style={{ fontWeight: 'bold' }}>
-          {value['first_name']} {value['last_name']}
-        </div>
-        <div>{value['home_address_line_1']} {value['home_address_line_2']}</div>
-        <div>{value['city']}, {value['region']} {value['zip_code']}</div>
-        <div>Father: {value['father'] ? value['father'] : '–'}</div>
-        <div>Mother: {value['mother'] ? value['mother'] : '–'}</div>
-      </div>
-    ));
-  }
-
-  return (
-    <div className={classNames.join(' ')}>
-      {isEmpty ? <span>No results</span> : results}
-    </div>
   );
 }
 
