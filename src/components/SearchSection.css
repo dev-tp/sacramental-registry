@@ -41,5 +41,5 @@
 
 .SearchSection__options {
   display: flex;
-  height: 42px;
+  min-height: 42px;
 }

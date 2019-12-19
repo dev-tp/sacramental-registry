@@ -1,22 +1,48 @@
 import React from 'react';
 
 import './SearchSection.css';
+import connection from '../api/database';
 
 export function SearchSection() {
   const [date, setDate] = React.useState('');
-  const [dateFilter, setDateFilter] = React.useState('baptism');
+  const [dateFilter, setDateFilter] = React.useState('baptism_date');
   const [name, setName] = React.useState('');
+  const [results, setResults] = React.useState([]);
+  const [resultsByDate, setResultsByDate] = React.useState([]);
   const [searchByName, setSearchByName] = React.useState(true);
 
   let searchField;
 
   function submit({ key }) {
     if (key === 'Enter') {
+      const setter = searchByName ? setResults : setResultsByDate;
+
+      let sql = `SELECT * FROM registry
+                 WHERE DATE(date_entered) = DATE(NOW())
+                 ORDER BY date_entered DESC`;
+
       if (searchByName) {
-        console.log(`Search for ${name}`);
+        if (name) {
+          const value = JSON.stringify(`%${name}%`);
+          sql = `SELECT * FROM registry
+                 WHERE CONCAT(first_name, ' ', last_name) LIKE ${value}
+                 LIMIT 30`;
+        }
       } else {
-        console.log(`Search for ${dateFilter} on ${date}`);
+        if (date) {
+          sql = `SELECT * FROM registry
+                 WHERE ${dateFilter} = '${date}'
+                 LIMIT 30`;
+        }
       }
+
+      connection.query(sql, (error, rows) => {
+        if (error) {
+          return setter([]);
+        }
+
+        setter(rows);
+      });
     }
   }
 
@@ -60,7 +86,7 @@ export function SearchSection() {
           {searchField}
         </div>
       </div>
-      <SearchResults values={[]} />
+      <SearchResults values={searchByName ? results : resultsByDate} />
       <div className="SearchSection__options">
         <button
           className="btn text-primary"
@@ -97,7 +123,9 @@ function SearchResults(props) {
         id={value['id']}
         key={value['id']}
       >
-        <div>{value['first_name']} {value['last_name']}</div>
+        <div style={{ fontWeight: 'bold' }}>
+          {value['first_name']} {value['last_name']}
+        </div>
         <div>{value['home_address_line_1']} {value['home_address_line_2']}</div>
         <div>{value['city']}, {value['region']} {value['zip_code']}</div>
         <div>Father: {value['father'] ? value['father'] : '–'}</div>
