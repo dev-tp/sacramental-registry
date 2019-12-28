@@ -1,0 +1,19 @@
+.Form {
+  padding: 1em 2em;
+}
+
+.Form section {
+  display: grid;
+  gap: 0 1em;
+}
+
+.Form .form-group {
+  grid-column: 1 / 13;
+}
+
+.Form .nav-pills {
+  background: #fff;
+  margin-bottom: 1em;
+  position: sticky;
+  top: 0;
+}

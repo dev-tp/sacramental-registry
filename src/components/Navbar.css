@@ -5,8 +5,8 @@ nav {
   height: 100%;
 }
 
-.nav-item,
-.nav-item:hover {
+nav .nav-item,
+nav .nav-item:hover {
   align-items: center;
   color: #fff;
   display: flex;
