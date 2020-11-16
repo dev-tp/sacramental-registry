@@ -1,9 +1,9 @@
-import './App.css';
+import Home from './containers/Home';
 
 export default function App() {
   return (
-    <div className="App">
-      <h1>Sacramental Registry</h1>
+    <div style={{ height: '100%' }}>
+      <Home />
     </div>
   );
 }
