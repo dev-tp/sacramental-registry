@@ -18,52 +18,52 @@ export default function Drawer(props) {
     <MuiDrawer {...props} variant="permanent">
       <Toolbar />
       <List>
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <PersonAdd />
           </ListItemIcon>
           <ListItemText>Add New</ListItemText>
         </ListItem>
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <History />
           </ListItemIcon>
           <ListItemText>Recently Added</ListItemText>
         </ListItem>
         <Divider />
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <Label />
           </ListItemIcon>
           <ListItemText>Baptisms</ListItemText>
         </ListItem>
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <Label />
           </ListItemIcon>
           <ListItemText>Communions</ListItemText>
         </ListItem>
         <Divider />
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <SaveAlt />
           </ListItemIcon>
           <ListItemText>Import</ListItemText>
         </ListItem>
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <Backup />
           </ListItemIcon>
           <ListItemText>Export</ListItemText>
         </ListItem>
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <Print />
           </ListItemIcon>
           <ListItemText>Print Certificates</ListItemText>
         </ListItem>
         <Divider />
-        <ListItem>
+        <ListItem button>
           <ListItemIcon>
             <Delete />
           </ListItemIcon>
