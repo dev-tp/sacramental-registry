@@ -3,6 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import AppBar from '../components/AppBar';
 import Drawer from '../components/Drawer';
+import Table from '../components/Table';
 
 const drawerWidth = 300;
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(2),
+    overflow: 'auto',
   },
   drawer: {
     width: drawerWidth,
@@ -44,7 +45,7 @@ export default function Home() {
       <main className={classes.container}>
         <Toolbar />
         <div className={classes.content}>
-          <span>...</span>
+          <Table />
         </div>
       </main>
     </div>
