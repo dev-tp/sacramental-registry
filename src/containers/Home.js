@@ -3,6 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import AppBar from '../components/AppBar';
 import Drawer from '../components/Drawer';
+import Form from '../components/Form';
 import Table from '../components/Table';
 
 const drawerWidth = 300;
@@ -48,6 +49,7 @@ export default function Home() {
           <Table />
         </div>
       </main>
+      <Form />
     </div>
   );
 }
