@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,6 +11,7 @@ import React from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
+import { closeForm, postData } from '../actions';
 import TextField from '../components/TextField';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,80 +50,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form() {
-  const [data, setData] = React.useState({
-    first_name: '',
-    last_name: '',
-    sex: '',
-    birthday: '',
-    birth_city: '',
-    home_address_line_1: '',
-    home_address_line_2: '',
-    city: '',
-    province: '',
-    postal_code: '',
-    father: '',
-    mother: '',
-    comments: '',
-    baptism_date: '',
-    baptism_church: '',
-    baptism_presider: '',
-    baptism_godfather: '',
-    baptism_proxy_godfather: '',
-    baptism_godmother: '',
-    baptism_proxy_godmother: '',
-    baptism_christian_witness: '',
-    baptism_volume: '',
-    baptism_page: '',
-    baptism_line: '',
-    communion_date: '',
-    communion_church: '',
-    communion_presider: '',
-    communion_volume: '',
-    communion_page: '',
-    communion_line: '',
-    confirmation_date: '',
-    confirmation_church: '',
-    confirmation_presider: '',
-    confirmation_name: '',
-    confirmation_sponsor: '',
-    confirmation_volume: '',
-    confirmation_page: '',
-    confirmation_line: '',
-    wedding_date: '',
-    wedding_church: '',
-    wedding_presider: '',
-    wedding_witness_1: '',
-    wedding_witness_2: '',
-    wedding_partner_first_name: '',
-    wedding_partner_last_name: '',
-    wedding_partner_father: '',
-    wedding_partner_mother: '',
-    wedding_partner_home_address_line_1: '',
-    wedding_partner_home_address_line_2: '',
-    wedding_partner_city: '',
-    wedding_partner_province: '',
-    wedding_partner_postal_code: '',
-    wedding_partner_baptism_date: '',
-    wedding_partner_baptism_church: '',
-    wedding_volume: '',
-    wedding_page: '',
-    wedding_line: '',
-    profession_of_faith_date: '',
-    profession_of_faith_church: '',
-    profession_of_faith_presider: '',
-    profession_of_faith_sponsor_1: '',
-    profession_of_faith_sponsor_2: '',
-    profession_of_faith_volume: '',
-    profession_of_faith_page: '',
-    profession_of_faith_line: '',
-  });
-
+function Form({ form, dispatch }) {
+  const [data, setData] = React.useState(form.data);
   const [tab, setTab] = React.useState(0);
+  const [wasModified, setWasModified] = React.useState(false);
+
   const classes = useStyles();
 
+  React.useEffect(() => {
+    setData(form.data);
+    setWasModified(false);
+  }, [form]);
+
+  React.useEffect(() => setWasModified(true), [data]);
+
+  function handleClose() {
+    if (wasModified) {
+      const prompt =
+        'You made some modifications to this form. Are you sure you want to close it?';
+      if (!window.confirm(prompt)) {
+        return;
+      }
+    }
+
+    dispatch(closeForm());
+  }
+
+  function handleSave() {
+    dispatch(postData(data));
+    dispatch(closeForm());
+  }
+
   return (
-    <Dialog fullScreen open={false}>
+    <Dialog fullScreen open={form.isOpen}>
       <DialogContent style={{ paddingTop: 0 }}>
         <Tabs
           className={classes.stickTabs}
@@ -638,11 +599,13 @@ export default function Form() {
         )}
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={() => console.log(data)}>
+        <Button color="primary" disabled={!wasModified} onClick={handleSave}>
           Save
         </Button>
-        <Button>Cancel</Button>
+        <Button onClick={handleClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );
 }
+
+export default connect((state) => state)(Form);

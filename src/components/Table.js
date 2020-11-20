@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import BackupOutlined from '@material-ui/icons/BackupOutlined';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -26,21 +27,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = ['Name', 'Address', 'Mother', 'Father'];
-const values = [];
 
-for (let i = 0; i < 21; i++) {
-  values.push({
-    id: i,
-    Name: '-',
-    Address: '-',
-    Mother: '-',
-    Father: '-',
-  });
-}
-
-export default function Table() {
+function Table({ data }) {
   const [selected, setSelected] = React.useState({});
   const classes = useStyles();
+
+  const values = data.registry.map((person, i) => ({
+    id: i,
+    Name: `${person['first_name']} ${person['last_name']}`,
+    Address: `${person['home_address_line_1']} ${person['home_address_line_2']}`,
+    Mother: person['mother'],
+    Father: person['father'],
+  }));
 
   function select(id) {
     const state = { ...selected };
@@ -67,12 +65,15 @@ export default function Table() {
 
   const selectedCount = Object.keys(selected).length;
 
-  return (
+  return values.length === 0 ? (
+    <div />
+  ) : (
     <MuiTable stickyHeader>
       <TableHead>
         <TableRow>
           <TableCell padding="checkbox">
             <Checkbox
+              checked={values.length > 0 && selectedCount === values.length}
               indeterminate={selectedCount > 0 && selectedCount < values.length}
               onChange={selectAll}
             />
@@ -127,3 +128,5 @@ export default function Table() {
     </MuiTable>
   );
 }
+
+export default connect((state) => state)(Table);

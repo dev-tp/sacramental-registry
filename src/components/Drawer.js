@@ -1,6 +1,9 @@
+import { connect } from 'react-redux';
 import Backup from '@material-ui/icons/Backup';
+import Button from '@material-ui/core/Button';
 import Delete from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
+import Group from '@material-ui/icons/Group';
 import History from '@material-ui/icons/History';
 import Label from '@material-ui/icons/Label';
 import List from '@material-ui/core/List';
@@ -13,16 +16,29 @@ import Print from '@material-ui/icons/Print';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Toolbar from '@material-ui/core/Toolbar';
 
-export default function Drawer(props) {
+import { openForm } from '../actions';
+
+function Drawer({ className, classes, dispatch }) {
   return (
-    <MuiDrawer {...props} variant="permanent">
+    <MuiDrawer className={className} classes={classes} variant="permanent">
       <Toolbar />
       <List>
+        <ListItem>
+          <Button
+            color="primary"
+            fullWidth
+            onClick={() => dispatch(openForm())}
+            startIcon={<PersonAdd />}
+            variant="outlined"
+          >
+            Add
+          </Button>
+        </ListItem>
         <ListItem button>
           <ListItemIcon>
-            <PersonAdd />
+            <Group />
           </ListItemIcon>
-          <ListItemText>Add New</ListItemText>
+          <ListItemText>Registry</ListItemText>
         </ListItem>
         <ListItem button>
           <ListItemIcon>
@@ -73,3 +89,5 @@ export default function Drawer(props) {
     </MuiDrawer>
   );
 }
+
+export default connect()(Drawer);

@@ -1,8 +1,6 @@
-const initialState = {};
+import { combineReducers } from 'redux';
 
-export default function reducer(state = initialState, action) {
-  switch (action) {
-    default:
-      return state;
-  }
-}
+import data from './data';
+import form from './form';
+
+export default combineReducers({ data, form });
