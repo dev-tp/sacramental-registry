@@ -1,22 +1,46 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const mongodb = require('mongodb');
 
+const url = 'mongodb://localhost:27017';
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const registry = [];
+let database = null;
 
 app
   .route('/api/registry')
   .get((_, response) => {
-    response.json(registry);
+    database
+      .collection('registry')
+      .find({})
+      .toArray((error, documents) => {
+        if (error) {
+          return response.send({ error });
+        }
+
+        response.send(documents);
+      });
   })
   .post((request, response) => {
-    const data = request.body;
-    registry.push(data);
-    response.send({ data });
+    try {
+      database.collection('registry').insertOne(request.body);
+      response.send({ error: null });
+    } catch (error) {
+      response.send({ error });
+    }
   });
 
-app.listen('8080', () => console.log('Listening on port 8080'));
+app.listen('8080', () => {
+  console.log('Listening on port 8080');
+
+  mongodb.MongoClient.connect(url, (error, client) => {
+    if (error) {
+      return console.error(error);
+    }
+
+    database = client.db('sacramental-registry');
+  });
+});
