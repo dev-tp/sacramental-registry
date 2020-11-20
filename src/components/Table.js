@@ -30,23 +30,18 @@ const columns = ['Name', 'Address', 'Mother', 'Father'];
 
 function Table({ data }) {
   const [selected, setSelected] = React.useState({});
+
   const classes = useStyles();
+  const selectedCount = Object.keys(selected).length;
+  const values = data.registry;
 
-  const values = data.registry.map((person, i) => ({
-    id: i,
-    Name: `${person['first_name']} ${person['last_name']}`,
-    Address: `${person['home_address_line_1']} ${person['home_address_line_2']}`,
-    Mother: person['mother'],
-    Father: person['father'],
-  }));
-
-  function select(id) {
+  function select(value) {
     const state = { ...selected };
 
-    if (id in selected) {
-      delete state[id];
+    if (value.id in selected) {
+      delete state[value.id];
     } else {
-      state[id] = null;
+      state[value.id] = value;
     }
 
     setSelected(state);
@@ -56,14 +51,12 @@ function Table({ data }) {
     const state = {};
 
     if (event.target.checked) {
-      values.forEach((value) => (state[value.id] = null));
+      values.forEach((value) => (state[value.id] = value));
       return setSelected(state);
     }
 
     setSelected(state);
   }
-
-  const selectedCount = Object.keys(selected).length;
 
   return values.length === 0 ? (
     <div />
@@ -111,16 +104,24 @@ function Table({ data }) {
         {values.map((value, i) => {
           const isSelected = value.id in selected;
           return (
-            <TableRow key={i} selected={isSelected}>
+            <TableRow
+              key={i}
+              onClick={() => console.log(value)}
+              selected={isSelected}
+            >
               <TableCell padding="checkbox">
                 <Checkbox
                   checked={isSelected}
-                  onChange={() => select(value.id)}
+                  onChange={() => select(value)}
+                  onClick={(event) => event.stopPropagation()}
                 />
               </TableCell>
-              {columns.map((column, j) => (
-                <TableCell key={j}>{value[column]}</TableCell>
-              ))}
+              <TableCell>
+                {value['first_name']} {value['last_name']}
+              </TableCell>
+              <TableCell>{value['home_address_line_1']}</TableCell>
+              <TableCell>{value['mother']}</TableCell>
+              <TableCell>{value['father']}</TableCell>
             </TableRow>
           );
         })}
