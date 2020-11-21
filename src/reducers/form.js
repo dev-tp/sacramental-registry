@@ -2,7 +2,7 @@ import { CLOSE_FORM, OPEN_FORM, OPEN_FORM_WITH_DATA } from '../constants';
 
 const initialState = {
   data: {
-    id: 0,
+    _id: null,
     first_name: '',
     last_name: '',
     sex: '',

@@ -13,6 +13,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
+import { fetchData } from '../actions';
+
 const useStyles = makeStyles((theme) => ({
   actions: {
     display: 'grid',
@@ -28,8 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
 const columns = ['Name', 'Address', 'Mother', 'Father'];
 
-function Table({ data }) {
+function Table({ data, dispatch }) {
   const [selected, setSelected] = React.useState({});
+
+  React.useEffect(() => dispatch(fetchData()), [dispatch]);
 
   const classes = useStyles();
   const selectedCount = Object.keys(selected).length;
@@ -38,10 +42,10 @@ function Table({ data }) {
   function select(value) {
     const state = { ...selected };
 
-    if (value.id in selected) {
-      delete state[value.id];
+    if (value['_id'] in selected) {
+      delete state[value['_id']];
     } else {
-      state[value.id] = value;
+      state[value['_id']] = value;
     }
 
     setSelected(state);
@@ -51,7 +55,7 @@ function Table({ data }) {
     const state = {};
 
     if (event.target.checked) {
-      values.forEach((value) => (state[value.id] = value));
+      values.forEach((value) => (state[value['_id']] = value));
       return setSelected(state);
     }
 
@@ -101,11 +105,11 @@ function Table({ data }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {values.map((value, i) => {
-          const isSelected = value.id in selected;
+        {values.map((value) => {
+          const isSelected = value['_id'] in selected;
           return (
             <TableRow
-              key={i}
+              key={value['_id']}
               onClick={() => console.log(value)}
               selected={isSelected}
             >
