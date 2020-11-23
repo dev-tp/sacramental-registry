@@ -24,15 +24,29 @@ app
         response.send(documents);
       });
   })
-  .post(async (request, response) => {
-    try {
-      const result = await database
-        .collection('registry')
-        .insertOne(request.body);
+  .post((request, response) => {
+    if (request.body['_id']) {
+      const { _id, ...data } = request.body;
 
-      response.send({ _id: result.insertedId });
-    } catch (error) {
-      response.send({ error });
+      database
+        .collection('registry')
+        .updateOne({ _id }, { $set: data }, (error, _) => {
+          if (error) {
+            return response.send({ error });
+          }
+
+          response.send({ error: null });
+        });
+    } else {
+      database
+        .collection('registry')
+        .insertOne(request.body, (error, result) => {
+          if (error) {
+            return response.send({ error });
+          }
+
+          response.send({ _id: result.insertedId });
+        });
     }
   });
 

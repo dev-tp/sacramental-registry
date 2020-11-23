@@ -1,6 +1,7 @@
 import {
   DATA_WAS_NOT_POSTED,
   DATA_WAS_POSTED,
+  DATA_WAS_UPDATED,
   RECEIVE_DATA,
   REQUEST_DATA,
 } from '../constants';
@@ -23,6 +24,14 @@ export default function data(state = initialState, action) {
         ...state,
         error: null,
         registry: [...state.registry, action.data],
+      };
+    case DATA_WAS_UPDATED:
+      return {
+        ...state,
+        error: null,
+        registry: state.registry.map((data) =>
+          data['_id'] === action.data['_id'] ? action.data : data
+        ),
       };
     case REQUEST_DATA:
       return {

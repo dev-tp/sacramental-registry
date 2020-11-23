@@ -13,7 +13,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
-import { fetchData } from '../actions';
+import { fetchData, openFormWithData } from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   actions: {
@@ -109,9 +109,11 @@ function Table({ data, dispatch }) {
           const isSelected = value['_id'] in selected;
           return (
             <TableRow
+              hover
               key={value['_id']}
-              onClick={() => console.log(value)}
+              onClick={() => dispatch(openFormWithData(value))}
               selected={isSelected}
+              style={{ cursor: 'pointer' }}
             >
               <TableCell padding="checkbox">
                 <Checkbox

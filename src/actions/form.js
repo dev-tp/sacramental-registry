@@ -1,5 +1,5 @@
 import { CLOSE_FORM, OPEN_FORM, OPEN_FORM_WITH_DATA } from '../constants';
-import { dataWasNotPosted, dataWasPosted } from './data';
+import { dataWasNotPosted, dataWasPosted, dataWasUpdated } from './data';
 
 export const closeForm = () => ({
   type: CLOSE_FORM,
@@ -27,9 +27,13 @@ export const postFormData = (data) => (dispatch) => {
         return dispatch(dataWasNotPosted(json.error));
       }
 
-      data['_id'] = json['_id'];
+      if (!data['_id']) {
+        data['_id'] = json['_id'];
+        dispatch(dataWasPosted(data));
+      } else {
+        dispatch(dataWasUpdated(data));
+      }
 
-      dispatch(dataWasPosted(data));
       dispatch(closeForm());
     })
   );
