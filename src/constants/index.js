@@ -2,6 +2,7 @@ export const CLOSE_FORM = 'CLOSE_FORM';
 export const OPEN_FORM = 'OPEN_FORM';
 export const OPEN_FORM_WITH_DATA = 'OPEN_FORM_WITH_DATA';
 
-export const POST_DATA = 'POST_DATA';
+export const DATA_WAS_NOT_POSTED = 'DATA_WAS_NOT_POSTED';
+export const DATA_WAS_POSTED = 'DATA_WAS_POSTED';
 export const RECEIVE_DATA = 'RECEIVE_DATA';
 export const REQUEST_DATA = 'REQUEST_DATA';

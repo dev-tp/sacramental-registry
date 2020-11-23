@@ -11,7 +11,7 @@ import React from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
-import { closeForm, postData } from '../actions';
+import { closeForm, postFormData } from '../actions';
 import TextField from '../components/TextField';
 
 const useStyles = makeStyles((theme) => ({
@@ -77,8 +77,7 @@ function Form({ form, dispatch }) {
   }
 
   function handleSave() {
-    dispatch(postData(data));
-    dispatch(closeForm());
+    dispatch(postFormData(data));
   }
 
   return (

@@ -24,10 +24,13 @@ app
         response.send(documents);
       });
   })
-  .post((request, response) => {
+  .post(async (request, response) => {
     try {
-      database.collection('registry').insertOne(request.body);
-      response.send({ error: null });
+      const result = await database
+        .collection('registry')
+        .insertOne(request.body);
+
+      response.send({ _id: result.insertedId });
     } catch (error) {
       response.send({ error });
     }

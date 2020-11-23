@@ -1,18 +1,42 @@
-import { POST_DATA, RECEIVE_DATA, REQUEST_DATA } from '../constants';
+import {
+  DATA_WAS_NOT_POSTED,
+  DATA_WAS_POSTED,
+  RECEIVE_DATA,
+  REQUEST_DATA,
+} from '../constants';
 
 const initialState = {
+  error: null,
   isFetching: false,
   registry: [],
 };
 
 export default function data(state = initialState, action) {
   switch (action.type) {
-    case POST_DATA:
-      return { registry: [...state.registry, action.data] };
+    case DATA_WAS_NOT_POSTED:
+      return {
+        ...state,
+        error: action.error,
+      };
+    case DATA_WAS_POSTED:
+      return {
+        ...state,
+        error: null,
+        registry: [...state.registry, action.data],
+      };
     case REQUEST_DATA:
-      return { ...state, isFetching: true };
+      return {
+        ...state,
+        error: null,
+        isFetching: true,
+      };
     case RECEIVE_DATA:
-      return { ...state, registry: action.data, isFetching: false };
+      return {
+        ...state,
+        error: null,
+        isFetching: false,
+        registry: action.data,
+      };
     default:
       return state;
   }
