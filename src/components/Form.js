@@ -10,9 +10,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import React from 'react';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import TextField from '@material-ui/core/TextField';
 
 import { closeForm, postFormData } from '../actions';
-import TextField from '../components/TextField';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -50,6 +50,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const InputField = (props) => {
+  if (props.type === 'radio') {
+    return (
+      <RadioGroup
+        onChange={props.onChange}
+        row
+        style={props.style ? props.style : { gridColumn: '1 / 13' }}
+        value={props.value}
+      >
+        {props.children.map((child) => (
+          <FormControlLabel
+            control={<Radio color="primary" />}
+            key={child.label}
+            label={child.label}
+            value={child.value}
+          />
+        ))}
+      </RadioGroup>
+    );
+  } else {
+    const defaultProps = {
+      fullWidth: true,
+      InputLabelProps: {},
+      style: { gridColumn: '1 / 13' },
+      variant: 'outlined',
+    };
+
+    if (props.style) {
+      defaultProps.style = props.style;
+    }
+
+    if (props.type === 'date') {
+      defaultProps.InputLabelProps = { shrink: true };
+    }
+
+    return <TextField {...props} {...defaultProps} />;
+  }
+};
+
 function Form({ form, dispatch }) {
   const [data, setData] = React.useState(form.data);
   const [tab, setTab] = React.useState(0);
@@ -62,7 +101,14 @@ function Form({ form, dispatch }) {
     setWasModified(false);
   }, [form]);
 
-  React.useEffect(() => setWasModified(true), [data]);
+  function handleBlur(event) {
+    setData({ ...data, [event.target.name]: event.target.value.trim() });
+  }
+
+  function handleChange(event) {
+    setData({ ...data, [event.target.name]: event.target.value });
+    setWasModified(true);
+  }
 
   function handleClose() {
     if (wasModified) {
@@ -98,502 +144,401 @@ function Form({ form, dispatch }) {
         </Tabs>
         {tab === 0 && (
           <div className={classes.grid}>
-            <TextField
-              label="First Name"
-              name="first_name"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 7' }}
-              value={data['first_name']}
-            />
-            <TextField
-              label="Last Name"
-              name="last_name"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '7 / 13' }}
-              value={data['last_name']}
-            />
-            <RadioGroup
-              onChange={(event) =>
-                setData({ ...data, sex: event.target.value })
-              }
-              row
-              style={{ gridColumn: '1 / 13' }}
-            >
-              <FormControlLabel
-                control={<Radio color="primary" />}
-                label="Female"
-                value="F"
+            {[
+              {
+                label: 'First Name',
+                name: 'first_name',
+                style: { gridColumn: '1 / 7' },
+              },
+              {
+                label: 'Last Name',
+                name: 'last_name',
+                style: { gridColumn: '7 / 13' },
+              },
+              {
+                children: [
+                  {
+                    label: 'Female',
+                    value: 'F',
+                  },
+                  {
+                    label: 'Male',
+                    value: 'M',
+                  },
+                ],
+                name: 'sex',
+                type: 'radio',
+              },
+              {
+                label: 'Birthday',
+                name: 'birthday',
+                type: 'date',
+              },
+              {
+                label: 'Birth City',
+                name: 'birth_city',
+              },
+              {
+                label: 'Home Address Line 1',
+                name: 'home_address_line_1',
+              },
+              {
+                label: 'Home Address Line 2',
+                name: 'home_address_line_2',
+              },
+              {
+                label: 'City',
+                name: 'city',
+                style: { gridColumn: '1 / 5' },
+              },
+              {
+                label: 'State / Province',
+                name: 'province',
+                style: { gridColumn: '5 / 9' },
+              },
+              {
+                label: 'Postal Code',
+                name: 'postal_code',
+                style: { gridColumn: '9 / 13' },
+              },
+              {
+                label: 'Mother',
+                name: 'mother',
+              },
+              {
+                label: 'Father',
+                name: 'father',
+              },
+              {
+                label: 'Comments',
+                multiline: true,
+                name: 'comments',
+              },
+            ].map((props, i) => (
+              <InputField
+                {...props}
+                key={i}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={data[props.name]}
               />
-              <FormControlLabel
-                control={<Radio color="primary" />}
-                label="Male"
-                value="M"
-              />
-            </RadioGroup>
-            <TextField
-              label="Birthday"
-              name="birthday"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              type="date"
-              value={data['birthday']}
-            />
-            <TextField
-              label="Birth City"
-              name="birth_city"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['birth_city']}
-            />
-            <TextField
-              label="Home Address Line 1"
-              name="home_address_line_1"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['home_address_line_1']}
-            />
-            <TextField
-              label="Home Address Line 2"
-              name="home_address_line_2"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['home_address_line_2']}
-            />
-            <TextField
-              label="City"
-              name="city"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 5' }}
-              value={data['city']}
-            />
-            <TextField
-              label="State / Province"
-              name="province"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '5 / 9' }}
-              value={data['province']}
-            />
-            <TextField
-              label="Postal Code"
-              name="postal_code"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '9 / 13' }}
-              value={data['postal_code']}
-            />
-            <TextField
-              label="Father"
-              name="father"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['father']}
-            />
-            <TextField
-              label="Mother"
-              name="mother"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['mother']}
-            />
-            <TextField
-              label="Comments"
-              multiline
-              name="comments"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['comments']}
-            />
+            ))}
           </div>
         )}
         {tab === 1 && (
           <div className={classes.grid}>
-            <TextField
-              label="Date"
-              name="baptism_date"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              type="date"
-              value={data['baptism_date']}
-            />
-            <TextField
-              label="Church"
-              name="baptism_church"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['baptism_church']}
-            />
-            <TextField
-              label="Presider"
-              name="baptism_presider"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['baptism_presider']}
-            />
-            <TextField
-              label="Godfather"
-              name="baptism_godfather"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['baptism_godfather']}
-            />
-            <TextField
-              label="Proxy Godfather"
-              name="baptism_proxy_godfather"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['baptism_proxy_godfather']}
-            />
-            <TextField
-              label="Godmother"
-              name="baptism_godmother"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['baptism_godmother']}
-            />
-            <TextField
-              label="Proxy Godmother"
-              name="baptism_proxy_godmother"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['baptism_proxy_godmother']}
-            />
-            <TextField
-              label="Christian Witness"
-              name="baptism_christian_witness"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['baptism_christian_witness']}
-            />
-            <TextField
-              label="Volume"
-              name="baptism_volume"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 5' }}
-              value={data['baptism_volume']}
-            />
-            <TextField
-              label="Page"
-              name="baptism_page"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '5 / 9' }}
-              value={data['baptism_page']}
-            />
-            <TextField
-              label="Line"
-              name="baptism_line"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '9 / 13' }}
-              value={data['baptism_line']}
-            />
+            {[
+              {
+                label: 'Date',
+                name: 'baptism_date',
+                type: 'date',
+              },
+              {
+                label: 'Church',
+                name: 'baptism_church',
+              },
+              {
+                label: 'Presider',
+                name: 'baptism_presider',
+              },
+              {
+                label: 'Godfather',
+                name: 'baptism_godfather',
+              },
+              {
+                label: 'Proxy Godfather',
+                name: 'baptism_proxy_godfather',
+              },
+              {
+                label: 'Godmother',
+                name: 'baptism_godmother',
+              },
+              {
+                label: 'Proxy Godmother',
+                name: 'baptism_proxy_godmother',
+              },
+              {
+                label: 'Christian Witness',
+                name: 'baptism_christian_witness',
+              },
+              {
+                label: 'Volume',
+                name: 'baptism_volume',
+                style: { gridColumn: '1 / 5' },
+              },
+              {
+                label: 'Page',
+                name: 'baptism_page',
+                style: { gridColumn: '5 / 9' },
+              },
+              {
+                label: 'Line',
+                name: 'baptism_line',
+                style: { gridColumn: '9 / 13' },
+              },
+            ].map((props, i) => (
+              <InputField
+                {...props}
+                key={i}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={data[props.name]}
+              />
+            ))}
           </div>
         )}
         {tab === 2 && (
-          <div className={classes.grid} hidden={tab !== 2}>
-            <TextField
-              label="Date"
-              name="communion_date"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              type="date"
-              value={data['communion_date']}
-            />
-            <TextField
-              label="Church"
-              name="communion_church"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['communion_church']}
-            />
-            <TextField
-              label="Presider"
-              name="communion_presider"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['communion_presider']}
-            />
-            <TextField
-              label="Volume"
-              name="communion_volume"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 5' }}
-              value={data['communion_volume']}
-            />
-            <TextField
-              label="Page"
-              name="communion_page"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '5 / 9' }}
-              value={data['communion_page']}
-            />
-            <TextField
-              label="Line"
-              name="communion_line"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '9 / 13' }}
-              value={data['communion_line']}
-            />
+          <div className={classes.grid}>
+            {[
+              {
+                label: 'Date',
+                name: 'communion_date',
+                type: 'date',
+              },
+              {
+                label: 'Church',
+                name: 'communion_church',
+              },
+              {
+                label: 'Presider',
+                name: 'communion_presider',
+              },
+              {
+                label: 'Volume',
+                name: 'communion_volume',
+                style: { gridColumn: '1 / 5' },
+              },
+              {
+                label: 'Page',
+                name: 'communion_page',
+                style: { gridColumn: '5 / 9' },
+              },
+              {
+                label: 'Line',
+                name: 'communion_line',
+                style: { gridColumn: '9 / 13' },
+              },
+            ].map((props, i) => (
+              <InputField
+                {...props}
+                key={i}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={data[props.name]}
+              />
+            ))}
           </div>
         )}
         {tab === 3 && (
           <div className={classes.grid}>
-            <TextField
-              label="Date"
-              name="confirmation_date"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              type="date"
-              value={data['confirmation_date']}
-            />
-            <TextField
-              label="Church"
-              name="confirmation_church"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['confirmation_church']}
-            />
-            <TextField
-              label="Presider"
-              name="confirmation_presider"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['confirmation_presider']}
-            />
-            <TextField
-              label="Confirmation Name"
-              name="confirmation_name"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['confirmation_name']}
-            />
-            <TextField
-              label="Sponsor"
-              name="confirmation_sponsor"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['confirmation_sponsor']}
-            />
-            <TextField
-              label="Volume"
-              name="confirmation_volume"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 5' }}
-              value={data['confirmation_volume']}
-            />
-            <TextField
-              label="Page"
-              name="confirmation_page"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '5 / 9' }}
-              value={data['confirmation_page']}
-            />
-            <TextField
-              label="Line"
-              name="confirmation_line"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '9 / 13' }}
-              value={data['confirmation_line']}
-            />
+            {[
+              {
+                label: 'Date',
+                name: 'confirmation_date',
+                type: 'date',
+              },
+              {
+                label: 'Church',
+                name: 'confirmation_church',
+              },
+              {
+                label: 'Presider',
+                name: 'confirmation_presider',
+              },
+              {
+                label: 'Confirmation Name',
+                name: 'confirmation_name',
+              },
+              {
+                label: 'Sponsor',
+                name: 'confirmation_sponsor',
+              },
+              {
+                label: 'Volume',
+                name: 'confirmation_volume',
+                style: { gridColumn: '1 / 5' },
+              },
+              {
+                label: 'Page',
+                name: 'confirmation_page',
+                style: { gridColumn: '5 / 9' },
+              },
+              {
+                label: 'Line',
+                name: 'confirmation_line',
+                style: { gridColumn: '9 / 13' },
+              },
+            ].map((props, i) => (
+              <InputField
+                {...props}
+                key={i}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={data[props.name]}
+              />
+            ))}
           </div>
         )}
         {tab === 4 && (
           <div className={classes.grid}>
-            <TextField
-              label="Date"
-              name="wedding_date"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              type="date"
-              value={data['wedding_date']}
-            />
-            <TextField
-              label="Church"
-              name="wedding_church"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['wedding_church']}
-            />
-            <TextField
-              label="Presider"
-              name="wedding_presider"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['wedding_presider']}
-            />
-            <TextField
-              label="Witness 1"
-              name="wedding_witness_1"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['wedding_witness_1']}
-            />
-            <TextField
-              label="Witness 2"
-              name="wedding_witness_2"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['wedding_witness_2']}
-            />
             <div className={classes.grid + ' ' + classes.partnerInfoContainer}>
-              <TextField
-                label="First Name"
-                name="wedding_partner_first_name"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 7' }}
-                value={data['wedding_partner_first_name']}
-              />
-              <TextField
-                label="Last Name"
-                name="wedding_partner_last_name"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '7 / 13' }}
-                value={data['wedding_partner_last_name']}
-              />
-              <TextField
-                label="Father"
-                name="wedding_partner_father"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 13' }}
-                value={data['wedding_partner_father']}
-              />
-              <TextField
-                label="Mother"
-                name="wedding_partner_mother"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 13' }}
-                value={data['wedding_partner_mother']}
-              />
-              <TextField
-                label="Home Address Line 1"
-                name="wedding_partner_home_address_line_1"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 13' }}
-                value={data['wedding_partner_home_address_line_1']}
-              />
-              <TextField
-                label="Home Address Line 2"
-                name="wedding_partner_home_address_line_2"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 13' }}
-                value={data['wedding_partner_home_address_line_2']}
-              />
-              <TextField
-                label="City"
-                name="wedding_partner_city"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 5' }}
-                value={data['wedding_partner_city']}
-              />
-              <TextField
-                label="State / Province"
-                name="wedding_partner_province"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '5 / 9' }}
-                value={data['wedding_partner_province']}
-              />
-              <TextField
-                label="Postal Code"
-                name="wedding_partner_postal_code"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '9 / 13' }}
-                value={data['wedding_partner_postal_code']}
-              />
-              <TextField
-                label="Baptism Date"
-                name="wedding_partner_baptism_date"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 13' }}
-                type="date"
-                value={data['wedding_partner_baptism_date']}
-              />
-              <TextField
-                label="Baptism Church"
-                name="wedding_partner_baptism_church"
-                onBlur={(name, value) => setData({ ...data, [name]: value })}
-                style={{ gridColumn: '1 / 13' }}
-                value={data['wedding_partner_baptism_church']}
-              />
+              {[
+                {
+                  label: 'First Name',
+                  name: 'wedding_partner_first_name',
+                  style: { gridColumn: '1 / 7' },
+                },
+                {
+                  label: 'Last Name',
+                  name: 'wedding_partner_last_name',
+                  style: { gridColumn: '7 / 13' },
+                },
+                {
+                  label: 'Father',
+                  name: 'wedding_partner_father',
+                },
+                {
+                  label: 'Mother',
+                  name: 'wedding_partner_mother',
+                },
+                {
+                  label: 'Home Address Line 1',
+                  name: 'wedding_partner_home_address_line_1',
+                },
+                {
+                  label: 'Home Address Line 2',
+                  name: 'wedding_partner_home_address_line_2',
+                },
+                {
+                  label: 'City',
+                  name: 'wedding_partner_city',
+                  style: { gridColumn: '1 / 5' },
+                },
+                {
+                  label: 'State / Province',
+                  name: 'wedding_partner_province',
+                  style: { gridColumn: '5 / 9' },
+                },
+                {
+                  label: 'Postal Code',
+                  name: 'wedding_partner_postal_code',
+                  style: { gridColumn: '9 / 13' },
+                },
+                {
+                  label: 'Baptism Date',
+                  name: 'wedding_partner_baptism_date',
+                  type: 'date',
+                },
+                {
+                  label: 'Baptism Church',
+                  name: 'wedding_partner_baptism_church',
+                },
+              ].map((props, i) => (
+                <InputField
+                  {...props}
+                  key={i}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={data[props.name]}
+                />
+              ))}
             </div>
-            <TextField
-              label="Volume"
-              name="wedding_volume"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 5' }}
-              value={data['wedding_volume']}
-            />
-            <TextField
-              label="Page"
-              name="wedding_page"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '5 / 9' }}
-              value={data['wedding_page']}
-            />
-            <TextField
-              label="Line"
-              name="wedding_line"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '9 / 13' }}
-              value={data['wedding_line']}
-            />
+            {[
+              {
+                label: 'Date',
+                name: 'wedding_date',
+                type: 'date',
+              },
+              {
+                label: 'Church',
+                name: 'wedding_church',
+              },
+              {
+                label: 'Presider',
+                name: 'wedding_presider',
+              },
+              {
+                label: 'Witness 1',
+                name: 'wedding_witness_1',
+              },
+              {
+                label: 'Witness 2',
+                name: 'wedding_witness_2',
+              },
+              {
+                label: 'Volume',
+                name: 'wedding_volume',
+                style: { gridColumn: '1 / 5' },
+              },
+              {
+                label: 'Page',
+                name: 'wedding_page',
+                style: { gridColumn: '5 / 9' },
+              },
+              {
+                label: 'Line',
+                name: 'wedding_line',
+                style: { gridColumn: '9 / 13' },
+              },
+            ].map((props, i) => (
+              <InputField
+                {...props}
+                key={i}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={data[props.name]}
+              />
+            ))}
           </div>
         )}
         {tab === 5 && (
           <div className={classes.grid}>
-            <TextField
-              label="Date"
-              name="profession_of_faith_date"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              type="date"
-              value={data['profession_of_faith_date']}
-            />
-            <TextField
-              label="Church"
-              name="profession_of_faith_church"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['profession_of_faith_church']}
-            />
-            <TextField
-              label="Presider"
-              name="profession_of_faith_presider"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['profession_of_faith_presider']}
-            />
-            <TextField
-              label="Sponsor 1"
-              name="profession_of_faith_sponsor_1"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['profession_of_faith_sponsor_1']}
-            />
-            <TextField
-              label="Sponsor 2"
-              name="profession_of_faith_sponsor_2"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 13' }}
-              value={data['profession_of_faith_sponsor_2']}
-            />
-            <TextField
-              label="Volume"
-              name="profession_of_faith_volume"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '1 / 5' }}
-              value={data['profession_of_faith_volume']}
-            />
-            <TextField
-              label="Page"
-              name="profession_of_faith_page"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '5 / 9' }}
-              value={data['profession_of_faith_page']}
-            />
-            <TextField
-              label="Line"
-              name="profession_of_faith_line"
-              onBlur={(name, value) => setData({ ...data, [name]: value })}
-              style={{ gridColumn: '9 / 13' }}
-              value={data['profession_of_faith_line']}
-            />
+            {[
+              {
+                label: 'Date',
+                name: 'profession_of_faith_date',
+                type: 'date',
+              },
+              {
+                label: 'Church',
+                name: 'profession_of_faith_church',
+              },
+              {
+                label: 'Presider',
+                name: 'profession_of_faith_presider',
+              },
+              {
+                label: 'Sponsor 1',
+                name: 'profession_of_faith_sponsor_1',
+              },
+              {
+                label: 'Sponsor 2',
+                name: 'profession_of_faith_sponsor_2',
+              },
+              {
+                label: 'Volume',
+                name: 'profession_of_faith_volume',
+                style: { gridColumn: '1 / 5' },
+              },
+              {
+                label: 'Page',
+                name: 'profession_of_faith_page',
+                style: { gridColumn: '5 / 9' },
+              },
+              {
+                label: 'Line',
+                name: 'profession_of_faith_line',
+                style: { gridColumn: '9 / 13' },
+              },
+            ].map((props, i) => (
+              <InputField
+                {...props}
+                key={i}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={data[props.name]}
+              />
+            ))}
           </div>
         )}
       </DialogContent>
