@@ -54,6 +54,7 @@ const InputField = (props) => {
   if (props.type === 'radio') {
     return (
       <RadioGroup
+        name={props.name}
         onChange={props.onChange}
         row
         style={props.style ? props.style : { gridColumn: '1 / 13' }}
