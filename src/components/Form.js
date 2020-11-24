@@ -92,15 +92,16 @@ const InputField = (props) => {
 
 function Form({ form, dispatch }) {
   const [data, setData] = React.useState(form.data);
+  const [modifiedFields, setModifiedFields] = React.useState({});
   const [tab, setTab] = React.useState(0);
-  const [wasModified, setWasModified] = React.useState(false);
 
   const classes = useStyles();
+  const wasModified = Object.keys(modifiedFields).length !== 0;
 
   React.useEffect(() => {
     setData(form.data);
+    setModifiedFields({});
     setTab(0);
-    setWasModified(false);
   }, [form]);
 
   function handleBlur(event) {
@@ -108,8 +109,13 @@ function Form({ form, dispatch }) {
   }
 
   function handleChange(event) {
-    setData({ ...data, [event.target.name]: event.target.value });
-    setWasModified(true);
+    const { name, value } = event.target;
+
+    setData({ ...data, [name]: value });
+
+    if (!(name in modifiedFields)) {
+      setModifiedFields({ ...modifiedFields, [name]: null });
+    }
   }
 
   function handleClose() {
@@ -545,7 +551,11 @@ function Form({ form, dispatch }) {
         )}
       </DialogContent>
       <DialogActions>
-        <Button color="primary" disabled={!wasModified} onClick={handleSave}>
+        <Button
+          color="primary"
+          disabled={!wasModified}
+          onClick={handleSave}
+        >
           Save
         </Button>
         <Button onClick={handleClose}>Cancel</Button>
