@@ -4,13 +4,21 @@ import {
   DATA_WAS_UPDATED,
   RECEIVE_DATA,
   REQUEST_DATA,
+  REQUEST_FAILED,
 } from '../constants';
 
 export const fetchData = () => (dispatch) => {
   dispatch(requestData());
-  return fetch('/api/registry').then((response) =>
-    response.json().then((json) => dispatch(receiveData(json)))
-  );
+  return fetch('/api/registry')
+    .then((response) => {
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+
+      return response.json();
+    })
+    .then((json) => dispatch(receiveData(json)))
+    .catch((error) => dispatch(requestFailed(error.message)));
 };
 
 export const dataWasNotPosted = (error) => ({
@@ -35,4 +43,9 @@ export const receiveData = (data) => ({
 
 export const requestData = () => ({
   type: REQUEST_DATA,
+});
+
+export const requestFailed = (error) => ({
+  type: REQUEST_FAILED,
+  error,
 });

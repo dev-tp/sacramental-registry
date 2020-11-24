@@ -7,3 +7,4 @@ export const DATA_WAS_POSTED = 'DATA_WAS_POSTED';
 export const DATA_WAS_UPDATED = 'DATA_WAS_UPDATED';
 export const RECEIVE_DATA = 'RECEIVE_DATA';
 export const REQUEST_DATA = 'REQUEST_DATA';
+export const REQUEST_FAILED = 'REQUEST_FAILED';

@@ -4,6 +4,7 @@ import {
   DATA_WAS_UPDATED,
   RECEIVE_DATA,
   REQUEST_DATA,
+  REQUEST_FAILED,
 } from '../constants';
 
 const initialState = {
@@ -38,6 +39,12 @@ export default function data(state = initialState, action) {
         ...state,
         error: null,
         isFetching: true,
+      };
+    case REQUEST_FAILED:
+      return {
+        ...state,
+        error: action.error,
+        isFetching: false,
       };
     case RECEIVE_DATA:
       return {

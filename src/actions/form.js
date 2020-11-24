@@ -21,8 +21,15 @@ export const postFormData = (data) => (dispatch) => {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     mode: 'cors',
-  }).then((response) =>
-    response.json().then((json) => {
+  })
+    .then((response) => {
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+
+      return response.json();
+    })
+    .then((json) => {
       if (json.error) {
         return dispatch(dataWasNotPosted(json.error));
       }
@@ -36,5 +43,5 @@ export const postFormData = (data) => (dispatch) => {
 
       dispatch(closeForm());
     })
-  );
+    .catch((error) => dispatch(dataWasNotPosted(error.message)));
 };
