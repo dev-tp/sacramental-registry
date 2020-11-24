@@ -98,6 +98,7 @@ function Form({ form, dispatch }) {
 
   React.useEffect(() => {
     setData(form.data);
+    setTab(0);
     setWasModified(false);
   }, [form]);
 
