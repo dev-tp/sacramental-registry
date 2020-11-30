@@ -1,24 +1,36 @@
+import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/icons/Menu';
 import MuiAppBar from '@material-ui/core/AppBar';
-import Search from '@material-ui/icons/Search';
 import Settings from '@material-ui/icons/Settings';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import SearchBar from './SearchBar';
+
+const useStyles = makeStyles(() => ({
+  wrapper: {
+    alignItems: 'center',
+    display: 'flex',
+    width: 300,
+  },
+}));
+
 export default function AppBar(props) {
+  const classes = useStyles();
+
   return (
     <MuiAppBar {...props} variant="outlined">
-      <Toolbar>
-        <IconButton color="inherit" edge="start">
-          <Menu />
-        </IconButton>
-        <Typography variant="h6">Sacramental Registry</Typography>
+      <Toolbar disableGutters>
+        <div className={classes.wrapper}>
+          <IconButton color="inherit">
+            <Menu />
+          </IconButton>
+          <Typography variant="h6">Sacramental Registry</Typography>
+        </div>
+        <SearchBar />
         <div style={{ flexGrow: 1 }} />
         <IconButton color="inherit">
-          <Search />
-        </IconButton>
-        <IconButton color="inherit" edge="end">
           <Settings />
         </IconButton>
       </Toolbar>
