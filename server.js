@@ -12,10 +12,39 @@ let database = null;
 
 app
   .route('/api/registry')
-  .get((_, response) => {
+  .get((request, response) => {
+    const { category, query } = request.query;
+
+    const params = {};
+
+    if (category) {
+      const startDate = request.query['start_date'];
+      const endDate = request.query['end_date'];
+
+      if (startDate === endDate && startDate !== '') {
+        params[category] = startDate;
+      }
+    }
+
+    if (query) {
+      const regex = request.query['query']
+        .split(/\s+/)
+        .map((value) => `(?=.*\\b${value}\\b)`)
+        .join('');
+
+      params['name'] = new RegExp(regex + '.*', 'i');
+    }
+
     database
       .collection('registry')
-      .find({})
+      .aggregate([
+        {
+          $addFields: { name: { $concat: ['$first_name', ' ', '$last_name'] } },
+        },
+        { $match: params },
+      ])
+      .limit(50)
+      .sort({ last_name: 1 })
       .toArray((error, documents) => {
         if (error) {
           return response.send({ error });

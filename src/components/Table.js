@@ -4,6 +4,7 @@ import BackupOutlined from '@material-ui/icons/BackupOutlined';
 import Checkbox from '@material-ui/core/Checkbox';
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import IconButton from '@material-ui/core/IconButton';
+import ImportContacts from '@material-ui/icons/ImportContacts';
 import MuiTable from '@material-ui/core/Table';
 import PrintOutlined from '@material-ui/icons/PrintOutlined';
 import React from 'react';
@@ -13,7 +14,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
-import { fetchData, openFormWithData } from '../actions';
+import { openFormWithData } from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   actions: {
@@ -39,8 +40,6 @@ const columns = ['Name', 'Address', 'Mother', 'Father'];
 
 function Table({ data, dispatch }) {
   const [selected, setSelected] = React.useState({});
-
-  React.useEffect(() => dispatch(fetchData()), [dispatch]);
 
   const classes = useStyles();
   const selectedCount = Object.keys(selected).length;

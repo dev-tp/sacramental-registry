@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
@@ -11,6 +12,8 @@ import Search from '@material-ui/icons/Search';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+
+import { fetchData } from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +50,7 @@ const initialQuery = {
   query: '',
 };
 
-export default function SearchBar() {
+function SearchBar({ dispatch }) {
   const [displayDropdown, setDisplayDropdown] = React.useState(false);
   const [query, setQuery] = React.useState(initialQuery);
 
@@ -63,7 +66,7 @@ export default function SearchBar() {
   }
 
   function search() {
-    console.log(query);
+    dispatch(fetchData(query));
   }
 
   return (
@@ -145,3 +148,5 @@ export default function SearchBar() {
     </Paper>
   );
 }
+
+export default connect()(SearchBar);

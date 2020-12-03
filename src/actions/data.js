@@ -7,9 +7,15 @@ import {
   REQUEST_FAILED,
 } from '../constants';
 
-export const fetchData = () => (dispatch) => {
+export const fetchData = (params) => (dispatch) => {
   dispatch(requestData());
-  return fetch('/api/registry')
+
+  const query = Object.keys(params)
+    .filter((param) => params[param] !== '')
+    .map((param) => `${param}=${params[param]}`)
+    .join('&');
+
+  return fetch(`/api/registry${query ? '?' + query : ''}`)
     .then((response) => {
       if (response.status !== 200) {
         throw new Error(response.statusText);
