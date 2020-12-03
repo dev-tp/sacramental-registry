@@ -134,6 +134,18 @@ function Form({ form, dispatch }) {
     dispatch(postFormData(data));
   }
 
+  function makeInputFields(params) {
+    return params.map((props, i) => (
+      <InputField
+        {...props}
+        key={i}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        value={data[props.name]}
+      />
+    ));
+  }
+
   return (
     <Dialog fullScreen open={form.isOpen}>
       <DialogContent style={{ paddingTop: 0 }}>
@@ -152,7 +164,7 @@ function Form({ form, dispatch }) {
         </Tabs>
         {tab === 0 && (
           <div className={classes.grid}>
-            {[
+            {makeInputFields([
               {
                 label: 'First Name',
                 name: 'first_name',
@@ -222,20 +234,12 @@ function Form({ form, dispatch }) {
                 multiline: true,
                 name: 'comments',
               },
-            ].map((props, i) => (
-              <InputField
-                {...props}
-                key={i}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={data[props.name]}
-              />
-            ))}
+            ])}
           </div>
         )}
         {tab === 1 && (
           <div className={classes.grid}>
-            {[
+            {makeInputFields([
               {
                 label: 'Date',
                 name: 'baptism_date',
@@ -284,20 +288,12 @@ function Form({ form, dispatch }) {
                 name: 'baptism_line',
                 style: { gridColumn: '9 / 13' },
               },
-            ].map((props, i) => (
-              <InputField
-                {...props}
-                key={i}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={data[props.name]}
-              />
-            ))}
+            ])}
           </div>
         )}
         {tab === 2 && (
           <div className={classes.grid}>
-            {[
+            {makeInputFields([
               {
                 label: 'Date',
                 name: 'communion_date',
@@ -326,20 +322,12 @@ function Form({ form, dispatch }) {
                 name: 'communion_line',
                 style: { gridColumn: '9 / 13' },
               },
-            ].map((props, i) => (
-              <InputField
-                {...props}
-                key={i}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={data[props.name]}
-              />
-            ))}
+            ])}
           </div>
         )}
         {tab === 3 && (
           <div className={classes.grid}>
-            {[
+            {makeInputFields([
               {
                 label: 'Date',
                 name: 'confirmation_date',
@@ -376,21 +364,13 @@ function Form({ form, dispatch }) {
                 name: 'confirmation_line',
                 style: { gridColumn: '9 / 13' },
               },
-            ].map((props, i) => (
-              <InputField
-                {...props}
-                key={i}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={data[props.name]}
-              />
-            ))}
+            ])}
           </div>
         )}
         {tab === 4 && (
           <div className={classes.grid}>
             <div className={classes.grid + ' ' + classes.partnerInfoContainer}>
-              {[
+              {makeInputFields([
                 {
                   label: 'First Name',
                   name: 'wedding_partner_first_name',
@@ -441,17 +421,9 @@ function Form({ form, dispatch }) {
                   label: 'Baptism Church',
                   name: 'wedding_partner_baptism_church',
                 },
-              ].map((props, i) => (
-                <InputField
-                  {...props}
-                  key={i}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={data[props.name]}
-                />
-              ))}
+              ])}
             </div>
-            {[
+            {makeInputFields([
               {
                 label: 'Date',
                 name: 'wedding_date',
@@ -488,20 +460,12 @@ function Form({ form, dispatch }) {
                 name: 'wedding_line',
                 style: { gridColumn: '9 / 13' },
               },
-            ].map((props, i) => (
-              <InputField
-                {...props}
-                key={i}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={data[props.name]}
-              />
-            ))}
+            ])}
           </div>
         )}
         {tab === 5 && (
           <div className={classes.grid}>
-            {[
+            {makeInputFields([
               {
                 label: 'Date',
                 name: 'profession_of_faith_date',
@@ -538,24 +502,12 @@ function Form({ form, dispatch }) {
                 name: 'profession_of_faith_line',
                 style: { gridColumn: '9 / 13' },
               },
-            ].map((props, i) => (
-              <InputField
-                {...props}
-                key={i}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={data[props.name]}
-              />
-            ))}
+            ])}
           </div>
         )}
       </DialogContent>
       <DialogActions>
-        <Button
-          color="primary"
-          disabled={!wasModified}
-          onClick={handleSave}
-        >
+        <Button color="primary" disabled={!wasModified} onClick={handleSave}>
           Save
         </Button>
         <Button onClick={handleClose}>Cancel</Button>
