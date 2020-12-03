@@ -21,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(1),
     gridAutoFlow: 'column',
   },
+  empty: {
+    alignItems: 'center',
+    color: theme.palette.text.hint,
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center',
+  },
   tableHeadOptions: {
     alignItems: 'center',
     color: theme.palette.primary.main,
@@ -63,7 +70,12 @@ function Table({ data, dispatch }) {
   }
 
   return values.length === 0 ? (
-    <div />
+    <div className={classes.empty}>
+      <div style={{ textAlign: 'center' }}>
+        <ImportContacts style={{ fontSize: '6em' }} />
+        <Typography>Search for people in registry</Typography>
+      </div>
+    </div>
   ) : (
     <MuiTable stickyHeader>
       <TableHead>
