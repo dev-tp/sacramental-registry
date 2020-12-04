@@ -29,7 +29,7 @@ app
     if (query) {
       const regex = request.query['query']
         .split(/\s+/)
-        .map((value) => `(?=.*\\b${value}\\b)`)
+        .map((value) => `(?=.*${value})`)
         .join('');
 
       params['name'] = new RegExp(regex + '.*', 'i');
