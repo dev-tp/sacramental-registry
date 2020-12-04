@@ -5,6 +5,10 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVert from '@material-ui/icons/MoreVert';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import React from 'react';
@@ -19,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     gap: theme.spacing(2),
     gridAutoFlow: 'column',
+  },
+  header: {
+    alignItems: 'center',
+    display: 'grid',
+    gridTemplateColumns: '1fr auto',
+    marginBottom: theme.spacing(2),
   },
   partnerInfoContainer: {
     border: `1px solid ${theme.palette.divider}`,
@@ -42,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
   stickTabs: {
     background: theme.palette.background.paper,
     left: 0,
-    marginBottom: theme.spacing(2),
     position: 'sticky',
     right: 0,
     top: 0,
@@ -91,6 +100,7 @@ const InputField = (props) => {
 };
 
 function Form({ form, dispatch }) {
+  const [menuAnchor, setMenuAnchor] = React.useState(null);
   const [data, setData] = React.useState(form.data);
   const [modifiedFields, setModifiedFields] = React.useState({});
   const [tab, setTab] = React.useState(0);
@@ -149,19 +159,36 @@ function Form({ form, dispatch }) {
   return (
     <Dialog fullScreen open={form.isOpen}>
       <DialogContent style={{ paddingTop: 0 }}>
-        <Tabs
-          className={classes.stickTabs}
-          onChange={(_, value) => setTab(value)}
-          value={tab}
-          variant="fullWidth"
-        >
-          <Tab label="Info" />
-          <Tab label="Baptism" />
-          <Tab label="Communion" />
-          <Tab label="Confirmation" />
-          <Tab label="Wedding" />
-          <Tab label="Profession of Faith" />
-        </Tabs>
+        <div className={classes.header}>
+          <Tabs
+            className={classes.stickTabs}
+            onChange={(_, value) => setTab(value)}
+            value={tab}
+            variant="fullWidth"
+          >
+            <Tab label="Info" />
+            <Tab label="Baptism" />
+            <Tab label="Communion" />
+            <Tab label="Confirmation" />
+            <Tab label="Wedding" />
+            <Tab label="Profession of Faith" />
+          </Tabs>
+          {data['_id'] !== null && (
+            <>
+              <IconButton onClick={(event) => setMenuAnchor(event.target)}>
+                <MoreVert />
+              </IconButton>
+              <Menu
+                anchorEl={menuAnchor}
+                onClose={() => setMenuAnchor(null)}
+                open={!!menuAnchor}
+              >
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Print</MenuItem>
+              </Menu>
+            </>
+          )}
+        </div>
         {tab === 0 && (
           <div className={classes.grid}>
             {makeInputFields([
@@ -507,10 +534,12 @@ function Form({ form, dispatch }) {
         )}
       </DialogContent>
       <DialogActions>
-        <Button color="primary" disabled={!wasModified} onClick={handleSave}>
-          Save
-        </Button>
-        <Button onClick={handleClose}>Cancel</Button>
+        {wasModified && (
+          <Button color="primary" onClick={handleSave}>
+            Save
+          </Button>
+        )}
+        <Button onClick={handleClose}>{wasModified ? 'Cancel' : 'Back'}</Button>
       </DialogActions>
     </Dialog>
   );
