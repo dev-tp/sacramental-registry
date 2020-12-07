@@ -157,7 +157,15 @@ function Form({ form, dispatch }) {
   }
 
   return (
-    <Dialog fullScreen open={form.isOpen}>
+    <Dialog
+      fullScreen
+      onKeyUp={(event) => {
+        if (event.key === 'Escape') {
+          handleClose();
+        }
+      }}
+      open={form.isOpen}
+    >
       <DialogContent style={{ paddingTop: 0 }}>
         <div className={classes.header}>
           <Tabs
