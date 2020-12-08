@@ -17,6 +17,7 @@ import Tabs from '@material-ui/core/Tabs';
 import TextField from '@material-ui/core/TextField';
 
 import { closeForm, postFormData } from '../actions';
+import ConfirmationDialog from './ConfirmationDialog';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -100,8 +101,13 @@ const InputField = (props) => {
 };
 
 function Form({ form, dispatch }) {
-  const [menuAnchor, setMenuAnchor] = React.useState(null);
+  const [confirmationDialog, setConfirmationDialog] = React.useState({
+    message: '',
+    onClose: () => {},
+    show: false,
+  });
   const [data, setData] = React.useState(form.data);
+  const [menuAnchor, setMenuAnchor] = React.useState(null);
   const [modifiedFields, setModifiedFields] = React.useState({});
   const [tab, setTab] = React.useState(0);
 
@@ -129,15 +135,21 @@ function Form({ form, dispatch }) {
   }
 
   function handleClose() {
-    if (wasModified) {
-      const prompt =
-        'You made some modifications to this form. Are you sure you want to close it?';
-      if (!window.confirm(prompt)) {
-        return;
-      }
-    }
+    if (!wasModified) {
+      resetConfirmationDialog();
+      dispatch(closeForm());
+    } else {
+      showConfirmationDialog(
+        'You made some modifications to this form. Are you sure you want to close it?',
+        (confirmation) => {
+          resetConfirmationDialog();
 
-    dispatch(closeForm());
+          if (confirmation) {
+            dispatch(closeForm());
+          }
+        }
+      );
+    }
   }
 
   function handleSave() {
@@ -156,400 +168,439 @@ function Form({ form, dispatch }) {
     ));
   }
 
+  function showConfirmationDialog(message, onClose) {
+    setConfirmationDialog({ message, onClose, show: true });
+  }
+
+  function resetConfirmationDialog() {
+    setConfirmationDialog({
+      message: confirmationDialog.message,
+      onClose: () => {},
+      show: false,
+    });
+  }
+
   return (
-    <Dialog
-      fullScreen
-      onKeyUp={(event) => {
-        if (event.key === 'Escape') {
-          handleClose();
-        }
-      }}
-      open={form.isOpen}
-    >
-      <DialogContent style={{ paddingTop: 0 }}>
-        <div className={classes.header}>
-          <Tabs
-            className={classes.stickTabs}
-            onChange={(_, value) => setTab(value)}
-            value={tab}
-            variant="fullWidth"
-          >
-            <Tab label="Info" />
-            <Tab label="Baptism" />
-            <Tab label="Communion" />
-            <Tab label="Confirmation" />
-            <Tab label="Wedding" />
-            <Tab label="Profession of Faith" />
-          </Tabs>
-          {data['_id'] !== null && (
-            <>
-              <IconButton onClick={(event) => setMenuAnchor(event.target)}>
-                <MoreVert />
-              </IconButton>
-              <Menu
-                anchorEl={menuAnchor}
-                onClose={() => setMenuAnchor(null)}
-                open={!!menuAnchor}
-              >
-                <MenuItem>Delete</MenuItem>
-                <MenuItem>Print</MenuItem>
-              </Menu>
-            </>
-          )}
-        </div>
-        {tab === 0 && (
-          <div className={classes.grid}>
-            {makeInputFields([
-              {
-                label: 'First Name',
-                name: 'first_name',
-                style: { gridColumn: '1 / 7' },
-              },
-              {
-                label: 'Last Name',
-                name: 'last_name',
-                style: { gridColumn: '7 / 13' },
-              },
-              {
-                children: [
-                  {
-                    label: 'Female',
-                    value: 'F',
-                  },
-                  {
-                    label: 'Male',
-                    value: 'M',
-                  },
-                ],
-                name: 'sex',
-                type: 'radio',
-              },
-              {
-                label: 'Birthday',
-                name: 'birthday',
-                type: 'date',
-              },
-              {
-                label: 'Birth City',
-                name: 'birth_city',
-              },
-              {
-                label: 'Home Address Line 1',
-                name: 'home_address_line_1',
-              },
-              {
-                label: 'Home Address Line 2',
-                name: 'home_address_line_2',
-              },
-              {
-                label: 'City',
-                name: 'city',
-                style: { gridColumn: '1 / 5' },
-              },
-              {
-                label: 'State / Province',
-                name: 'province',
-                style: { gridColumn: '5 / 9' },
-              },
-              {
-                label: 'Postal Code',
-                name: 'postal_code',
-                style: { gridColumn: '9 / 13' },
-              },
-              {
-                label: 'Mother',
-                name: 'mother',
-              },
-              {
-                label: 'Father',
-                name: 'father',
-              },
-              {
-                label: 'Comments',
-                multiline: true,
-                name: 'comments',
-              },
-            ])}
+    <>
+      <Dialog
+        fullScreen
+        onKeyUp={(event) => {
+          if (event.key === 'Escape') {
+            handleClose();
+          }
+        }}
+        open={form.isOpen}
+      >
+        <DialogContent style={{ paddingTop: 0 }}>
+          <div className={classes.header}>
+            <Tabs
+              className={classes.stickTabs}
+              onChange={(_, value) => setTab(value)}
+              value={tab}
+              variant="fullWidth"
+            >
+              <Tab label="Info" />
+              <Tab label="Baptism" />
+              <Tab label="Communion" />
+              <Tab label="Confirmation" />
+              <Tab label="Wedding" />
+              <Tab label="Profession of Faith" />
+            </Tabs>
+            {data['_id'] !== null && (
+              <>
+                <IconButton onClick={(event) => setMenuAnchor(event.target)}>
+                  <MoreVert />
+                </IconButton>
+                <Menu
+                  anchorEl={menuAnchor}
+                  onClose={() => setMenuAnchor(null)}
+                  open={!!menuAnchor}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setMenuAnchor(null);
+                      showConfirmationDialog(
+                        'Are you sure you want to remove this person from records?',
+                        (confirmation) => {
+                          if (confirmation) {
+                            console.log('Remove:', data);
+                          }
+
+                          resetConfirmationDialog();
+                        }
+                      );
+                    }}
+                  >
+                    Delete
+                  </MenuItem>
+                  <MenuItem>Print</MenuItem>
+                </Menu>
+              </>
+            )}
           </div>
-        )}
-        {tab === 1 && (
-          <div className={classes.grid}>
-            {makeInputFields([
-              {
-                label: 'Date',
-                name: 'baptism_date',
-                type: 'date',
-              },
-              {
-                label: 'Church',
-                name: 'baptism_church',
-              },
-              {
-                label: 'Presider',
-                name: 'baptism_presider',
-              },
-              {
-                label: 'Godfather',
-                name: 'baptism_godfather',
-              },
-              {
-                label: 'Proxy Godfather',
-                name: 'baptism_proxy_godfather',
-              },
-              {
-                label: 'Godmother',
-                name: 'baptism_godmother',
-              },
-              {
-                label: 'Proxy Godmother',
-                name: 'baptism_proxy_godmother',
-              },
-              {
-                label: 'Christian Witness',
-                name: 'baptism_christian_witness',
-              },
-              {
-                label: 'Volume',
-                name: 'baptism_volume',
-                style: { gridColumn: '1 / 5' },
-              },
-              {
-                label: 'Page',
-                name: 'baptism_page',
-                style: { gridColumn: '5 / 9' },
-              },
-              {
-                label: 'Line',
-                name: 'baptism_line',
-                style: { gridColumn: '9 / 13' },
-              },
-            ])}
-          </div>
-        )}
-        {tab === 2 && (
-          <div className={classes.grid}>
-            {makeInputFields([
-              {
-                label: 'Date',
-                name: 'communion_date',
-                type: 'date',
-              },
-              {
-                label: 'Church',
-                name: 'communion_church',
-              },
-              {
-                label: 'Presider',
-                name: 'communion_presider',
-              },
-              {
-                label: 'Volume',
-                name: 'communion_volume',
-                style: { gridColumn: '1 / 5' },
-              },
-              {
-                label: 'Page',
-                name: 'communion_page',
-                style: { gridColumn: '5 / 9' },
-              },
-              {
-                label: 'Line',
-                name: 'communion_line',
-                style: { gridColumn: '9 / 13' },
-              },
-            ])}
-          </div>
-        )}
-        {tab === 3 && (
-          <div className={classes.grid}>
-            {makeInputFields([
-              {
-                label: 'Date',
-                name: 'confirmation_date',
-                type: 'date',
-              },
-              {
-                label: 'Church',
-                name: 'confirmation_church',
-              },
-              {
-                label: 'Presider',
-                name: 'confirmation_presider',
-              },
-              {
-                label: 'Confirmation Name',
-                name: 'confirmation_name',
-              },
-              {
-                label: 'Sponsor',
-                name: 'confirmation_sponsor',
-              },
-              {
-                label: 'Volume',
-                name: 'confirmation_volume',
-                style: { gridColumn: '1 / 5' },
-              },
-              {
-                label: 'Page',
-                name: 'confirmation_page',
-                style: { gridColumn: '5 / 9' },
-              },
-              {
-                label: 'Line',
-                name: 'confirmation_line',
-                style: { gridColumn: '9 / 13' },
-              },
-            ])}
-          </div>
-        )}
-        {tab === 4 && (
-          <div className={classes.grid}>
-            <div className={classes.grid + ' ' + classes.partnerInfoContainer}>
+          {tab === 0 && (
+            <div className={classes.grid}>
               {makeInputFields([
                 {
                   label: 'First Name',
-                  name: 'wedding_partner_first_name',
+                  name: 'first_name',
                   style: { gridColumn: '1 / 7' },
                 },
                 {
                   label: 'Last Name',
-                  name: 'wedding_partner_last_name',
+                  name: 'last_name',
                   style: { gridColumn: '7 / 13' },
                 },
                 {
-                  label: 'Father',
-                  name: 'wedding_partner_father',
+                  children: [
+                    {
+                      label: 'Female',
+                      value: 'F',
+                    },
+                    {
+                      label: 'Male',
+                      value: 'M',
+                    },
+                  ],
+                  name: 'sex',
+                  type: 'radio',
                 },
                 {
-                  label: 'Mother',
-                  name: 'wedding_partner_mother',
+                  label: 'Birthday',
+                  name: 'birthday',
+                  type: 'date',
+                },
+                {
+                  label: 'Birth City',
+                  name: 'birth_city',
                 },
                 {
                   label: 'Home Address Line 1',
-                  name: 'wedding_partner_home_address_line_1',
+                  name: 'home_address_line_1',
                 },
                 {
                   label: 'Home Address Line 2',
-                  name: 'wedding_partner_home_address_line_2',
+                  name: 'home_address_line_2',
                 },
                 {
                   label: 'City',
-                  name: 'wedding_partner_city',
+                  name: 'city',
                   style: { gridColumn: '1 / 5' },
                 },
                 {
                   label: 'State / Province',
-                  name: 'wedding_partner_province',
+                  name: 'province',
                   style: { gridColumn: '5 / 9' },
                 },
                 {
                   label: 'Postal Code',
-                  name: 'wedding_partner_postal_code',
+                  name: 'postal_code',
                   style: { gridColumn: '9 / 13' },
                 },
                 {
-                  label: 'Baptism Date',
-                  name: 'wedding_partner_baptism_date',
-                  type: 'date',
+                  label: 'Mother',
+                  name: 'mother',
                 },
                 {
-                  label: 'Baptism Church',
-                  name: 'wedding_partner_baptism_church',
+                  label: 'Father',
+                  name: 'father',
+                },
+                {
+                  label: 'Comments',
+                  multiline: true,
+                  name: 'comments',
                 },
               ])}
             </div>
-            {makeInputFields([
-              {
-                label: 'Date',
-                name: 'wedding_date',
-                type: 'date',
-              },
-              {
-                label: 'Church',
-                name: 'wedding_church',
-              },
-              {
-                label: 'Presider',
-                name: 'wedding_presider',
-              },
-              {
-                label: 'Witness 1',
-                name: 'wedding_witness_1',
-              },
-              {
-                label: 'Witness 2',
-                name: 'wedding_witness_2',
-              },
-              {
-                label: 'Volume',
-                name: 'wedding_volume',
-                style: { gridColumn: '1 / 5' },
-              },
-              {
-                label: 'Page',
-                name: 'wedding_page',
-                style: { gridColumn: '5 / 9' },
-              },
-              {
-                label: 'Line',
-                name: 'wedding_line',
-                style: { gridColumn: '9 / 13' },
-              },
-            ])}
-          </div>
-        )}
-        {tab === 5 && (
-          <div className={classes.grid}>
-            {makeInputFields([
-              {
-                label: 'Date',
-                name: 'profession_of_faith_date',
-                type: 'date',
-              },
-              {
-                label: 'Church',
-                name: 'profession_of_faith_church',
-              },
-              {
-                label: 'Presider',
-                name: 'profession_of_faith_presider',
-              },
-              {
-                label: 'Sponsor 1',
-                name: 'profession_of_faith_sponsor_1',
-              },
-              {
-                label: 'Sponsor 2',
-                name: 'profession_of_faith_sponsor_2',
-              },
-              {
-                label: 'Volume',
-                name: 'profession_of_faith_volume',
-                style: { gridColumn: '1 / 5' },
-              },
-              {
-                label: 'Page',
-                name: 'profession_of_faith_page',
-                style: { gridColumn: '5 / 9' },
-              },
-              {
-                label: 'Line',
-                name: 'profession_of_faith_line',
-                style: { gridColumn: '9 / 13' },
-              },
-            ])}
-          </div>
-        )}
-      </DialogContent>
-      <DialogActions>
-        {wasModified && (
-          <Button color="primary" onClick={handleSave}>
-            Save
+          )}
+          {tab === 1 && (
+            <div className={classes.grid}>
+              {makeInputFields([
+                {
+                  label: 'Date',
+                  name: 'baptism_date',
+                  type: 'date',
+                },
+                {
+                  label: 'Church',
+                  name: 'baptism_church',
+                },
+                {
+                  label: 'Presider',
+                  name: 'baptism_presider',
+                },
+                {
+                  label: 'Godfather',
+                  name: 'baptism_godfather',
+                },
+                {
+                  label: 'Proxy Godfather',
+                  name: 'baptism_proxy_godfather',
+                },
+                {
+                  label: 'Godmother',
+                  name: 'baptism_godmother',
+                },
+                {
+                  label: 'Proxy Godmother',
+                  name: 'baptism_proxy_godmother',
+                },
+                {
+                  label: 'Christian Witness',
+                  name: 'baptism_christian_witness',
+                },
+                {
+                  label: 'Volume',
+                  name: 'baptism_volume',
+                  style: { gridColumn: '1 / 5' },
+                },
+                {
+                  label: 'Page',
+                  name: 'baptism_page',
+                  style: { gridColumn: '5 / 9' },
+                },
+                {
+                  label: 'Line',
+                  name: 'baptism_line',
+                  style: { gridColumn: '9 / 13' },
+                },
+              ])}
+            </div>
+          )}
+          {tab === 2 && (
+            <div className={classes.grid}>
+              {makeInputFields([
+                {
+                  label: 'Date',
+                  name: 'communion_date',
+                  type: 'date',
+                },
+                {
+                  label: 'Church',
+                  name: 'communion_church',
+                },
+                {
+                  label: 'Presider',
+                  name: 'communion_presider',
+                },
+                {
+                  label: 'Volume',
+                  name: 'communion_volume',
+                  style: { gridColumn: '1 / 5' },
+                },
+                {
+                  label: 'Page',
+                  name: 'communion_page',
+                  style: { gridColumn: '5 / 9' },
+                },
+                {
+                  label: 'Line',
+                  name: 'communion_line',
+                  style: { gridColumn: '9 / 13' },
+                },
+              ])}
+            </div>
+          )}
+          {tab === 3 && (
+            <div className={classes.grid}>
+              {makeInputFields([
+                {
+                  label: 'Date',
+                  name: 'confirmation_date',
+                  type: 'date',
+                },
+                {
+                  label: 'Church',
+                  name: 'confirmation_church',
+                },
+                {
+                  label: 'Presider',
+                  name: 'confirmation_presider',
+                },
+                {
+                  label: 'Confirmation Name',
+                  name: 'confirmation_name',
+                },
+                {
+                  label: 'Sponsor',
+                  name: 'confirmation_sponsor',
+                },
+                {
+                  label: 'Volume',
+                  name: 'confirmation_volume',
+                  style: { gridColumn: '1 / 5' },
+                },
+                {
+                  label: 'Page',
+                  name: 'confirmation_page',
+                  style: { gridColumn: '5 / 9' },
+                },
+                {
+                  label: 'Line',
+                  name: 'confirmation_line',
+                  style: { gridColumn: '9 / 13' },
+                },
+              ])}
+            </div>
+          )}
+          {tab === 4 && (
+            <div className={classes.grid}>
+              <div
+                className={classes.grid + ' ' + classes.partnerInfoContainer}
+              >
+                {makeInputFields([
+                  {
+                    label: 'First Name',
+                    name: 'wedding_partner_first_name',
+                    style: { gridColumn: '1 / 7' },
+                  },
+                  {
+                    label: 'Last Name',
+                    name: 'wedding_partner_last_name',
+                    style: { gridColumn: '7 / 13' },
+                  },
+                  {
+                    label: 'Father',
+                    name: 'wedding_partner_father',
+                  },
+                  {
+                    label: 'Mother',
+                    name: 'wedding_partner_mother',
+                  },
+                  {
+                    label: 'Home Address Line 1',
+                    name: 'wedding_partner_home_address_line_1',
+                  },
+                  {
+                    label: 'Home Address Line 2',
+                    name: 'wedding_partner_home_address_line_2',
+                  },
+                  {
+                    label: 'City',
+                    name: 'wedding_partner_city',
+                    style: { gridColumn: '1 / 5' },
+                  },
+                  {
+                    label: 'State / Province',
+                    name: 'wedding_partner_province',
+                    style: { gridColumn: '5 / 9' },
+                  },
+                  {
+                    label: 'Postal Code',
+                    name: 'wedding_partner_postal_code',
+                    style: { gridColumn: '9 / 13' },
+                  },
+                  {
+                    label: 'Baptism Date',
+                    name: 'wedding_partner_baptism_date',
+                    type: 'date',
+                  },
+                  {
+                    label: 'Baptism Church',
+                    name: 'wedding_partner_baptism_church',
+                  },
+                ])}
+              </div>
+              {makeInputFields([
+                {
+                  label: 'Date',
+                  name: 'wedding_date',
+                  type: 'date',
+                },
+                {
+                  label: 'Church',
+                  name: 'wedding_church',
+                },
+                {
+                  label: 'Presider',
+                  name: 'wedding_presider',
+                },
+                {
+                  label: 'Witness 1',
+                  name: 'wedding_witness_1',
+                },
+                {
+                  label: 'Witness 2',
+                  name: 'wedding_witness_2',
+                },
+                {
+                  label: 'Volume',
+                  name: 'wedding_volume',
+                  style: { gridColumn: '1 / 5' },
+                },
+                {
+                  label: 'Page',
+                  name: 'wedding_page',
+                  style: { gridColumn: '5 / 9' },
+                },
+                {
+                  label: 'Line',
+                  name: 'wedding_line',
+                  style: { gridColumn: '9 / 13' },
+                },
+              ])}
+            </div>
+          )}
+          {tab === 5 && (
+            <div className={classes.grid}>
+              {makeInputFields([
+                {
+                  label: 'Date',
+                  name: 'profession_of_faith_date',
+                  type: 'date',
+                },
+                {
+                  label: 'Church',
+                  name: 'profession_of_faith_church',
+                },
+                {
+                  label: 'Presider',
+                  name: 'profession_of_faith_presider',
+                },
+                {
+                  label: 'Sponsor 1',
+                  name: 'profession_of_faith_sponsor_1',
+                },
+                {
+                  label: 'Sponsor 2',
+                  name: 'profession_of_faith_sponsor_2',
+                },
+                {
+                  label: 'Volume',
+                  name: 'profession_of_faith_volume',
+                  style: { gridColumn: '1 / 5' },
+                },
+                {
+                  label: 'Page',
+                  name: 'profession_of_faith_page',
+                  style: { gridColumn: '5 / 9' },
+                },
+                {
+                  label: 'Line',
+                  name: 'profession_of_faith_line',
+                  style: { gridColumn: '9 / 13' },
+                },
+              ])}
+            </div>
+          )}
+        </DialogContent>
+        <DialogActions>
+          {wasModified && (
+            <Button color="primary" onClick={handleSave}>
+              Save
+            </Button>
+          )}
+          <Button onClick={handleClose}>
+            {wasModified ? 'Cancel' : 'Back'}
           </Button>
-        )}
-        <Button onClick={handleClose}>{wasModified ? 'Cancel' : 'Back'}</Button>
-      </DialogActions>
-    </Dialog>
+        </DialogActions>
+      </Dialog>
+      <ConfirmationDialog
+        message={confirmationDialog.message}
+        onClose={confirmationDialog.onClose}
+        open={confirmationDialog.show}
+      />
+    </>
   );
 }
 
