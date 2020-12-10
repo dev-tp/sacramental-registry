@@ -136,7 +136,6 @@ function Form({ form, dispatch }) {
 
   function handleClose() {
     if (!wasModified) {
-      resetConfirmationDialog();
       dispatch(closeForm());
     } else {
       showConfirmationDialog(
@@ -174,7 +173,7 @@ function Form({ form, dispatch }) {
 
   function resetConfirmationDialog() {
     setConfirmationDialog({
-      message: confirmationDialog.message,
+      message: '',
       onClose: () => {},
       show: false,
     });
