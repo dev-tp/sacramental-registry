@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import AppBar from '../components/AppBar';
+import ConfirmationDialog from '../components/ConfirmationDialog';
 import Drawer from '../components/Drawer';
 import Form from '../components/Form';
 import Table from '../components/Table';
@@ -50,6 +51,7 @@ export default function Home() {
         </div>
       </main>
       <Form />
+      <ConfirmationDialog />
     </div>
   );
 }
