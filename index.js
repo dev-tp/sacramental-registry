@@ -622,9 +622,12 @@ M.Autocomplete.init(document.querySelectorAll('.church'), {
 M.Autocomplete.init(document.querySelectorAll('.presider'), {
   data: {
     'Abp. José Gomez': null,
-    'Fr. David Gallardo': null,
-    'Fr. Juan Ochoa': null,
-  }
+    'Fr. Brian Nunes': null,
+    'Fr. Paúl Velázquez': null,
+    'Fr. Peter Saucedo': null,
+    'Fr. Raymont Medina': null,
+    'Msgr. Antonio Cacciapuoti': null,
+  },
 });
 
 M.FloatingActionButton.init(document.querySelector('.fixed-action-btn'), {
