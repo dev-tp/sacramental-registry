@@ -1,5 +1,3 @@
-const { remote } = require('electron');
-
 const { database } = require('./database');
 
 const editModeColumns = [
@@ -334,11 +332,7 @@ function loadPrintOptions() {
   }
 
   document.getElementById('print-certificate-button').onclick = function () {
-    const window = remote.getCurrentWindow();
-
-    if (window) {
-      window.webContents.print();
-    }
+    window.print();
   };
 
   document.getElementById('close-preview-button').onclick = function () {
