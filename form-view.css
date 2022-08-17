@@ -76,12 +76,8 @@
   margin: 0;
 }
 
-#certificate-datum {
-  padding-right: 10px;
-}
-
 #certificate-pastor {
-  padding-left: 10px;
+  grid-column-end: 3;
 }
 
 #certificate-text {
