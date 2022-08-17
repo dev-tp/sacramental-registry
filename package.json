@@ -4,11 +4,10 @@
   "description": "Keeps track of baptisms, communions, confirmations, weddings, etc.",
   "main": "main.js",
   "dependencies": {
-    "electron": "^2.0.16",
+    "electron": "^11.5.0",
     "materialize-css": "^1.0.0",
-    "mysql": "^2.16.0"
+    "mysql": "^2.18.1"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
