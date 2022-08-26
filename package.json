@@ -12,7 +12,7 @@
     "electron-packager": "^15.5.1"
   },
   "scripts": {
-    "build-win32-x64": "electron-packager . sacramental-registry --platform=win32 --arch=x64 --overwrite",
+    "build-win32-x64": "electron-packager . sacramental-registry --platform=win32 --arch=x64 --asar --overwrite",
     "start": "electron ."
   },
   "repository": {
