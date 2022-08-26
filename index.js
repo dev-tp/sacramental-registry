@@ -424,7 +424,7 @@ function loadSelectedCertificate(sacrament) {
 
   document.getElementById('certificate-title').innerText = certificateTitle;
   document.getElementById('certificate-text').innerText = certificateText;
-  document.getElementById('certificate-datum').innerText = `Dated ${sacramentDate}`;
+  document.getElementById('certificate-datum').innerText = sacramentDate;
 }
 
 function submit(callback, id) {

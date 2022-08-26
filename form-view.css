@@ -50,14 +50,14 @@
 }
 
 #certificate-content h1 {
-  font-size: 1em;
+  font-size: 0.8em;
   margin: 0 0 0.333em 0;
 }
 
 #certificate-content h2 {
-  font-size: 0.444em;
+  font-size: 0.4em;
   line-height: 1.4;
-  margin: 0 0 0.444em 0;
+  margin: 0 0 0.333em 0;
 }
 
 #certificate-content span {
@@ -71,17 +71,20 @@
   position: absolute;
 }
 
-#certificate-datum, #certificate-pastor, #certificate-text {
-  font-size: 0.333em;
-  margin: 0;
-}
-
 #certificate-datum {
-  padding-right: 10px;
+  font-size: 0.3em;
+  margin:0;
 }
 
 #certificate-pastor {
-  padding-left: 10px;
+  font-size: 0.3em;
+  line-height: 2;
+  margin:0;
+}
+
+#certificate-text {
+  font-size: 0.333em;
+  margin: 0;
 }
 
 #certificate-text {
