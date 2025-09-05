@@ -1,1 +1,73 @@
-<h1>Sacramental Registry</h1>
+<script>
+	import { Plus } from '@lucide/svelte';
+
+	/** @type {{ firstName: string, middleName: string, surname: string, secondSurname: string, dateOfBirth: string, homeAddress: string, mother: string, father: string, baptism: string }[]} Record */
+	const records = [];
+</script>
+
+<div class="flex h-screen flex-col">
+	<main class="grow">
+		<div class="m-2">
+			<header class="mb-2 flex justify-between">
+				<h1 class="content-center">Sacramental Registry</h1>
+				<button class="flex items-center gap-2 border bg-black px-4 py-2 text-white">
+					<Plus class="h-4 w-4" /> New Record
+				</button>
+			</header>
+			<form class="flex">
+				<input
+					class="w-full bg-gray-100 p-2 focus-within:bg-gray-200 focus-within:outline-none"
+					type="text"
+					placeholder="Search"
+				/>
+			</form>
+		</div>
+		<div class="overflow-auto">
+			<table class="min-w-full">
+				<thead>
+					<tr class="border-b border-gray-300 *:p-2">
+						<th class="sticky left-0"><input type="checkbox" /></th>
+						<th class="hover:bg-gray-100">First Name</th>
+						<th class="hover:bg-gray-100">Middle Name</th>
+						<th class="hover:bg-gray-100">Surname</th>
+						<th class="hover:bg-gray-100">Second Surname</th>
+						<th class="hover:bg-gray-100">Date of Birth</th>
+						<th class="hover:bg-gray-100">Home Address</th>
+						<th class="hover:bg-gray-100">Father</th>
+						<th class="hover:bg-gray-100">Mother</th>
+						<th class="hover:bg-gray-100">Baptism</th>
+						<th class="sticky right-0"><button>...</button></th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each records as record}
+						<tr
+							class="border-b border-gray-300 *:cursor-pointer *:p-2 last:border-none hover:bg-gray-100"
+						>
+							<th class="sticky left-0"><input type="checkbox" /></th>
+							<td>{record.firstName}</td>
+							<td>{record.middleName}</td>
+							<td>{record.surname}</td>
+							<td>{record.secondSurname}</td>
+							<td>{record.dateOfBirth}</td>
+							<td>{record.homeAddress}</td>
+							<td>{record.father}</td>
+							<td>{record.mother}</td>
+							<td>{record.baptism}</td>
+							<td class="sticky right-0"><button>View</button></td>
+						</tr>
+					{:else}
+						<tr>
+							<td class="py-8 text-center border-b border-gray-300" colspan="100">
+								<p class="mb-2">No records found</p>
+							</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	</main>
+	<footer class="flex justify-between p-2">
+		<p>Total items: 0</p>
+	</footer>
+</div>
