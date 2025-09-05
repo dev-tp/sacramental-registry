@@ -1,4 +1,11 @@
-const { database } = require('./drizzle.config');
+const database = {
+  query: function(query, params=[], callback) {
+    const error = null;
+    const results = [];
+    console.log(query, params);
+    callback(error, results);
+  }
+}
 
 const editModeColumns = [
   'first_name',
