@@ -128,17 +128,6 @@
 		index = -1;
 		selected = emptyRecord();
 	}}
-	onsubmit={(event) => {
-		event.preventDefault();
-
-		if (index === -1) {
-			records = [...records, selected];
-		} else {
-			records = records.map((record, i) => (index === i ? selected : record));
-		}
-
-		modal.close();
-	}}
 >
 	{#snippet header()}
 		<div class="flex justify-between">
@@ -151,7 +140,7 @@
 		</div>
 	{/snippet}
 	{#snippet content()}
-		<div class="flex flex-col gap-2">
+		<form id="records-form" class="flex flex-col gap-2" method="POST">
 			<TextField bind:value={selected.firstName} label="First Name" name="firstName" />
 			<TextField bind:value={selected.middleName} label="Middle Name" name="middleName" />
 			<TextField bind:value={selected.surname} label="Surname" name="surname" />
@@ -161,6 +150,12 @@
 			<TextField bind:value={selected.father} label="Father" name="father" />
 			<TextField bind:value={selected.mother} label="Mother" name="mother" />
 			<TextField bind:value={selected.baptism} label="Baptism" name="baptism" />
+		</form>
+	{/snippet}
+	{#snippet footer()}
+		<div class="flex justify-end gap-2">
+			<button class="px-2 py-1" onclick={() => modal.close()} type="button">Cancel</button>
+			<button form="records-form" class="bg-black px-2 py-1 text-white" type="submit">Save</button>
 		</div>
 	{/snippet}
 </Modal>
