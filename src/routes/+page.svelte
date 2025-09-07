@@ -152,15 +152,15 @@
 	{/snippet}
 	{#snippet content()}
 		<div class="flex flex-col gap-2">
-			<TextField label="Fisrt Name" bind:value={selected.firstName} />
-			<TextField label="Middle Name" bind:value={selected.middleName} />
-			<TextField label="Surname" bind:value={selected.surname} />
-			<TextField label="Second Surname" bind:value={selected.secondSurname} />
-			<TextField label="Date of Birth" bind:value={selected.dateOfBirth} />
-			<TextField label="Home Address" bind:value={selected.homeAddress} />
-			<TextField label="Father" bind:value={selected.father} />
-			<TextField label="Mother" bind:value={selected.mother} />
-			<TextField label="Baptism" bind:value={selected.baptism} />
+			<TextField bind:value={selected.firstName} label="First Name" name="firstName" />
+			<TextField bind:value={selected.middleName} label="Middle Name" name="middleName" />
+			<TextField bind:value={selected.surname} label="Surname" name="surname" />
+			<TextField bind:value={selected.secondSurname} label="Second Surname" name="secondSurname" />
+			<TextField bind:value={selected.dateOfBirth} label="Date of Birth" name="dateOfBirth" />
+			<TextField bind:value={selected.homeAddress} label="Home Address" name="homeAddress" />
+			<TextField bind:value={selected.father} label="Father" name="father" />
+			<TextField bind:value={selected.mother} label="Mother" name="mother" />
+			<TextField bind:value={selected.baptism} label="Baptism" name="baptism" />
 		</div>
 	{/snippet}
 </Modal>
