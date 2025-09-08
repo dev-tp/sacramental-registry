@@ -57,8 +57,10 @@
 		<div class="overflow-auto">
 			<table class="min-w-full">
 				<thead>
-					<tr class="border-b border-gray-300 *:p-2 *:whitespace-nowrap">
-						<th class="sticky left-0"><input class="h-5 w-5" type="checkbox" /></th>
+					<tr class="h-12 border-b border-gray-300 *:whitespace-nowrap">
+						<th class="sticky left-0 px-2">
+							<input type="checkbox" />
+						</th>
 						<th class="hover:bg-gray-100">First Name</th>
 						<th class="hover:bg-gray-100">Middle Name</th>
 						<th class="hover:bg-gray-100">Surname</th>
@@ -74,18 +76,14 @@
 				<tbody>
 					{#each data.records as record}
 						<tr
-							class="border-b border-gray-300 *:cursor-pointer *:p-2 *:whitespace-nowrap last:border-none hover:bg-gray-100"
+							class="h-12 border-b border-gray-300 *:cursor-pointer *:whitespace-nowrap last:border-none hover:bg-gray-100"
 							onclick={() => {
 								selected = record;
 								modal.show();
 							}}
 						>
-							<th class="sticky left-0 flex items-center justify-center">
-								<input
-									class="h-5 w-5"
-									onclick={(event) => event.stopPropagation()}
-									type="checkbox"
-								/>
+							<th class="sticky left-0 px-2">
+								<input onclick={(event) => event.stopPropagation()} type="checkbox" />
 							</th>
 							<td>{record.firstName}</td>
 							<td>{record.middleName}</td>
