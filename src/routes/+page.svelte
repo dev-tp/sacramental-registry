@@ -42,7 +42,7 @@
 						modal.show();
 					}}
 				>
-					<Plus class="h-4 w-4" />
+					<Plus class="h-5 w-5" />
 					New Record
 				</button>
 			</header>
@@ -58,7 +58,7 @@
 			<table class="min-w-full">
 				<thead>
 					<tr class="border-b border-gray-300 *:p-2">
-						<th class="sticky left-0"><input type="checkbox" /></th>
+						<th class="sticky left-0"><input class="h-5 w-5" type="checkbox" /></th>
 						<th class="hover:bg-gray-100">First Name</th>
 						<th class="hover:bg-gray-100">Middle Name</th>
 						<th class="hover:bg-gray-100">Surname</th>
@@ -80,7 +80,13 @@
 								modal.show();
 							}}
 						>
-							<th class="sticky left-0"><input type="checkbox" /></th>
+							<th class="sticky left-0">
+								<input
+									class="h-5 w-5"
+									onclick={(event) => event.stopPropagation()}
+									type="checkbox"
+								/>
+							</th>
 							<td>{record.firstName}</td>
 							<td>{record.middleName}</td>
 							<td>{record.surname}</td>
