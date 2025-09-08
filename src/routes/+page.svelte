@@ -1,5 +1,5 @@
 <script>
-	import { ArrowRight, Plus } from '@lucide/svelte';
+	import { ArrowRight, Plus, Trash } from '@lucide/svelte';
 
 	import Modal from '../components/Modal.svelte';
 	import TextField from '../components/TextField.svelte';
@@ -118,15 +118,32 @@
 	{#snippet header()}
 		<div class="flex justify-between">
 			{#if selected.id !== undefined}
-				<span>Edit record</span>
-				<button type="button">...</button>
+				<h2>Edit record</h2>
+				<form
+					action="?/delete"
+					method="POST"
+					onsubmit={(event) => {
+						event.preventDefault();
+
+						if (!(event.target instanceof HTMLFormElement)) {
+							return;
+						}
+
+						if (confirm('Are you sure you want to delete this entry?')) {
+							event.target.submit();
+						}
+					}}
+				>
+					<input name="id" type="hidden" value={selected.id} />
+					<button><Trash class="h-4 w-4 text-red-500" /></button>
+				</form>
 			{:else}
-				Add new record
+				<h2>Add new record</h2>
 			{/if}
 		</div>
 	{/snippet}
 	{#snippet content()}
-		<form id="records-form" class="flex flex-col gap-2" method="POST">
+		<form id="records-form" action="?/push" class="flex flex-col gap-2" method="POST">
 			<TextField label="First Name" name="firstName" value={selected.firstName || ''} />
 			<TextField label="Middle Name" name="middleName" value={selected.middleName || ''} />
 			<TextField label="Surname" name="surname" value={selected.surname || ''} />
