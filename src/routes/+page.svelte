@@ -1,5 +1,5 @@
 <script>
-	import { Plus } from '@lucide/svelte';
+	import { ArrowRight, Plus } from '@lucide/svelte';
 
 	import Modal from '../components/Modal.svelte';
 	import TextField from '../components/TextField.svelte';
@@ -96,7 +96,7 @@
 							<td>{record.father}</td>
 							<td>{record.mother}</td>
 							<td>{record.baptism}</td>
-							<td class="sticky right-0"><button>View</button></td>
+							<td class="sticky right-0"><button><ArrowRight class="h-4 w-4" /></button></td>
 						</tr>
 					{:else}
 						<tr>
