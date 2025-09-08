@@ -21,21 +21,6 @@
 	export function show() {
 		isActive = true;
 	}
-
-	/** @type function(KeyboardEvent): void */
-	function handleKeyUp(event) {
-		if (event.key === 'Escape') {
-			close();
-		}
-	}
-
-	$effect(() => {
-		if (isActive) {
-			document.addEventListener('keyup', handleKeyUp);
-		} else {
-			document.removeEventListener('keyup', handleKeyUp);
-		}
-	});
 </script>
 
 {#if isActive}
