@@ -8,4 +8,4 @@ if (!env.DATABASE_URL) {
 	throw new Error('DATABASE_URL is not set');
 }
 
-export const db = drizzle(new Database(env.DATABASE_URL), { schema });
+export const database = drizzle(new Database(env.DATABASE_URL), { schema });
