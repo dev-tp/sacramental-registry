@@ -7,6 +7,7 @@ if (!process.env.DATABASE_URL) {
 export default defineConfig({
 	schema: './src/lib/server/db/schema.js',
 	dialect: 'sqlite',
+	casing: 'camelCase',
 	dbCredentials: { url: process.env.DATABASE_URL },
 	verbose: true,
 	strict: true
