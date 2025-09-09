@@ -108,7 +108,7 @@
 		</div>
 	</main>
 	<footer class="flex justify-between p-2">
-		<p>Total items: 0</p>
+		<p>Total items: {data.records.length}</p>
 	</footer>
 </div>
 
