@@ -1,12 +1,27 @@
-import { eq } from 'drizzle-orm';
+import { desc, eq, sql } from 'drizzle-orm';
 
 import { database } from '$lib/server/db';
 import { record } from '$lib/server/db/schema';
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load() {
+/** @type import('./$types').PageServerLoad */
+export async function load({ url }) {
+	const query = database.select().from(record);
+
+	const sort = url.searchParams
+		.getAll('sort')
+		.filter((column) => column in record)
+		.join(',');
+
+	if (sort) {
+		query.orderBy(sql.raw(sort));
+	} else {
+		query.orderBy(desc(record.id));
+	}
+
+	query.limit(50);
+
 	return {
-		records: await database.select().from(record).limit(50)
+		records: await query
 	};
 }
 

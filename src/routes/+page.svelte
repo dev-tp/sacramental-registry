@@ -61,15 +61,15 @@
 						<th class="sticky left-0 px-2">
 							<input type="checkbox" />
 						</th>
-						<th class="hover:bg-gray-100">First Name</th>
-						<th class="hover:bg-gray-100">Middle Name</th>
-						<th class="hover:bg-gray-100">Surname</th>
-						<th class="hover:bg-gray-100">Second Surname</th>
-						<th class="hover:bg-gray-100">Date of Birth</th>
-						<th class="hover:bg-gray-100">Home Address</th>
-						<th class="hover:bg-gray-100">Father</th>
-						<th class="hover:bg-gray-100">Mother</th>
-						<th class="hover:bg-gray-100">Baptism</th>
+						<th class="hover:bg-gray-100"><a href="?sort=firstName">First Name</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=middleName">Middle Name</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=surname">Surname</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=secondSurname">Second Surname</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=dateofBirth">Date of Birth</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=homeAddress">Home Address</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=father">Father</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=mother">Mother</a></th>
+						<th class="hover:bg-gray-100"><a href="?sort=baptism">Baptism</a></th>
 						<th class="sticky right-0"><button>...</button></th>
 					</tr>
 				</thead>
