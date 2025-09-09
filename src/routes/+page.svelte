@@ -141,7 +141,7 @@
 		</div>
 	{/snippet}
 	{#snippet content()}
-		<form id="records-form" action="?/push" class="flex flex-col gap-2" method="POST">
+		<form id="records-form" action="?/save" class="flex flex-col gap-2" method="POST">
 			<TextField label="First Name" name="firstName" value={selected.firstName || ''} />
 			<TextField label="Middle Name" name="middleName" value={selected.middleName || ''} />
 			<TextField label="Surname" name="surname" value={selected.surname || ''} />

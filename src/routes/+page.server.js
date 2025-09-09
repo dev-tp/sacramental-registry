@@ -41,7 +41,7 @@ export const actions = {
 			.delete(record)
 			.where(eq(record.id, parseInt(unwrapFormDataEntryValue(formData.get('id')))));
 	},
-	push: async ({ request }) => {
+	save: async ({ request }) => {
 		const formData = await request.formData();
 		const id = parseInt(unwrapFormDataEntryValue(formData.get('id')));
 
