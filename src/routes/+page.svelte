@@ -158,8 +158,8 @@
 	{/snippet}
 	{#snippet footer()}
 		<div class="flex justify-end gap-2">
-			<button class="px-2 py-1" onclick={() => modal.close()} type="button">Cancel</button>
-			<button form="records-form" class="bg-black px-2 py-1 text-white" type="submit">Save</button>
+			<button class="px-4 py-2" onclick={() => modal.close()} type="button">Cancel</button>
+			<button form="records-form" class="bg-black px-4 py-2 text-white" type="submit">Save</button>
 		</div>
 	{/snippet}
 </Modal>
