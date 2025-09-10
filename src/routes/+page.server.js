@@ -9,8 +9,21 @@ export async function load({ url }) {
 
 	const sort = url.searchParams
 		.getAll('sort')
-		.filter((column) => column in record)
-		.join(',');
+		.map((parameter) => {
+			const tokens = parameter.split('.');
+
+			if (tokens.length !== 2 || !(tokens[0] in record)) {
+				return '';
+			}
+
+			if (tokens[1] !== 'asc' && tokens[1] !== 'desc') {
+				tokens[1] = 'asc';
+			}
+
+			return tokens.join(' ');
+		})
+		.filter((parameter) => parameter !== '')
+		.join(', ');
 
 	if (sort) {
 		query.orderBy(sql.raw(sort));

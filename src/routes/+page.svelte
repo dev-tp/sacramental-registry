@@ -2,6 +2,7 @@
 	import { ArrowRight, Plus, Trash } from '@lucide/svelte';
 
 	import Modal from '../components/Modal.svelte';
+	import SortableHeader from '../components/SortableHeader.svelte';
 	import TextField from '../components/TextField.svelte';
 
 	/** @type {import('./$types').PageProps} */
@@ -58,18 +59,16 @@
 			<table class="min-w-full">
 				<thead>
 					<tr class="h-12 border-b border-gray-300 *:whitespace-nowrap">
-						<th class="sticky left-0 px-2">
-							<input type="checkbox" />
-						</th>
-						<th class="hover:bg-gray-100"><a href="?sort=firstName">First Name</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=middleName">Middle Name</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=surname">Surname</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=secondSurname">Second Surname</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=dateofBirth">Date of Birth</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=homeAddress">Home Address</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=father">Father</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=mother">Mother</a></th>
-						<th class="hover:bg-gray-100"><a href="?sort=baptism">Baptism</a></th>
+						<th class="sticky left-0 px-2"><input type="checkbox" /></th>
+						<SortableHeader column="firstName" label="First Name" />
+						<SortableHeader column="middleName" label="Middle Name" />
+						<SortableHeader column="surname" label="Surname" />
+						<SortableHeader column="secondSurname" label="Second Surname" />
+						<SortableHeader column="dateOfBirth" label="Date of Birth" />
+						<SortableHeader column="homeAddress" label="Home Address" />
+						<SortableHeader column="father" label="Father" />
+						<SortableHeader column="mother" label="Mother" />
+						<SortableHeader column="baptism" label="Baptism" />
 						<th class="sticky right-0"><button>...</button></th>
 					</tr>
 				</thead>
