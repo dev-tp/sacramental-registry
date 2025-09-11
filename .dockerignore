@@ -1,0 +1,4 @@
+*.db
+Dockerfile
+build/
+node_modules/
