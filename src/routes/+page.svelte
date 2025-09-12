@@ -1,6 +1,7 @@
 <script>
 	import { ArrowRight, Plus, Trash } from '@lucide/svelte';
 
+	import AutoCompleteField from '../components/AutoCompleteField.svelte';
 	import Modal from '../components/Modal.svelte';
 	import SortableHeader from '../components/SortableHeader.svelte';
 	import TextField from '../components/TextField.svelte';
@@ -141,7 +142,7 @@
 	{/snippet}
 	{#snippet content()}
 		<form id="records-form" action="?/save" class="flex flex-col gap-2" method="POST">
-			<TextField label="First Name" name="firstName" value={selected.firstName || ''} />
+			<AutoCompleteField label="First Name" name="firstName" value={selected.firstName || ''} />
 			<TextField label="Middle Name" name="middleName" value={selected.middleName || ''} />
 			<TextField label="Surname" name="surname" value={selected.surname || ''} />
 			<TextField label="Second Surname" name="secondSurname" value={selected.secondSurname || ''} />
