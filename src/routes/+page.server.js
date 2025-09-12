@@ -1,40 +1,34 @@
-import { desc, eq, sql } from 'drizzle-orm';
+import { asc, desc, eq } from 'drizzle-orm';
 
 import { database } from '$lib/server/db';
 import { record } from '$lib/server/db/schema';
 
 /** @type import('./$types').PageServerLoad */
 export async function load({ url }) {
-	const query = database.select().from(record);
-
-	const sort = url.searchParams
+	const sortedColumns = url.searchParams
 		.getAll('sort')
 		.map((parameter) => {
 			const tokens = parameter.split('.');
 
-			if (tokens.length !== 2 || !(tokens[0] in record)) {
-				return '';
+			if (!(tokens[0] in record)) {
+				return null;
 			}
 
-			if (tokens[1] !== 'asc' && tokens[1] !== 'desc') {
-				tokens[1] = 'asc';
+			const column = /** @type keyof typeof record.$inferInsert */ (tokens[0]);
+
+			if (tokens[1] === 'desc') {
+				return desc(record[column]);
 			}
 
-			return tokens.join(' ');
+			return asc(record[column]);
 		})
-		.filter((parameter) => parameter !== '')
-		.join(', ');
-
-	if (sort) {
-		query.orderBy(sql.raw(sort));
-	} else {
-		query.orderBy(desc(record.id));
-	}
-
-	query.limit(50);
+		.filter((parameter) => parameter !== null);
 
 	return {
-		records: await query
+		records: await database.query.record.findMany({
+			limit: 50,
+			orderBy: sortedColumns ? sortedColumns : desc(record.id)
+		})
 	};
 }
 
