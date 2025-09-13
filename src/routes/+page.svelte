@@ -16,7 +16,7 @@
 	let page = $state(1);
 
 	/** @type Record[] */
-	let records = $state(data.records);
+	let records = $derived(data.records);
 
 	/** @typedef {typeof import('$lib/server/db/schema').record.$inferInsert} Record */
 	/** @type Record */
@@ -80,10 +80,7 @@
 				const response = await fetch(`/api/records?page=${page}`);
 				const json = /** @type Record[] */ (await response.json());
 
-				for (const record of json) {
-					records.push(record);
-				}
-
+				records = [...records, ...json];
 				page = page + 1;
 			}}
 		>
