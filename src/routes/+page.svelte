@@ -109,25 +109,27 @@
 							</td>
 						</tr>
 					{/each}
-					<tr class="h-16">
-						<td class="text-center" colspan="100">
-							<button
-								class="bg-black px-4 py-2 text-white"
-								onclick={async () => {
-									const response = await fetch(`/api/records?page=${page}`);
-									const json = /** @type Record[] */ (await response.json());
+					{#if records.length < data.recordsCount}
+						<tr class="h-16">
+							<td class="text-center" colspan="100">
+								<button
+									class="bg-black px-4 py-2 text-white"
+									onclick={async () => {
+										const response = await fetch(`/api/records?page=${page}`);
+										const json = /** @type Record[] */ (await response.json());
 
-									for (const record of json) {
-										records.push(record);
-									}
+										for (const record of json) {
+											records.push(record);
+										}
 
-									page = page + 1;
-								}}
-							>
-								Load more
-							</button>
-						</td>
-					</tr>
+										page = page + 1;
+									}}
+								>
+									Load more
+								</button>
+							</td>
+						</tr>
+					{/if}
 				</tbody>
 			</table>
 		</div>

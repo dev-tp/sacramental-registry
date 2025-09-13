@@ -1,4 +1,4 @@
-import { asc, desc, eq } from 'drizzle-orm';
+import { asc, count, desc, eq } from 'drizzle-orm';
 
 import { database } from '$lib/server/db';
 import { getRecords } from '$lib';
@@ -26,7 +26,8 @@ export async function load({ url }) {
 		.filter((parameter) => parameter !== null);
 
 	return {
-		records: await getRecords({ orderBy: sortedColumns ? sortedColumns : desc(record.id) })
+		records: await getRecords({ orderBy: sortedColumns ? sortedColumns : desc(record.id) }),
+		recordsCount: (await database.select({ count: count() }).from(record))[0].count
 	};
 }
 
