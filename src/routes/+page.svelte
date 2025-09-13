@@ -62,7 +62,31 @@
 				/>
 			</form>
 		</div>
-		<div class="overflow-auto">
+		<div
+			class="overflow-auto"
+			onscrollend={async (event) => {
+				if (records.length > data.recordsCount) {
+					return;
+				}
+
+				if (!(event.target instanceof HTMLDivElement)) {
+					return;
+				}
+
+				if ((event.target.scrollTop / event.target.scrollHeight) * 100 < 50) {
+					return;
+				}
+
+				const response = await fetch(`/api/records?page=${page}`);
+				const json = /** @type Record[] */ (await response.json());
+
+				for (const record of json) {
+					records.push(record);
+				}
+
+				page = page + 1;
+			}}
+		>
 			<table class="min-w-full">
 				<thead>
 					<tr class="h-12 border-b border-gray-300 *:whitespace-nowrap">
@@ -109,27 +133,6 @@
 							</td>
 						</tr>
 					{/each}
-					{#if records.length < data.recordsCount}
-						<tr class="h-16">
-							<td class="text-center" colspan="100">
-								<button
-									class="bg-black px-4 py-2 text-white"
-									onclick={async () => {
-										const response = await fetch(`/api/records?page=${page}`);
-										const json = /** @type Record[] */ (await response.json());
-
-										for (const record of json) {
-											records.push(record);
-										}
-
-										page = page + 1;
-									}}
-								>
-									Load more
-								</button>
-							</td>
-						</tr>
-					{/if}
 				</tbody>
 			</table>
 		</div>
