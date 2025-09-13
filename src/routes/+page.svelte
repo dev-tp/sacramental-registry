@@ -7,10 +7,16 @@
 	import TextField from '../components/TextField.svelte';
 
 	/** @type {import('./$types').PageProps} */
-	let { data } = $props();
+	const { data } = $props();
 
 	/** @type Modal */
 	let modal;
+
+	/** @type number */
+	let page = $state(1);
+
+	/** @type Record[] */
+	let records = $state(data.records);
 
 	/** @typedef {typeof import('$lib/server/db/schema').record.$inferInsert} Record */
 	/** @type Record */
@@ -74,7 +80,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each data.records as record}
+					{#each records as record}
 						<tr
 							class="h-12 border-b border-gray-300 *:cursor-pointer *:whitespace-nowrap last:border-none hover:bg-gray-100"
 							onclick={() => {
@@ -103,12 +109,31 @@
 							</td>
 						</tr>
 					{/each}
+					<tr class="h-16">
+						<td class="text-center" colspan="100">
+							<button
+								class="bg-black px-4 py-2 text-white"
+								onclick={async () => {
+									const response = await fetch(`/api/records?page=${page}`);
+									const json = /** @type Record[] */ (await response.json());
+
+									for (const record of json) {
+										records.push(record);
+									}
+
+									page = page + 1;
+								}}
+							>
+								Load more
+							</button>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 	</main>
 	<footer class="flex justify-between p-2">
-		<p>Total items: {data.records.length}</p>
+		<p>Total items: {records.length}</p>
 	</footer>
 </div>
 
