@@ -15,14 +15,17 @@
 	/** @type number */
 	let page = $state(1);
 
-	/** @type Record[] */
+	/** @typedef {typeof import('$lib/server/db/schema').record.$inferInsert} IRecord */
+	/** @type IRecord[] */
 	let records = $derived(data.records);
 
-	/** @typedef {typeof import('$lib/server/db/schema').record.$inferInsert} Record */
-	/** @type Record */
+	/** @type IRecord */
 	let selected = $state(emptyRecord());
 
-	/** @type function(): Record */
+	/** @type Record<number, IRecord> */
+	let selection = $state({});
+
+	/** @type function(): IRecord */
 	function emptyRecord() {
 		return {
 			firstName: '',
@@ -78,7 +81,7 @@
 				}
 
 				const response = await fetch(`/api/records?page=${page}`);
-				const json = /** @type Record[] */ (await response.json());
+				const json = /** @type IRecord[] */ (await response.json());
 
 				records = [...records, ...json];
 				page = page + 1;
@@ -86,8 +89,28 @@
 		>
 			<table class="min-w-full">
 				<thead>
-					<tr class="h-12 border-b border-gray-300 *:whitespace-nowrap">
-						<th class="sticky left-0 px-2"><input type="checkbox" /></th>
+					<tr class="sticky top-0 h-12 border-b border-gray-300 bg-white *:whitespace-nowrap">
+						<th class="sticky left-0 px-2">
+							<input
+								checked={records.length > 0 && Object.keys(selection).length === records.length}
+								onclick={(event) => {
+									if (!(event.target instanceof HTMLInputElement)) {
+										return;
+									}
+
+									if (event.target.checked) {
+										for (const record of records) {
+											if (record.id) {
+												selection[record.id] = record;
+											}
+										}
+									} else {
+										selection = {};
+									}
+								}}
+								type="checkbox"
+							/>
+						</th>
 						<SortableHeader column="firstName" label="First Name" />
 						<SortableHeader column="middleName" label="Middle Name" />
 						<SortableHeader column="surname" label="Surname" />
@@ -110,7 +133,23 @@
 							}}
 						>
 							<th class="sticky left-0 px-2">
-								<input onclick={(event) => event.stopPropagation()} type="checkbox" />
+								<input
+									checked={record.id !== undefined && record.id in selection}
+									onclick={(event) => {
+										event.stopPropagation();
+
+										if (!(event.target instanceof HTMLInputElement) || !record.id) {
+											return;
+										}
+
+										if (event.target.checked) {
+											selection[record.id] = record;
+										} else {
+											delete selection[record.id];
+										}
+									}}
+									type="checkbox"
+								/>
 							</th>
 							<td>{record.firstName}</td>
 							<td>{record.middleName}</td>
