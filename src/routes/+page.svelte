@@ -1,5 +1,6 @@
 <script>
 	import { ArrowRight, Plus, Trash } from '@lucide/svelte';
+	import { invalidateAll } from '$app/navigation';
 
 	import AutoCompleteField from '../components/AutoCompleteField.svelte';
 	import Modal from '../components/Modal.svelte';
@@ -25,6 +26,9 @@
 	/** @type Record<number, IRecord> */
 	let selection = $state({});
 
+	/** @type number */
+	const selectionCount = $derived(Object.keys(selection).length);
+
 	/** @type function(): IRecord */
 	function emptyRecord() {
 		return {
@@ -46,16 +50,41 @@
 		<div class="m-2">
 			<header class="mb-2 flex justify-between">
 				<h1 class="content-center">Sacramental Registry</h1>
-				<button
-					class="flex items-center gap-2 border bg-black px-4 py-2 text-white"
-					onclick={() => {
-						selected = emptyRecord();
-						modal.show();
-					}}
-				>
-					<Plus class="h-5 w-5" />
-					New Record
-				</button>
+				<div class="flex gap-2">
+					{#if selectionCount > 0}
+						<button
+							class="bg-red-500 px-4 py-2 text-white"
+							onclick={async () => {
+								if (!confirm('Are you sure you want to permanently delete the selected records?')) {
+									return;
+								}
+
+								const response = await fetch('/api/records', {
+									body: JSON.stringify(Object.keys(selection)),
+									headers: { 'Content-Type': 'application/json' },
+									method: 'DELETE'
+								});
+
+								if (response.ok && response.status === 200) {
+									selection = {};
+									invalidateAll();
+								}
+							}}
+						>
+							Delete
+						</button>
+					{/if}
+					<button
+						class="flex items-center gap-2 border bg-black px-4 py-2 text-white"
+						onclick={() => {
+							selected = emptyRecord();
+							modal.show();
+						}}
+					>
+						<Plus class="h-5 w-5" />
+						New Record
+					</button>
+				</div>
 			</header>
 			<form class="flex">
 				<input
@@ -92,7 +121,7 @@
 					<tr class="sticky top-0 h-12 border-b border-gray-300 bg-white *:whitespace-nowrap">
 						<th class="sticky left-0 px-2">
 							<input
-								checked={records.length > 0 && Object.keys(selection).length === records.length}
+								checked={records.length > 0 && selectionCount === records.length}
 								onclick={(event) => {
 									if (!(event.target instanceof HTMLInputElement)) {
 										return;

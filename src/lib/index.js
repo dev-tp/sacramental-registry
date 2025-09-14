@@ -1,5 +1,12 @@
+import { inArray } from 'drizzle-orm';
+
 import { database } from './server/db';
 import { record } from './server/db/schema';
+
+/** @type function(number[]): Promise<void> */
+export async function deleteRecords(ids) {
+	await database.delete(record).where(inArray(record.id, ids));
+}
 
 /** @typedef {Object} QueryOptions
  * @property {number} [limit]
