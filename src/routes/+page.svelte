@@ -46,7 +46,7 @@
 </script>
 
 <div class="flex h-screen flex-col">
-	<main class="grow">
+	<main class="flex grow flex-col overflow-auto">
 		<div class="m-2">
 			<header class="mb-2 flex justify-between">
 				<h1 class="content-center">Sacramental Registry</h1>
