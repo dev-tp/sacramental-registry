@@ -2,10 +2,10 @@
 	import { ArrowRight, Plus, Trash } from '@lucide/svelte';
 	import { invalidateAll } from '$app/navigation';
 
-	import AutoCompleteField from '../components/AutoCompleteField.svelte';
-	import Modal from '../components/Modal.svelte';
-	import SortableHeader from '../components/SortableHeader.svelte';
-	import TextField from '../components/TextField.svelte';
+	import AutoCompleteField from '$lib/components/AutoCompleteField.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import SortableHeader from '$lib/components/SortableHeader.svelte';
+	import TextField from '$lib/components/TextField.svelte';
 
 	/** @type {import('./$types').PageProps} */
 	const { data } = $props();
