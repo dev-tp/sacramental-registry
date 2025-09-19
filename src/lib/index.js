@@ -1,4 +1,4 @@
-import { inArray } from 'drizzle-orm';
+import { asc, desc, inArray } from 'drizzle-orm';
 
 import { database } from './server/db';
 import { record } from './server/db/schema';
@@ -25,4 +25,26 @@ export async function getRecords({ limit = 50, orderBy, page = 0 } = {}) {
 		offset: page * limit,
 		orderBy
 	});
+}
+
+/** @type function(URL): import('drizzle-orm').SQL<unknown>[] */
+export function parseSortableRecordColumns(url) {
+	return url.searchParams
+		.getAll('sort')
+		.map((parameter) => {
+			const tokens = parameter.split('.'); // should be in the shape of: record_column.sql_sort_func
+
+			if (!(tokens[0] in record)) {
+				return null;
+			}
+
+			const column = /** @type keyof typeof record.$inferInsert */ (tokens[0]);
+
+			if (tokens[1] === 'desc') {
+				return desc(record[column]);
+			}
+
+			return asc(record[column]);
+		})
+		.filter((parameter) => parameter !== null);
 }

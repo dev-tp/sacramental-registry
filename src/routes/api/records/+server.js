@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 
-import { deleteRecords, getRecords } from '$lib';
+import { deleteRecords, getRecords, parseSortableRecordColumns } from '$lib';
 
 /** @type import('./$types').RequestHandler */
 export async function DELETE(event) {
@@ -14,5 +14,7 @@ export async function DELETE(event) {
 /** @type import('./$types').RequestHandler */
 export async function GET(event) {
 	const page = parseInt(event.url.searchParams.get('page') || '0');
-	return json(await getRecords({ page }));
+	const sortedColumns = parseSortableRecordColumns(event.url);
+
+	return json(await getRecords({ page, orderBy: sortedColumns ? sortedColumns : undefined }));
 }

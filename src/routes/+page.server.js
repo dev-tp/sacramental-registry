@@ -1,29 +1,12 @@
-import { asc, count, desc, eq } from 'drizzle-orm';
+import { count, desc, eq } from 'drizzle-orm';
 
 import { database } from '$lib/server/db';
-import { deleteRecords, getRecords } from '$lib';
+import { deleteRecords, getRecords, parseSortableRecordColumns } from '$lib';
 import { record } from '$lib/server/db/schema';
 
 /** @type import('./$types').PageServerLoad */
-export async function load({ url }) {
-	const sortedColumns = url.searchParams
-		.getAll('sort')
-		.map((parameter) => {
-			const tokens = parameter.split('.');
-
-			if (!(tokens[0] in record)) {
-				return null;
-			}
-
-			const column = /** @type keyof typeof record.$inferInsert */ (tokens[0]);
-
-			if (tokens[1] === 'desc') {
-				return desc(record[column]);
-			}
-
-			return asc(record[column]);
-		})
-		.filter((parameter) => parameter !== null);
+export async function load(event) {
+	const sortedColumns = parseSortableRecordColumns(event.url);
 
 	return {
 		records: await getRecords({ orderBy: sortedColumns ? sortedColumns : desc(record.id) }),

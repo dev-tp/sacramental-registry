@@ -1,6 +1,7 @@
 <script>
 	import { ArrowRight, Plus, Trash } from '@lucide/svelte';
 	import { invalidateAll } from '$app/navigation';
+	import { page } from '$app/state';
 
 	import AutoCompleteField from '$lib/components/AutoCompleteField.svelte';
 	import Modal from '$lib/components/Modal.svelte';
@@ -14,7 +15,7 @@
 	let modal;
 
 	/** @type number */
-	let page = $state(1);
+	let nextPage = $state(1);
 
 	/** @typedef {typeof import('$lib/server/db/schema').record.$inferInsert} IRecord */
 	/** @type IRecord[] */
@@ -109,11 +110,19 @@
 					return;
 				}
 
-				const response = await fetch(`/api/records?page=${page}`);
+				let url = '/api/records';
+
+				if (page.url.search) {
+					url += `${page.url.search}&page=${nextPage}`;
+				} else {
+					url += `?page=${nextPage}`;
+				}
+
+				const response = await fetch(url);
 				const json = /** @type IRecord[] */ (await response.json());
 
 				records = [...records, ...json];
-				page = page + 1;
+				nextPage = nextPage + 1;
 			}}
 		>
 			<table class="min-w-full">
