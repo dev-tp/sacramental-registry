@@ -5,6 +5,7 @@
 
 	import AutoCompleteField from '$lib/components/AutoCompleteField.svelte';
 	import Modal from '$lib/components/Modal.svelte';
+	import Searchbar from '$lib/components/Searchbar.svelte';
 	import SortableHeader from '$lib/components/SortableHeader.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 
@@ -87,13 +88,7 @@
 					</button>
 				</div>
 			</header>
-			<form class="flex">
-				<input
-					class="w-full bg-gray-100 p-2 focus-within:bg-gray-200 focus-within:outline-none"
-					type="text"
-					placeholder="Search"
-				/>
-			</form>
+			<Searchbar />
 		</div>
 		<div
 			class="overflow-auto"
