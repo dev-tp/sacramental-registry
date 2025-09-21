@@ -12,6 +12,7 @@ export async function deleteRecords(ids) {
  * @property {number} [limit]
  * @property {import('drizzle-orm').SQL<unknown>[] | import('drizzle-orm').SQL<unknown>} [orderBy]
  * @property {number} [page]
+ * @property {import('drizzle-orm').SQL<unknown> | undefined} [where]
  */
 
 /** @typedef {typeof record.$inferSelect[]} Records */
@@ -19,11 +20,12 @@ export async function deleteRecords(ids) {
 /** @param {QueryOptions} [options]
  * @returns Records[]
  */
-export async function getRecords({ limit = 50, orderBy, page = 0 } = {}) {
+export async function getRecords({ limit = 50, orderBy, page = 0, where = undefined } = {}) {
 	return await database.query.record.findMany({
 		limit,
 		offset: page * limit,
-		orderBy
+		orderBy,
+		where
 	});
 }
 
