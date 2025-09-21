@@ -122,8 +122,8 @@
 		>
 			<table class="min-w-full">
 				<thead>
-					<tr class="sticky top-0 h-12 border-b border-gray-300 bg-white *:whitespace-nowrap">
-						<th class="sticky left-0 px-2">
+					<tr class="sticky top-0 z-10 h-12 border-b border-gray-300 bg-white *:whitespace-nowrap">
+						<th class="sticky left-0 bg-inherit px-2">
 							<input
 								checked={records.length > 0 && selectionCount === records.length}
 								onclick={(event) => {
@@ -159,13 +159,13 @@
 				<tbody>
 					{#each records as record}
 						<tr
-							class="h-12 border-b border-gray-300 *:cursor-pointer *:px-2 *:whitespace-nowrap last:border-none hover:bg-gray-100"
+							class="h-12 border-b border-gray-300 bg-white *:cursor-pointer *:px-2 *:whitespace-nowrap last:border-none hover:bg-gray-100"
 							onclick={() => {
 								selected = record;
 								modal.show();
 							}}
 						>
-							<td class="sticky left-0 px-2">
+							<td class="sticky left-0 bg-inherit">
 								<input
 									checked={record.id !== undefined && record.id in selection}
 									onclick={(event) => {
@@ -193,7 +193,11 @@
 							<td>{record.father}</td>
 							<td>{record.mother}</td>
 							<td>{record.baptism}</td>
-							<td class="sticky right-0"><button><ArrowRight class="h-4 w-4" /></button></td>
+							<td class="sticky right-0 bg-inherit">
+								<button>
+									<ArrowRight class="h-4 w-4" />
+								</button>
+							</td>
 						</tr>
 					{:else}
 						<tr>
