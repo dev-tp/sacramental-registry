@@ -24,8 +24,8 @@
 </script>
 
 {#if isActive}
-	<div class="fixed inset-0 bg-black/50"></div>
-	<div class="fixed top-0 right-0 bottom-0 w-1/2 overflow-auto bg-white">
+	<div class="fixed inset-0 z-20 bg-black/50"></div>
+	<div class="fixed top-0 right-0 bottom-0 z-20 w-1/2 overflow-auto bg-white">
 		<div class="sticky top-0 bg-inherit p-4">
 			{@render header?.()}
 		</div>
