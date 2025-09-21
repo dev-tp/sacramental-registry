@@ -16,5 +16,5 @@ export async function GET(event) {
 	const page = parseInt(event.url.searchParams.get('page') || '0');
 	const sortedColumns = parseSortableRecordColumns(event.url);
 
-	return json(await getRecords({ page, orderBy: sortedColumns ? sortedColumns : undefined }));
+	return json(await getRecords({ page, orderBy: sortedColumns.length > 0 ? sortedColumns : undefined }));
 }

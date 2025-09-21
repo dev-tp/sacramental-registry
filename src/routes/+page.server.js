@@ -9,7 +9,7 @@ export async function load(event) {
 	const sortedColumns = parseSortableRecordColumns(event.url);
 
 	return {
-		records: await getRecords({ orderBy: sortedColumns ? sortedColumns : desc(record.id) }),
+		records: await getRecords({ orderBy: sortedColumns.length > 0 ? sortedColumns : desc(record.id) }),
 		recordsCount: (await database.select({ count: count() }).from(record))[0].count
 	};
 }
