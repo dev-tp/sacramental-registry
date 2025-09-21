@@ -45,13 +45,15 @@
 			order = '';
 		}
 
-		page.url.searchParams.delete('sort');
+		const searchParams = new URLSearchParams(page.url.searchParams);
+
+		searchParams.delete('sort');
 
 		for (const entry in entries) {
-			page.url.searchParams.append('sort', `${entry}.${entries[entry]}`);
+			searchParams.append('sort', `${entry}.${entries[entry]}`);
 		}
 
-		await goto(page.url, { invalidateAll: true });
+		await goto(`?${searchParams.toString()}`);
 	}}
 >
 	<div class="flex h-full items-center justify-between px-2">

@@ -105,15 +105,11 @@
 					return;
 				}
 
-				let url = '/api/records';
+				const searchParams = new URLSearchParams(page.url.search);
 
-				if (page.url.search) {
-					url += `${page.url.search}&page=${nextPage}`;
-				} else {
-					url += `?page=${nextPage}`;
-				}
+				searchParams.set('page', `${nextPage}`);
 
-				const response = await fetch(url);
+				const response = await fetch(`/api/records?${searchParams.toString()}`);
 				const json = /** @type IRecord[] */ (await response.json());
 
 				records = [...records, ...json];
