@@ -54,7 +54,7 @@
 		await goto(page.url, { invalidateAll: true });
 	}}
 >
-	<div class="flex h-full items-center justify-between pr-2">
+	<div class="flex h-full items-center justify-between px-2">
 		<span>{label}</span>
 		<div class="h-4 w-4">
 			{#if order === 'asc'}

@@ -159,13 +159,13 @@
 				<tbody>
 					{#each records as record}
 						<tr
-							class="h-12 border-b border-gray-300 *:cursor-pointer *:whitespace-nowrap last:border-none hover:bg-gray-100"
+							class="h-12 border-b border-gray-300 *:cursor-pointer *:px-2 *:whitespace-nowrap last:border-none hover:bg-gray-100"
 							onclick={() => {
 								selected = record;
 								modal.show();
 							}}
 						>
-							<th class="sticky left-0 px-2">
+							<td class="sticky left-0 px-2">
 								<input
 									checked={record.id !== undefined && record.id in selection}
 									onclick={(event) => {
@@ -183,7 +183,7 @@
 									}}
 									type="checkbox"
 								/>
-							</th>
+							</td>
 							<td>{record.firstName}</td>
 							<td>{record.middleName}</td>
 							<td>{record.surname}</td>
