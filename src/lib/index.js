@@ -1,4 +1,4 @@
-import { asc, desc, inArray } from 'drizzle-orm';
+import { asc, desc, inArray, like, or } from 'drizzle-orm';
 
 import { database } from './server/db';
 import { record } from './server/db/schema';
@@ -9,19 +9,27 @@ export async function deleteRecords(ids) {
 }
 
 /** @typedef {Object} QueryOptions
+ * @property {string} [filter]
  * @property {number} [limit]
  * @property {import('drizzle-orm').SQL<unknown>[] | import('drizzle-orm').SQL<unknown>} [orderBy]
  * @property {number} [page]
- * @property {import('drizzle-orm').SQL<unknown> | undefined} [where]
  */
 
 /** @typedef {typeof record.$inferSelect[]} Records */
 
 /** @param {QueryOptions} [options]
- * @returns Records[]
+ * @returns Promise<Records[]>
  */
-export async function getRecords({ limit = 50, orderBy, page = 0, where = undefined } = {}) {
-	return await database.query.record.findMany({
+export async function getRecords({ filter = '', limit = 50, orderBy, page = 0 } = {}) {
+	/** @type import('drizzle-orm').SQL<unknown> | undefined */
+	let where = undefined;
+
+	if (filter !== '') {
+		filter = `%${filter}%`;
+		where = or(like(record.firstName, filter), like(record.surname, filter));
+	}
+
+	return database.query.record.findMany({
 		limit,
 		offset: page * limit,
 		orderBy,

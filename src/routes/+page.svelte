@@ -112,8 +112,10 @@
 				const response = await fetch(`/api/records?${searchParams.toString()}`);
 				const json = /** @type IRecord[] */ (await response.json());
 
-				records = [...records, ...json];
-				nextPage = nextPage + 1;
+				if (json.length > 0) {
+					records = [...records, ...json];
+					nextPage = nextPage + 1;
+				}
 			}}
 		>
 			<table class="min-w-full">

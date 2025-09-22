@@ -1,4 +1,4 @@
-import { count, desc, eq, like, or } from 'drizzle-orm';
+import { count, desc, eq } from 'drizzle-orm';
 
 import { database } from '$lib/server/db';
 import { deleteRecords, getRecords, parseSortableRecordColumns } from '$lib';
@@ -6,24 +6,15 @@ import { record } from '$lib/server/db/schema';
 
 /** @type import('./$types').PageServerLoad */
 export async function load(event) {
+	const filter = event.url.searchParams.get('filter') || '';
 	const sortedColumns = parseSortableRecordColumns(event.url);
-
-	/** @type import('drizzle-orm').SQL<unknown> | undefined */
-	let where = undefined;
-
-	const filter = event.url.searchParams.get('filter');
-
-	if (filter) {
-		const query = `%${filter}%`;
-		where = or(like(record.firstName, query), like(record.surname, query));
-	}
 
 	return {
 		records: await getRecords({
-			orderBy: sortedColumns.length > 0 ? sortedColumns : desc(record.id),
-			where
+			filter,
+			orderBy: sortedColumns.length > 0 ? sortedColumns : desc(record.id)
 		}),
-		recordsCount: (await database.select({ count: count() }).from(record).where(where))[0].count
+		recordsCount: (await database.select({ count: count() }).from(record))[0].count
 	};
 }
 

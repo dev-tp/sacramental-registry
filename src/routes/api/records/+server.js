@@ -13,8 +13,15 @@ export async function DELETE(event) {
 
 /** @type import('./$types').RequestHandler */
 export async function GET(event) {
+	const filter = event.url.searchParams.get('filter') || '';
 	const page = parseInt(event.url.searchParams.get('page') || '0');
 	const sortedColumns = parseSortableRecordColumns(event.url);
 
-	return json(await getRecords({ page, orderBy: sortedColumns.length > 0 ? sortedColumns : undefined }));
+	return json(
+		await getRecords({
+			filter,
+			orderBy: sortedColumns.length > 0 ? sortedColumns : undefined,
+			page
+		})
+	);
 }
