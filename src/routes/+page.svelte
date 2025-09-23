@@ -16,7 +16,10 @@
 	let modal;
 
 	/** @type number */
-	let nextPage = $state(1);
+	let nextPage = $derived.by(() => {
+		page.url.search;
+		return 1;
+	});
 
 	/** @typedef {typeof import('$lib/server/db/schema').record.$inferInsert} IRecord */
 	/** @type IRecord[] */
