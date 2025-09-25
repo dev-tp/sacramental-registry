@@ -100,11 +100,7 @@
 					return;
 				}
 
-				if (!(event.target instanceof HTMLDivElement)) {
-					return;
-				}
-
-				if ((event.target.scrollTop / event.target.scrollHeight) * 100 < 50) {
+				if ((event.currentTarget.scrollTop / event.currentTarget.scrollHeight) * 100 < 50) {
 					return;
 				}
 
@@ -128,11 +124,7 @@
 							<input
 								checked={records.length > 0 && selectionCount === records.length}
 								onclick={(event) => {
-									if (!(event.target instanceof HTMLInputElement)) {
-										return;
-									}
-
-									if (event.target.checked) {
+									if (event.currentTarget.checked) {
 										for (const record of records) {
 											if (record.id) {
 												selection[record.id] = record;
@@ -172,11 +164,11 @@
 									onclick={(event) => {
 										event.stopPropagation();
 
-										if (!(event.target instanceof HTMLInputElement) || !record.id) {
+										if (!record.id) {
 											return;
 										}
 
-										if (event.target.checked) {
+										if (event.currentTarget.checked) {
 											selection[record.id] = record;
 										} else {
 											delete selection[record.id];
@@ -227,12 +219,8 @@
 					onsubmit={(event) => {
 						event.preventDefault();
 
-						if (!(event.target instanceof HTMLFormElement)) {
-							return;
-						}
-
 						if (confirm('Are you sure you want to delete this entry?')) {
-							event.target.submit();
+							event.currentTarget.submit();
 						}
 					}}
 				>
