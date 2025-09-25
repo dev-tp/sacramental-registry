@@ -48,6 +48,34 @@
 			baptism: ''
 		};
 	}
+
+	/** @type function(string[]): Promise<boolean> */
+	async function deleteRecords(ids) {
+		let message = 'Are you sure you want to permanently delete ';
+
+		message += ids.length === 1 ? 'this record?' : 'the selected records?';
+
+		if (!confirm(message)) {
+			return false;
+		}
+
+		const response = await fetch('/api/records', {
+			body: JSON.stringify(ids),
+			headers: { 'Content-Type': 'application/json' },
+			method: 'DELETE'
+		});
+
+		if (response.ok && response.status === 200) {
+			selected = emptyRecord();
+			selection = {};
+
+			invalidateAll();
+
+			return true;
+		}
+
+		return false;
+	}
 </script>
 
 <div class="flex h-screen flex-col">
@@ -59,22 +87,7 @@
 					{#if selectionCount > 0}
 						<button
 							class="bg-red-500 px-4 py-2 text-white"
-							onclick={async () => {
-								if (!confirm('Are you sure you want to permanently delete the selected records?')) {
-									return;
-								}
-
-								const response = await fetch('/api/records', {
-									body: JSON.stringify(Object.keys(selection)),
-									headers: { 'Content-Type': 'application/json' },
-									method: 'DELETE'
-								});
-
-								if (response.ok && response.status === 200) {
-									selection = {};
-									invalidateAll();
-								}
-							}}
+							onclick={() => deleteRecords(Object.keys(selection))}
 						>
 							Delete
 						</button>
@@ -213,20 +226,19 @@
 		<div class="flex justify-between">
 			{#if selected.id !== undefined}
 				<h2>Edit record</h2>
-				<form
-					action="?/delete"
-					method="POST"
-					onsubmit={(event) => {
-						event.preventDefault();
+				<button
+					onclick={async () => {
+						if (!selected.id) {
+							return;
+						}
 
-						if (confirm('Are you sure you want to delete this entry?')) {
-							event.currentTarget.submit();
+						if (await deleteRecords(['' + selected.id])) {
+							modal.close();
 						}
 					}}
 				>
-					<input name="id" type="hidden" value={selected.id} />
-					<button><Trash class="h-4 w-4 text-red-500" /></button>
-				</form>
+					<Trash class="h-4 w-4 text-red-500" />
+				</button>
 			{:else}
 				<h2>Add new record</h2>
 			{/if}

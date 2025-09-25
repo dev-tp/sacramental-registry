@@ -1,7 +1,7 @@
 import { count, desc, eq } from 'drizzle-orm';
 
 import { database } from '$lib/server/db';
-import { deleteRecords, getRecords, parseSortableRecordColumns } from '$lib';
+import { getRecords, parseSortableRecordColumns } from '$lib';
 import { record } from '$lib/server/db/schema';
 
 /** @type import('./$types').PageServerLoad */
@@ -28,11 +28,6 @@ function unwrapFormDataEntryValue(value) {
 
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
-	delete: async ({ request }) => {
-		const formData = await request.formData();
-		const id = parseInt(unwrapFormDataEntryValue(formData.get('id')));
-		deleteRecords([id]);
-	},
 	save: async ({ request }) => {
 		const formData = await request.formData();
 		const id = parseInt(unwrapFormDataEntryValue(formData.get('id')));
