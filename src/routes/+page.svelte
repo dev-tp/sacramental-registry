@@ -138,14 +138,14 @@
 							<input
 								checked={records.length > 0 && selectionCount === records.length}
 								onclick={(event) => {
-									if (event.currentTarget.checked) {
-										for (const record of records) {
-											if (record.id) {
-												selection[record.id] = record;
-											}
+									if (!event.currentTarget.checked) {
+										return (selection = {});
+									}
+
+									for (const record of records) {
+										if (record.id) {
+											selection[record.id] = record;
 										}
-									} else {
-										selection = {};
 									}
 								}}
 								type="checkbox"
