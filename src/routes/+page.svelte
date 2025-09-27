@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 
 	import AutoCompleteField from '$lib/components/AutoCompleteField.svelte';
+	import DropdownMenu from '$lib/components/DropdownMenu.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import Searchbar from '$lib/components/Searchbar.svelte';
 	import SortableHeader from '$lib/components/SortableHeader.svelte';
@@ -226,19 +227,24 @@
 		<div class="flex justify-between">
 			{#if selected.id !== undefined}
 				<h2>Edit record</h2>
-				<button
-					onclick={async () => {
-						if (!selected.id) {
-							return;
-						}
+				<DropdownMenu label="...">
+					{#snippet children()}
+						<button
+							class="flex w-full items-center gap-2 p-2 text-red-500 hover:bg-gray-200"
+							onclick={async () => {
+								if (!selected.id) {
+									return;
+								}
 
-						if (await deleteRecords(['' + selected.id])) {
-							modal.close();
-						}
-					}}
-				>
-					<Trash class="h-4 w-4 text-red-500" />
-				</button>
+								if (await deleteRecords(['' + selected.id])) {
+									modal.close();
+								}
+							}}
+						>
+							<Trash class="h-4 w-4" /> Delete
+						</button>
+					{/snippet}
+				</DropdownMenu>
 			{:else}
 				<h2>Add new record</h2>
 			{/if}
